@@ -17,9 +17,8 @@ namespace Alrazi.Controllers
         public IActionResult Index()
         {
             if (HttpContext.HasSession())
-            {
+                return Redirect("~/Panel");
 
-            }
             return Redirect("~/Login");
         }
 
@@ -27,9 +26,7 @@ namespace Alrazi.Controllers
         public IActionResult Login()
         {
             if (HttpContext.HasSession())
-            {
                 return RedirectToAction("Index");
-            }
             return View();
         }
 
@@ -48,6 +45,14 @@ namespace Alrazi.Controllers
             }
             HttpContext.SetSession(data.Item1);
             return RedirectToAction("Index");
+        }
+
+        [HttpGet("Panel")]
+        public IActionResult Panel()
+        {
+            if (!HttpContext.HasSession())
+                return RedirectToAction("Index");
+            return View();
         }
 
     }

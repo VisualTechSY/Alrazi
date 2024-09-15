@@ -1,0 +1,68 @@
+﻿@using Alrazi.Enums
+@model Employee
+@{
+    ViewData["Title"] = "تعديل معلومات موظف";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<!-- start page title -->
+<div class="row">
+    <div class="col-12">
+        <div class="page-title-box">
+            <div class="page-title-right">
+                <ol class="breadcrumb m-0">
+                    <li class="breadcrumb-item"><a href="~/Panel">الرئيسية</a></li>
+                    <li class="breadcrumb-item"><a href="~/Get-Employees">استعراض الموظفين</a></li>
+                    <li class="breadcrumb-item active">تعديل معلومات الموظف</li>
+                </ol>
+            </div>
+            <h4 class="page-title">تعديل معلومات الموظف</h4>
+        </div>
+    </div>
+</div>
+<!-- end page title -->
+
+
+<div class="row">
+    <div class="col-12">
+        <div class="card">
+            <div class="card-body">
+                <form method="post" action="~/Edit-Employee">
+                    <input type="hidden" name="id" value="@Model.Id" />
+                    <div class="mb-3">
+                        <label for="username" class="form-label">اسم المستخدم</label>
+                        <input type="text" id="username" value="@Model.Account.UserName" disabled class="form-control" placeholder="اسم المستخدم">
+                        <a href="~/ResetPassword/@Model.Id">إعادة تعيين كلمة المرور</a>
+                    </div>
+
+                    <div class="mb-3">
+                        <label for="FullName" class="form-label">الاسم الكامل</label>
+                        <input type="text" name="FullName" required value="@Model.FullName" class="form-control" placeholder="اسم الموظف الكامل">
+                    </div>
+
+                    <div class="mt-3">
+                        @foreach (var item in Enum.GetValues<Permission>().ToList())
+                        {
+                            <div class="form-check">
+                                @if (Model.EmployeePermissions.Any(x=> x.Permission == item))
+                                {
+                                    <input type="checkbox" name="Permissions[]" checked value="@item" class="form-check-input" id="@item">
+                                }
+                                else
+                                {
+                                    <input type="checkbox" name="Permissions[]" value="@item" class="form-check-input" id="@item">
+                                }
+                                <label class="form-check-label" for="@item">@PermissionManager.GetArabic(item)</label>
+                            </div>
+                        }
+                    </div>
+
+                    <div style="padding-top:20px">
+                        <button type="submit" class="btn btn-primary">حفظ التعديلات</button>
+                    </div>
+
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
