@@ -8,6 +8,7 @@ namespace Alrazi
 {
     public class Context : DbContext
     {
+        public DbSet<AccessChannel> AccessChannels { get; set; }
         public DbSet<Account> Accounts { get; set; }
         public DbSet<Employee> Employees { get; set; }
         public DbSet<EmployeePermission> EmployeePermissions { get; set; }

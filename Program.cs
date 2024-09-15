@@ -19,7 +19,7 @@ builder.Services.AddDbContext<Context>(options =>
     ServiceLifetime.Transient);
 
 builder.Services.AddTransient<AccountService>();
-
+builder.Services.AddTransient<ConfigService>();
 
 var app = builder.Build();
 
