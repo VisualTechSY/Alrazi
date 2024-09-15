@@ -1,4 +1,5 @@
-using Alrazi.Models;
+using Alrazi.Services;
+using Alrazi.Tools;
 using Microsoft.AspNetCore.Mvc;
 using System.Diagnostics;
 
@@ -6,27 +7,48 @@ namespace Alrazi.Controllers
 {
     public class HomeController : Controller
     {
-        private readonly ILogger<HomeController> _logger;
+        private readonly AccountService accountService;
 
-        public HomeController(ILogger<HomeController> logger)
+        public HomeController(AccountService accountService)
         {
-            _logger = logger;
+            this.accountService = accountService;
         }
 
         public IActionResult Index()
         {
+            if (HttpContext.HasSession())
+            {
+
+            }
+            return Redirect("~/Login");
+        }
+
+        [HttpGet("Login")]
+        public IActionResult Login()
+        {
+            if (HttpContext.HasSession())
+            {
+                return RedirectToAction("Index");
+            }
             return View();
         }
 
-        public IActionResult Privacy()
+        [HttpPost("Login")]
+        public async Task<IActionResult> Login(string username , string password)
         {
-            return View();
+            if (HttpContext.HasSession())
+            {
+                return RedirectToAction("Index");
+            }
+            var data = await accountService.Login(username, password);
+            if (!string.IsNullOrWhiteSpace(data.Item2))
+            {
+                ViewBag.ErrorMessage = data.Item2;
+                return View();
+            }
+            HttpContext.SetSession(data.Item1);
+            return RedirectToAction("Index");
         }
 
-        [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]
-        public IActionResult Error()
-        {
-            return View(new ErrorViewModel { RequestId = Activity.Current?.Id ?? HttpContext.TraceIdentifier });
-        }
     }
 }
