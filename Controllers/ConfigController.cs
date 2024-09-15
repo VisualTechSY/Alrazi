@@ -70,5 +70,60 @@ namespace Alrazi.Controllers
             return Redirect("~/Edit-Access-Channel/" + id);
         }
 
+        [HttpGet("Get-Diagnoses")]
+        public async Task<IActionResult> GetDiagnoses()
+        {
+            if (!HttpContext.HasSession())
+                return RedirectToAction("Index");
+            return View(await configService.GetDiagnoses()); 
+        }
+
+        [HttpGet("Add-Diagnosis")]
+        public IActionResult AddDiagnosis()
+        {
+            if (!HttpContext.HasSession())
+                return RedirectToAction("Index");
+            return View();
+        }
+
+        [HttpPost("Add-Diagnosis")]
+        public async Task<IActionResult> AddDiagnosis(string name)
+        {
+            if (!HttpContext.HasSession())
+                return RedirectToAction("Index");
+            var data = await configService.AddDiagnosis(name);
+            ViewBag.Done = data.Item1;
+            ViewBag.Message = data.Item2;
+            return View();
+        }
+
+        [HttpGet("Edit-Diagnosis/{id}")]
+        public async Task<IActionResult> EditDiagnosis(int id)
+        {
+            if (!HttpContext.HasSession())
+                return RedirectToAction("Index");
+            return View(await configService.GetDiagnosisById(id));
+        }
+
+        [HttpPost("Edit-Diagnosis")]
+        public async Task<IActionResult> EditDiagnosis(int id, string name)
+        {
+            if (!HttpContext.HasSession())
+                return RedirectToAction("Index");
+            var data = await configService.EditDiagnosis(id, name);
+            ViewBag.Done = data.Item1;
+            ViewBag.Message = data.Item2;
+            return View(await configService.GetDiagnosisById(id));
+        }
+
+        [HttpGet("ChangeDiagnosisState/{id}")]
+        public async Task<IActionResult> ChangeDiagnosisState(int id)
+        {
+            if (!HttpContext.HasSession())
+                return RedirectToAction("Index");
+            await configService.ChangeDiagnosisState(id);
+            return Redirect("~/Edit-Diagnosis/" + id);
+        }
+
     }
 }

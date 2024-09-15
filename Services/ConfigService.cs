@@ -48,5 +48,45 @@ namespace Alrazi.Services
             accessChannel.IsActive = !accessChannel.IsActive;
             await context.SaveChangesAsync();
         }
+
+        public async Task<List<Diagnosis>> GetDiagnoses()
+        {
+            return await context.Diagnoses.ToListAsync();
+        }
+
+        public async Task<Tuple<bool, string>> AddDiagnosis(string name)
+        {
+            if (await context.Diagnoses.AnyAsync(x => x.Name == name))
+                return Tuple.Create(false, "اسم التشخيص مكرر");
+            await context.Diagnoses.AddAsync(new Diagnosis
+            {
+                IsActive = true,
+                Name = name
+            });
+            await context.SaveChangesAsync();
+            return Tuple.Create(true, "تمت الإضافة بنجاح");
+        }
+
+        public async Task<Diagnosis> GetDiagnosisById(int id)
+        {
+            return await context.Diagnoses.FindAsync(id);
+        }
+
+        public async Task<Tuple<bool, string>> EditDiagnosis(int id, string name)
+        {
+            if (await context.Diagnoses.AnyAsync(x => x.Id != id && x.Name == name))
+                return Tuple.Create(false, "الاسم موجود مسبقا");
+            var diagnosis = await context.Diagnoses.FindAsync(id);
+            diagnosis.Name = name;
+            await context.SaveChangesAsync();
+            return Tuple.Create(true, "تمت العملية بنجاح");
+        }
+
+        public async Task ChangeDiagnosisState(int id)
+        {
+            var diagnosis = await context.Diagnoses.FindAsync(id);
+            diagnosis.IsActive = !diagnosis.IsActive;
+            await context.SaveChangesAsync();
+        }
     }
 }

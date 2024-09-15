@@ -10,6 +10,7 @@ namespace Alrazi
     {
         public DbSet<AccessChannel> AccessChannels { get; set; }
         public DbSet<Account> Accounts { get; set; }
+        public DbSet<Diagnosis> Diagnoses { get; set; }
         public DbSet<Employee> Employees { get; set; }
         public DbSet<EmployeePermission> EmployeePermissions { get; set; }
 
