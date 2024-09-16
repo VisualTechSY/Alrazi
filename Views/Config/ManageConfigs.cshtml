@@ -1,0 +1,70 @@
+﻿@using Alrazi.Enums
+@model List<Config>
+@{
+    ViewData["Title"] = "إعدادات النظام";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<!-- start page title -->
+<div class="row">
+    <div class="col-12">
+        <div class="page-title-box">
+            <div class="page-title-right">
+                <ol class="breadcrumb m-0">
+                    <li class="breadcrumb-item"><a href="~/Panel">الرئيسية</a></li>
+                    <li class="breadcrumb-item active">إعدادات النظام</li>
+                </ol>
+            </div>
+            <h4 class="page-title">إعدادات النظام</h4>
+        </div>
+    </div>
+</div>
+<!-- end page title -->
+
+
+<div class="row">
+    <div class="col-12">
+        <div class="card">
+            @{
+                var index = 0;
+            }
+            <form method="post" class="card-body">
+                <table class="table table-centered mb-0">
+                    <thead class="table-dark">
+                        <tr>
+                            <th>الإعداد</th>
+                            <th>القيمة</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @foreach (var item in Model)
+                        {
+                            <tr>
+                                <td>
+                                    @ConfigKeyManager.GetArabic(item.ConfigKey)
+                                    <input type="hidden" name="configs[@index].Id" value="@item.Id" />
+                                    <input type="hidden" name="configs[@index].ConfigKey" value="@item.ConfigKey" />
+                                </td>
+                                <td>
+                                    @if (item.ConfigKey == ConfigKey.MinStudyDate)
+                                    {
+                                        <input type="date" class="form-control" name="configs[@index].Value" value="@item.Value" />
+                                    }
+                                    else
+                                    {
+                                        <input type="text" class="form-control" name="configs[@index].Value" value="@item.Value" />
+                                    }
+                                </td>
+                            </tr>
+                            index++;
+                        }
+                    </tbody>
+                </table>
+                <div style="padding-top:20px">
+                    <button type="submit" class="btn btn-primary">حفظ التعديلات</button>
+                </div>
+            </form>
+
+        </div>
+    </div>
+</div>

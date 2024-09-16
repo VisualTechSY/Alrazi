@@ -1,0 +1,61 @@
+﻿@model List<Nationality>
+@{
+    ViewData["Title"] = "الجنسيات";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<!-- start page title -->
+<div class="row">
+    <div class="col-12">
+        <div class="page-title-box">
+            <div class="page-title-right">
+                <ol class="breadcrumb m-0">
+                    <li class="breadcrumb-item"><a href="~/Panel">الرئيسية</a></li>
+                    <li class="breadcrumb-item active">الجنسيات</li>
+                </ol>
+            </div>
+            <h4 class="page-title">الجنسيات</h4>
+        </div>
+    </div>
+</div>
+<!-- end page title -->
+
+
+<div class="row">
+    <div class="col-12">
+        <div class="card">
+            <div class="card-body">
+                <table class="table table-centered mb-0">
+                    <thead class="table-dark">
+                        <tr>
+                            <th>اسم الجنسية</th>
+                            <th>الحالة</th>
+                            <th>خيارات</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @foreach (var item in Model)
+                        {
+                            <tr>
+                                <td>@item.Name</td>
+                                <td>
+                                    @if (item.IsActive)
+                                    {
+                                        <span class="badge bg-primary">@item.State</span>
+                                    }
+                                    else
+                                    {
+                                        <span class="badge bg-danger">@item.State</span>
+                                    }
+                                </td>
+                                <td>
+                                    <a href="~/Edit-Nationality/@item.Id">تعديل</a>
+                                </td>
+                            </tr>
+                        }
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>

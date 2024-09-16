@@ -10,9 +10,12 @@ namespace Alrazi
     {
         public DbSet<AccessChannel> AccessChannels { get; set; }
         public DbSet<Account> Accounts { get; set; }
+        public DbSet<Config> Configs { get; set; }
         public DbSet<Diagnosis> Diagnoses { get; set; }
         public DbSet<Employee> Employees { get; set; }
         public DbSet<EmployeePermission> EmployeePermissions { get; set; }
+        public DbSet<Nationality> Nationalities { get; set; }
+        public DbSet<Student> Students { get; set; }
 
         public Context(DbContextOptions<Context> options)
             : base(options)

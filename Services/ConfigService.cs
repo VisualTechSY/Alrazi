@@ -88,5 +88,58 @@ namespace Alrazi.Services
             diagnosis.IsActive = !diagnosis.IsActive;
             await context.SaveChangesAsync();
         }
+
+        public async Task<List<Nationality>> GetNationalities()
+        {
+            return await context.Nationalities.ToListAsync();
+        }
+
+        public async Task<Tuple<bool, string>> AddNationality(string name)
+        {
+            if (await context.Nationalities.AnyAsync(x => x.Name == name))
+                return Tuple.Create(false, "اسم الجنسية مكرر");
+            await context.Nationalities.AddAsync(new Nationality
+            {
+                IsActive = true,
+                Name = name
+            });
+            await context.SaveChangesAsync();
+            return Tuple.Create(true, "تمت الإضافة بنجاح");
+        }
+
+        public async Task<Nationality> GetNationalityById(int id)
+        {
+            return await context.Nationalities.FindAsync(id);
+        }
+
+        public async Task<Tuple<bool, string>> EditNationality(int id, string name)
+        {
+            if (await context.Nationalities.AnyAsync(x => x.Id != id && x.Name == name))
+                return Tuple.Create(false, "الاسم موجود مسبقا");
+            var nationality = await context.Nationalities.FindAsync(id);
+            nationality.Name = name;
+            await context.SaveChangesAsync();
+            return Tuple.Create(true, "تمت العملية بنجاح");
+        }
+
+        public async Task ChangeNationalityState(int id)
+        {
+            var nationality = await context.Nationalities.FindAsync(id);
+            nationality.IsActive = !nationality.IsActive;
+            await context.SaveChangesAsync();
+        }
+
+        public async Task<List<Config>> GetConfigs()
+        {
+            return await context.Configs.ToListAsync();
+        }
+
+        public async Task UpdateConfigs(Config[] configs)
+        {
+            var getAllConfigs = await context.Configs.ToListAsync();
+            foreach (var item in configs)
+                getAllConfigs.First(x => x.ConfigKey == item.ConfigKey).Value = item.Value;
+            await context.SaveChangesAsync();
+        }
     }
 }

@@ -1,5 +1,6 @@
 using Alrazi;
 using Alrazi.Enums;
+using Alrazi.Models;
 using Alrazi.Services;
 using Alrazi.Tools;
 using Microsoft.EntityFrameworkCore;
@@ -43,6 +44,19 @@ if (!context.Accounts.Any())
             }).ToList()
         }
     });
+    await context.SaveChangesAsync();
+}
+
+foreach (var item in Enum.GetValues<ConfigKey>())
+{
+    if (!context.Configs.Any(x=> x.ConfigKey == item))
+    {
+        await context.Configs.AddAsync(new Config
+        {
+            ConfigKey = item,
+            Value = "0"
+        });
+    }
     await context.SaveChangesAsync();
 }
 

@@ -1,0 +1,259 @@
+﻿
+@{
+    ViewData["Title"] = "إضافة حالة";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<!-- start page title -->
+<div class="row">
+    <div class="col-12">
+        <div class="page-title-box">
+            <div class="page-title-right">
+                <ol class="breadcrumb m-0">
+                    <li class="breadcrumb-item"><a href="~/Panel">الرئيسية</a></li>
+                    <li class="breadcrumb-item active">إضافة حالة</li>
+                </ol>
+            </div>
+            <h4 class="page-title">إضافة حالة</h4>
+        </div>
+    </div>
+</div>
+<!-- end page title -->
+
+<div class="row">
+    <div class="col-xl-12">
+        <div class="card">
+            <div class="card-body">
+
+                <h4 class="header-title mb-3"> معلومات الحالة</h4>
+
+                <form>
+                    <div id="basicwizard">
+
+                        <ul class="nav nav-pills nav-justified form-wizard-header mb-4">
+                            <li class="nav-item">
+                                <a href="#basictab1" data-bs-toggle="tab" data-toggle="tab" class="nav-link rounded-0 py-2">
+                                    <i class="mdi mdi-account-circle font-18 align-middle me-1"></i>
+                                    <span class="d-none d-sm-inline">المعلومات الرئيسية</span>
+                                </a>
+                            </li>
+                            <li class="nav-item">
+                                <a href="#basictab2" data-bs-toggle="tab" data-toggle="tab" class="nav-link rounded-0 py-2">
+                                    <i class="mdi mdi-face-man-profile font-18 align-middle me-1"></i>
+                                    <span class="d-none d-sm-inline">معلومات العائلة</span>
+                                </a>
+                            </li>
+                            <li class="nav-item">
+                                <a href="#basictab3" data-bs-toggle="tab" data-toggle="tab" class="nav-link rounded-0 py-2">
+                                    <i class="mdi mdi-checkbox-marked-circle-outline font-18 align-middle me-1"></i>
+                                    <span class="d-none d-sm-inline">Finish</span>
+                                </a>
+                            </li>
+                        </ul>
+
+                        <div class="tab-content b-0 mb-0">
+                            <div class="tab-pane" id="basictab1">
+                                <div class="row">
+                                    <div class="col-12">
+                                        <div class="row">
+                                            <div class="col-4">
+                                                <label class="col-md-3 col-form-label" for="userName">الاسم الأول</label>
+                                                <div class="col-md-9">
+                                                    <input type="text" class="form-control" id="userName" name="userName">
+                                                </div>
+                                            </div>
+                                            <div class="col-4">
+                                                <label class="col-md-3 col-form-label" for="userName">الكنية</label>
+                                                <div class="col-md-9">
+                                                    <input type="text" class="form-control" id="userName" name="userName">
+                                                </div>
+                                            </div>
+                                            <div class="col-4">
+                                                <label class="col-md-3 col-form-label" for="userName">اسم الأب</label>
+                                                <div class="col-md-9">
+                                                    <input type="text" class="form-control" id="userName" name="userName">
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="row ">
+                                            <div class="col-4">
+                                                <label class="col-md-3 col-form-label" for="userName">رقم دراسة الحالة</label>
+                                                <div class="col-md-9">
+                                                    <input type="text" class="form-control" id="userName" name="userName">
+                                                </div>
+                                            </div>
+                                            <div class="col-4">
+                                                <label class="col-md-3 col-form-label" for="userName">تاريخ دراسة الحالة</label>
+                                                <div class="col-md-9">
+                                                    <input type="text" class="form-control" id="userName" name="userName">
+                                                </div>
+                                            </div>
+                                            <div class="col-4">
+                                                <label class="col-md-3 col-form-label" for="userName">الجنس</label>
+                                                <div class="col-md-9">
+                                                    <select class="form-control">
+                                                        <option>ذكر</option>
+                                                        <option>أنثى</option>
+                                                    </select>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="row ">
+                                            <div class="col-4">
+                                                <label class="col-md-3 col-form-label" for="userName">مكان الميلاد</label>
+                                                <div class="col-md-9">
+                                                    <input type="text" class="form-control" id="userName" name="userName">
+                                                </div>
+                                            </div>
+                                            <div class="col-4">
+                                                <label class="col-md-3 col-form-label" for="userName">تاريخ الميلاد</label>
+                                                <div class="col-md-9">
+                                                    <input type="date" class="form-control" id="userName" name="userName">
+                                                </div>
+                                            </div>
+                                            <div class="col-4">
+                                                <label class="col-md-3 col-form-label" for="userName">العمر الزمني</label>
+                                                <div class="col-md-9">
+                                                    <input type="date" class="form-control" id="userName" name="userName">
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="row ">
+                                            <div class="col-6">
+                                                <label class="col-md-3 col-form-label" for="userName">رقم الهاتف</label>
+                                                <div class="col-md-9">
+                                                    <input type="text" class="form-control" id="userName" name="userName">
+                                                </div>
+                                            </div>
+                                            <div class="col-6">
+                                                <label class="col-md-3 col-form-label" for="userName">العنوان</label>
+                                                <div class="col-md-9">
+                                                    <input type="text" class="form-control" id="userName" name="userName">
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="row ">
+                                            <div class="col-6">
+                                                <label class="col-md-3 col-form-label" for="userName">الجهة المحولة</label>
+                                                <div class="col-md-9">
+                                                    <select class="form-control">
+                                                        <option>جهة أولى</option>
+                                                        <option>جهة ثانية</option>
+                                                    </select>
+                                                </div>
+                                            </div>
+                                            <div class="col-6">
+                                                <label class="col-md-3 col-form-label" for="userName">تاريخ التحويل</label>
+                                                <div class="col-md-9">
+                                                    <input type="date" class="form-control" id="userName" name="userName">
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="row ">
+                                            <div class="col-6">
+                                                <label class="col-md-3 col-form-label" for="userName">تشخيص المحول</label>
+                                                <div class="col-md-9">
+                                                    <select class="form-control">
+                                                        <option>تشخيص أول</option>
+                                                        <option>تشخيص ثاني</option>
+                                                    </select>
+                                                </div>
+                                            </div>
+                                            <div class="col-6">
+                                                <label class="col-md-3 col-form-label" for="userName">هاتف الجهة المحولة</label>
+                                                <div class="col-md-9">
+                                                    <input type="text" class="form-control" id="userName" name="userName">
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="row ">
+                                            <div class="col-11">
+                                                <label class="col-md-6 col-form-label" for="userName">ملخص المشكلة الحالة (نوعها وأعراضها) كما يرويها ولي الأمر</label>
+                                                <textarea class="form-control"></textarea>
+                                        </div>
+                                        </div>
+                                    </div> <!-- end col -->
+                                </div> <!-- end row -->
+
+                                <ul class="list-inline wizard mb-0">
+                                    <li class="next list-inline-item float-end">
+                                        <a href="javascript:void(0);" class="btn btn-info">التالي <i class="mdi mdi-arrow-left ms-1"></i></a>
+                                    </li>
+                                </ul>
+                            </div>
+
+                            <div class="tab-pane" id="basictab2">
+                                <div class="row">
+                                    <div class="col-12">
+                                        <div class="row mb-3">
+                                            <label class="col-md-3 col-form-label" for="name"> First name</label>
+                                            <div class="col-md-9">
+                                                <input type="text" id="name" name="name" class="form-control" value="Francis">
+                                            </div>
+                                        </div>
+                                        <div class="row mb-3">
+                                            <label class="col-md-3 col-form-label" for="surname"> Last name</label>
+                                            <div class="col-md-9">
+                                                <input type="text" id="surname" name="surname" class="form-control" value="Brinkman">
+                                            </div>
+                                        </div>
+
+                                        <div class="row mb-3">
+                                            <label class="col-md-3 col-form-label" for="email">Email</label>
+                                            <div class="col-md-9">
+                                                <input type="email" id="email" name="email" class="form-control" value="cory1979@hotmail.com">
+                                            </div>
+                                        </div>
+                                    </div> <!-- end col -->
+                                </div> <!-- end row -->
+
+                                <ul class="pager wizard mb-0 list-inline">
+                                    <li class="previous list-inline-item">
+                                        <button type="button" class="btn btn-light"><i class="mdi mdi-arrow-right me-1"></i> الرجوع</button>
+                                    </li>
+                                    <li class="next list-inline-item float-end">
+                                        <button type="button" class="btn btn-info">التالي <i class="mdi mdi-arrow-left ms-1"></i></button>
+                                    </li>
+                                </ul>
+                            </div>
+
+                            <div class="tab-pane" id="basictab3">
+                                <div class="row">
+                                    <div class="col-12">
+                                        <div class="text-center">
+                                            <h2 class="mt-0"><i class="mdi mdi-check-all"></i></h2>
+                                            <h3 class="mt-0">Thank you !</h3>
+
+                                            <p class="w-75 mb-2 mx-auto">
+                                                Quisque nec turpis at urna dictum luctus. Suspendisse convallis dignissim eros at volutpat. In egestas mattis dui. Aliquam
+                                                mattis dictum aliquet.
+                                            </p>
+
+                                            <div class="mb-3">
+                                                <div class="form-check d-inline-block">
+                                                    <input type="checkbox" class="form-check-input" id="customCheck1">
+                                                    <label class="form-check-label" for="customCheck1">I agree with the Terms and Conditions</label>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div> <!-- end col -->
+                                </div> <!-- end row -->
+
+                                <ul class="pager wizard mb-0 list-inline mt-1">
+                                    <li class="previous list-inline-item">
+                                        <button type="button" class="btn btn-light"><i class="mdi mdi-arrow-left me-1"></i> Back to Profile</button>
+                                    </li>
+                                    <li class="next list-inline-item float-end">
+                                        <button type="button" class="btn btn-info">Submit</button>
+                                    </li>
+                                </ul>
+                            </div>
+
+                        </div> <!-- tab-content -->
+                    </div> <!-- end #basicwizard-->
+                </form>
+
+            </div> <!-- end card-body -->
+        </div> <!-- end card-->
+    </div> <!-- end col -->
+</div>

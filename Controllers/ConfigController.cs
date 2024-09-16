@@ -1,4 +1,5 @@
 using Alrazi.HttpParameters;
+using Alrazi.Models;
 using Alrazi.Services;
 using Alrazi.Tools;
 using Microsoft.AspNetCore.Mvc;
@@ -125,5 +126,76 @@ namespace Alrazi.Controllers
             return Redirect("~/Edit-Diagnosis/" + id);
         }
 
+        [HttpGet("Get-Nationalities")]
+        public async Task<IActionResult> GetNationalities()
+        {
+            if (!HttpContext.HasSession())
+                return RedirectToAction("Index");
+            return View(await configService.GetNationalities());
+        }
+
+        [HttpGet("Add-Nationality")]
+        public IActionResult AddNationality()
+        {
+            if (!HttpContext.HasSession())
+                return RedirectToAction("Index");
+            return View();
+        }
+
+        [HttpPost("Add-Nationality")]
+        public async Task<IActionResult> AddNationality(string name)
+        {
+            if (!HttpContext.HasSession())
+                return RedirectToAction("Index");
+            var data = await configService.AddNationality(name);
+            ViewBag.Done = data.Item1;
+            ViewBag.Message = data.Item2;
+            return View();
+        }
+
+        [HttpGet("Edit-Nationality/{id}")]
+        public async Task<IActionResult> EditNationality(int id)
+        {
+            if (!HttpContext.HasSession())
+                return RedirectToAction("Index");
+            return View(await configService.GetNationalityById(id));
+        }
+
+        [HttpPost("Edit-Nationality")]
+        public async Task<IActionResult> EditNationality(int id, string name)
+        {
+            if (!HttpContext.HasSession())
+                return RedirectToAction("Index");
+            var data = await configService.EditNationality(id, name);
+            ViewBag.Done = data.Item1;
+            ViewBag.Message = data.Item2;
+            return View(await configService.GetNationalityById(id));
+        }
+
+        [HttpGet("ChangeNationalityState/{id}")]
+        public async Task<IActionResult> ChangeNationalityState(int id)
+        {
+            if (!HttpContext.HasSession())
+                return RedirectToAction("Index");
+            await configService.ChangeNationalityState(id);
+            return Redirect("~/Edit-Nationality/" + id);
+        }
+
+        [HttpGet("Manage-Configs")]
+        public async Task<IActionResult> ManageConfigs()
+        {
+            if (!HttpContext.HasSession())
+                return RedirectToAction("Index");
+            return View(await configService.GetConfigs());
+        }
+
+        [HttpPost("Manage-Configs")]
+        public async Task<IActionResult> ManageConfigs(List<Config> configs)
+        {
+            if (!HttpContext.HasSession())
+                return RedirectToAction("Index");
+            await configService.UpdateConfigs(configs.ToArray());
+            return View(await configService.GetConfigs());
+        }
     }
 }
