@@ -1,11 +1,13 @@
-﻿namespace Alrazi.Models
+﻿using Alrazi.Enums;
+
+namespace Alrazi.Models
 {
     public class Student
     {
         public int Id { get; set; }
+        public StudentStatus StudentStatus { get; set; }
         public string FirstName { get; set; }
         public string LastName { get; set; }
-        public string FatherName { get; set; }
         public int StateNumber { get; set; }
         public DateTime BirthDate { get; set; }
         public DateTime AgeTimeDate { get; set; }
@@ -22,6 +24,10 @@
         public Diagnosis Diagnosis { get; set; }
         public string DiagnosisNumber { get; set; }
         public string FamilyBio { get; set; }
+
+        //LD
+        public string? SchoolName { get; set; }
+        public string? Class { get; set; }
 
     }
 }
