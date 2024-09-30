@@ -2,6 +2,8 @@
 {
     public enum StudentStatus
     {
+        Main,
+
         Early = 1,
         Early_Student,
         Early_StudentFamilyInfo,
@@ -9,13 +11,13 @@
         Early_StudentMotherMedical,
         Early_StudentMedical,
         Early_StudentMedicalTest,
-        Early_SocialDevelopment,
+        Early_StudentDevelopment,
         Early_StudentPsychologyDevelopment,
         Early_StudentSocialDevelopment,
         Early_StudentAutonomy,
         Early_StudentFamilyActivity,
         Early_StudentPotentialEnhancer,
-        Early_StudentEducationalَualification,
+        Early_StudentEducationalualification,
         Early_StudentNote,
 
         LearningDifficulties = 100,

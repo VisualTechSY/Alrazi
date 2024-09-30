@@ -1,0 +1,167 @@
+﻿@using Alrazi.Tools
+@model StudentFamilyInfo
+@{
+    ViewData["Title"] = "معلومات عامة عن العائلة";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<!-- start page title -->
+<div class="row">
+    <div class="col-12">
+        <div class="page-title-box">
+            <div class="page-title-right">
+                <ol class="breadcrumb m-0">
+                    <li class="breadcrumb-item"><a href="~/Panel">الرئيسية</a></li>
+                    <li class="breadcrumb-item active">معلومات عامة عن العائلة</li>
+                </ol>
+            </div>
+            <h4 class="page-title">معلومات عامة عن العائلة</h4>
+        </div>
+    </div>
+</div>
+<!-- end page title -->
+
+<div class="row">
+    <div class="col-xl-12">
+        <div class="card">
+            <div class="card-body">
+                <h4 class="header-title mb-3"> معلومات عامة عن العائلة</h4>
+                <form method="post">
+                    <div class="row">
+                        <div class="col-12">
+                            <div class="row">
+                                <div class="col-6">
+                                    <label class=" col-form-label" for="MotherName">اسم الأم</label>
+                                    <div class="col-md-9">
+                                        <input type="text" class="form-control" id="MotherName" name="MotherName" value="@Model.MotherName">
+                                    </div>
+                                </div>
+                                <div class="col-6">
+                                    <label class=" col-form-label" for="MotherYear">عمر الأم</label>
+                                    <div class="col-md-9">
+                                        <input type="number" class="form-control" id="MotherYear" name="MotherYear" value="@Model.GetMotherYear">
+                                    </div>
+                                </div>
+                                <div class="col-6">
+                                    <label class=" col-form-label" for="MotherStudy">المستوى التعليمي للأم</label>
+                                    <div class="col-md-9">
+                                        <input type="text" class="form-control" id="MotherStudy" name="MotherStudy" value="@Model.MotherStudy">
+                                    </div>
+                                </div>
+                                <div class="col-6">
+                                    <label class=" col-form-label" for="MotherJob">عمل الأم ومكانها</label>
+                                    <div class="col-md-9">
+                                        <input type="text" class="form-control" id="MotherJob" name="MotherJob" value="@Model.MotherJob">
+                                    </div>
+                                </div>
+                                <div class="col-6">
+                                    <label class=" col-form-label" for="FatherName">اسم الأب</label>
+                                    <div class="col-md-9">
+                                        <input type="text" class="form-control" id="FatherName" name="FatherName" value="@Model.FatherName">
+                                    </div>
+                                </div>
+                                <div class="col-6">
+                                    <label class=" col-form-label" for="FatherYear">عمر الأب</label>
+                                    <div class="col-md-9">
+                                        <input type="number" class="form-control" id="FatherYear" name="FatherYear" value="@Model.GetFatherYear">
+                                    </div>
+                                </div>
+                                <div class="col-6">
+                                    <label class=" col-form-label" for="FatherStudy">المستوى التعليمي الأب</label>
+                                    <div class="col-md-9">
+                                        <input type="text" class="form-control" id="FatherStudy" name="FatherStudy" value="@Model.FatherStudy">
+                                    </div>
+                                </div>
+                                <div class="col-6">
+                                    <label class=" col-form-label" for="FatherJob">عمل الأب ومكانه</label>
+                                    <div class="col-md-9">
+                                        <input type="text" class="form-control" id="FatherJob" name="FatherJob" value="@Model.FatherJob">
+                                    </div>
+                                </div>
+                                <div class="col-6">
+                                    <label class=" col-form-label" for="FatherAndMotherDegree">درجة القرابة بين الأم والأب</label>
+                                    <div class="col-md-9">
+                                        <input type="text" class="form-control" id="FatherAndMotherDegree" name="FatherAndMotherDegree" value="@Model.FatherAndMotherDegree">
+                                    </div>
+                                </div>
+                                <div class="col-6">
+                                    <label class=" col-form-label" for="MotherAtBirthYear">عمر الأم عند الإنجاب</label>
+                                    <div class="col-md-9">
+                                        <input type="number" class="form-control" id="MotherAtBirthYear" name="MotherAtBirthYear" value="@Model.GetMotherAtBirthYear">
+                                    </div>
+                                </div>
+                                <div class="col-6">
+                                    <label class=" col-form-label">هل يعاني أحد الأبوين من الأمراض</label>
+                                    <div class="col-md-9">
+                                        <select class="form-control">
+                                            @if (string.IsNullOrWhiteSpace(Model.FatherAndMotherDiseases))
+                                            {
+                                                <option>نعم</option>
+                                                <option selected>لا</option>
+                                            }
+                                            else
+                                            {
+                                                <option selected>نعم</option>
+                                                <option>لا</option>
+                                            }
+                                        </select>
+                                    </div>
+                                </div>
+                                <div class="col-6">
+                                    <label class=" col-form-label" for="FatherAndMotherDiseases">في حال كان يعاني من الأمراض أذكرها</label>
+                                    <div class="col-md-9">
+                                        <input type="text" class="form-control" id="FatherAndMotherDiseases" name="FatherAndMotherDiseases" value="@Model.FatherAndMotherDiseases">
+                                    </div>
+                                </div>
+                                <div class="col-6">
+                                    <label class=" col-form-label" for="userName">هل يوجد بين أقرباء والديه أفراد معاقين</label>
+                                    <div class="col-md-9">
+                                        <select class="form-control">
+                                            @if (string.IsNullOrWhiteSpace(Model.DisabilityOfRelative))
+                                            {
+                                                <option>نعم</option>
+                                                <option selected>لا</option>
+                                            }
+                                            else
+                                            {
+                                                <option selected>نعم</option>
+                                                <option>لا</option>
+                                            }
+                                        </select>
+                                    </div>
+                                </div>
+                                <div class="col-6">
+                                    <label class=" col-form-label" for="DisabilityOfRelative">ماهي الإعاقة</label>
+                                    <div class="col-md-9">
+                                        <input type="text" class="form-control" id="DisabilityOfRelative" name="DisabilityOfRelative" value="@Model.DisabilityOfRelative">
+                                    </div>
+                                </div>
+                                <div class="col-6">
+                                    <label class=" col-form-label" for="RelationshipWithDisabled">ماهي صلة القرابة</label>
+                                    <div class="col-md-9">
+                                        <input type="text" class="form-control" id="RelationshipWithDisabled" name="RelationshipWithDisabled" value="@Model.RelationshipWithDisabled">
+                                    </div>
+                                </div>
+                                <div class="col-6">
+                                    <label class=" col-form-label" for="BrotherAndSisterCount">ماهو عدد أخوة الطفل</label>
+                                    <div class="col-md-9">
+                                        <input type="text" class="form-control" id="BrotherAndSisterCount" name="BrotherAndSisterCount" value="@Model.BrotherAndSisterCount">
+                                    </div>
+                                </div>
+                                <div class="col-6">
+                                    <label class=" col-form-label" for="ChildOrder">ترتيب الطفل في الأسرة</label>
+                                    <div class="col-md-9">
+                                        <input type="text" class="form-control" id="ChildOrder" name="ChildOrder" value="@Model.ChildOrder">
+                                    </div>
+                                </div>
+                                <div style="padding-top:20px">
+                                    <button type="submit" class="btn btn-primary">التالي</button>
+                                </div>
+                            </div>
+                        </div> <!-- end col -->
+                    </div> <!-- end row -->
+                </form>
+            </div> <!-- end card-body -->
+        </div> <!-- end card-->
+    </div> <!-- end col -->
+</div>

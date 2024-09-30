@@ -141,5 +141,45 @@ namespace Alrazi.Services
                 getAllConfigs.First(x => x.ConfigKey == item.ConfigKey).Value = item.Value;
             await context.SaveChangesAsync();
         }
+
+        public async Task<List<BehavioralProblem>> GetBehavioralProblems()
+        {
+            return await context.BehavioralProblems.ToListAsync();
+        }
+
+        public async Task<Tuple<bool, string>> AddBehavioralProblem(string name)
+        {
+            if (await context.BehavioralProblems.AnyAsync(x => x.Name == name))
+                return Tuple.Create(false, "اسم السلوك مكرر");
+            await context.BehavioralProblems.AddAsync(new BehavioralProblem
+            {
+                IsActive = true,
+                Name = name
+            });
+            await context.SaveChangesAsync();
+            return Tuple.Create(true, "تمت الإضافة بنجاح");
+        }
+
+        public async Task<BehavioralProblem> GetBehavioralProblemById(int id)
+        {
+            return await context.BehavioralProblems.FindAsync(id);
+        }
+
+        public async Task<Tuple<bool, string>> EditBehavioralProblem(int id, string name)
+        {
+            if (await context.BehavioralProblems.AnyAsync(x => x.Id != id && x.Name == name))
+                return Tuple.Create(false, "الاسم موجود مسبقا");
+            var behavioralProblem = await context.BehavioralProblems.FindAsync(id);
+            behavioralProblem.Name = name;
+            await context.SaveChangesAsync();
+            return Tuple.Create(true, "تمت العملية بنجاح");
+        }
+
+        public async Task ChangeBehavioralProblemState(int id)
+        {
+            var behavioralProblem = await context.BehavioralProblems.FindAsync(id);
+            behavioralProblem.IsActive = !behavioralProblem.IsActive;
+            await context.SaveChangesAsync();
+        }
     }
 }

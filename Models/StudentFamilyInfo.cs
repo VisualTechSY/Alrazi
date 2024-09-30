@@ -1,4 +1,5 @@
 ﻿using Alrazi.Enums;
+using Microsoft.Extensions.FileSystemGlobbing;
 using System.ComponentModel.DataAnnotations.Schema;
 
 namespace Alrazi.Models
@@ -27,6 +28,19 @@ namespace Alrazi.Models
         //LD
         public bool? SeparatedParents { get; set; }
         public ChildResidence? ChildResidence { get; set; }
+
+
+        public int GetMotherYear => MotherBirthDate == default ? 0 : DateTime.Now.Year - MotherBirthDate.Year;
+        [NotMapped]
+        public int MotherYear { get; set; }
+
+        public int GetFatherYear => FatherBirthDate == default ? 0 : DateTime.Now.Year - FatherBirthDate.Year;
+        [NotMapped]
+        public int FatherYear { get; set; }
+
+        public int GetMotherAtBirthYear => MotherAgeAtBirth == default ? 0 : DateTime.Now.Year - MotherAgeAtBirth.Year;
+        [NotMapped]
+        public int MotherAtBirthYear { get; set; }
 
     }
 }

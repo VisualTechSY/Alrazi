@@ -1,0 +1,131 @@
+﻿@using Alrazi.Tools
+@model StudentPotentialEnhancer
+
+@{
+    ViewData["Title"] = "إضافة المعززات المحتملة";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<!-- start page title -->
+<div class="row">
+    <div class="col-12">
+        <div class="page-title-box">
+            <div class="page-title-right">
+                <ol class="breadcrumb m-0">
+                    <li class="breadcrumb-item"><a href="~/Panel">الرئيسية</a></li>
+                    <li class="breadcrumb-item active">إضافة المعززات المحتملة</li>
+                </ol>
+            </div>
+            <h4 class="page-title">إضافة المعززات المحتملة</h4>
+        </div>
+    </div>
+</div>
+<!-- end page title -->
+
+<div class="row">
+    <div class="col-xl-12">
+        <div class="card">
+            <div class="card-body">
+                <h4 class="header-title mb-3"> المعززات المحتملة</h4>
+                <form method="post">
+                    <div class="row">
+                        <div class="col-12">
+                            <div class="row">
+                                <div class="col-6">
+                                    <label class=" col-form-label" for="Food">@(DataTypeExtention.GetDisplayName<StudentPotentialEnhancer>("Food"))</label>
+                                    <div class="col-md-9">
+                                        <select class="form-control" name="Food">
+                                            @if (Model.Food)
+                                            {
+                                                <option selected value="True">نعم</option>
+                                                <option value="False">لا</option>
+                                            }
+                                            else
+                                            {
+                                                <option value="True">نعم</option>
+                                                <option selected value="False">لا</option>
+                                            }
+                                        </select>
+                                    </div>
+                                </div>
+                                <div class="col-6">
+                                    <label class=" col-form-label" for="Activity">@(DataTypeExtention.GetDisplayName<StudentPotentialEnhancer>("Activity"))</label>
+                                    <div class="col-md-9">
+                                        <select class="form-control" name="Activity">
+                                            @if (Model.Activity)
+                                            {
+                                                <option selected value="True">نعم</option>
+                                                <option value="False">لا</option>
+                                            }
+                                            else
+                                            {
+                                                <option value="True">نعم</option>
+                                                <option selected value="False">لا</option>
+                                            }
+                                        </select>
+                                    </div>
+                                </div>
+                                <div class="col-6">
+                                    <label class=" col-form-label" for="Materialism">@(DataTypeExtention.GetDisplayName<StudentPotentialEnhancer>("Materialism"))</label>
+                                    <div class="col-md-9">
+                                        <select class="form-control" name="Materialism">
+                                            @if (Model.Materialism)
+                                            {
+                                                <option selected value="True">نعم</option>
+                                                <option value="False">لا</option>
+                                            }
+                                            else
+                                            {
+                                                <option value="True">نعم</option>
+                                                <option selected value="False">لا</option>
+                                            }
+                                        </select>
+                                    </div>
+                                </div>
+                                <div class="col-6">
+                                    <label class=" col-form-label" for="Symbolism">@(DataTypeExtention.GetDisplayName<StudentPotentialEnhancer>("Symbolism"))</label>
+                                    <div class="col-md-9">
+                                        <select class="form-control" name="Symbolism">
+                                            @if (Model.Symbolism)
+                                            {
+                                                <option selected value="True">نعم</option>
+                                                <option value="False">لا</option>
+                                            }
+                                            else
+                                            {
+                                                <option value="True">نعم</option>
+                                                <option selected value="False">لا</option>
+                                            }
+                                        </select>
+                                    </div>
+                                </div>
+                                <div class="col-6">
+                                    <label class=" col-form-label" for="Social">@(DataTypeExtention.GetDisplayName<StudentPotentialEnhancer>("Social"))</label>
+                                    <div class="col-md-9">
+                                        <select class="form-control" name="Social">
+                                            @if (Model.Social)
+                                            {
+                                                <option selected value="True">نعم</option>
+                                                <option value="False">لا</option>
+                                            }
+                                            else
+                                            {
+                                                <option value="True">نعم</option>
+                                                <option selected value="False">لا</option>
+                                            }
+                                        </select>
+                                    </div>
+                                </div>
+
+                                <div style="padding-top:20px">
+                                    <button type="submit" class="btn btn-primary">التالي</button>
+                                </div>
+                            </div>
+                        </div> <!-- end col -->
+                    </div> <!-- end row -->
+                </form>
+            </div> <!-- end card-body -->
+        </div> <!-- end card-->
+    </div> <!-- end col -->
+</div>
+

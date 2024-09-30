@@ -1,0 +1,99 @@
+﻿@using Alrazi.Tools
+@model StudentMedicalTest
+@{
+    ViewData["Title"] = "إضافة الفحوصات الطبية التي أجريت للطفل";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<!-- start page title -->
+<div class="row">
+    <div class="col-12">
+        <div class="page-title-box">
+            <div class="page-title-right">
+                <ol class="breadcrumb m-0">
+                    <li class="breadcrumb-item"><a href="~/Panel">الرئيسية</a></li>
+                    <li class="breadcrumb-item active">إضافة الفحوصات الطبية التي أجريت للطفل</li>
+                </ol>
+            </div>
+            <h4 class="page-title">إضافة الفحوصات الطبية التي أجريت للطفل</h4>
+        </div>
+    </div>
+</div>
+<!-- end page title -->
+
+<div class="row">
+    <div class="col-xl-12">
+        <div class="card">
+            <div class="card-body">
+                <h4 class="header-title mb-3"> الفحوصات الطبية التي أجريت للطفل</h4>
+                <form method="post">
+                    <div class="row">
+                        <div class="col-12">
+                            <div class="row">
+                                <div class="col-6">
+                                    <label class=" col-form-label" for="AudiogramType">@(DataTypeExtention.GetDisplayName<StudentMedicalTest>("AudiogramType"))</label>
+                                    <div class="col-md-9">
+                                        <input type="text" required class="form-control" id="AudiogramType" name="AudiogramType" value="@Model.AudiogramType">
+                                    </div>
+                                </div>
+                                <div class="col-6">
+                                    <label class=" col-form-label" for="AudiogramTypeResult">@(DataTypeExtention.GetDisplayName<StudentMedicalTest>("AudiogramTypeResult"))</label>
+                                    <div class="col-md-9">
+                                        <input type="text" required class="form-control" id="AudiogramTypeResult" name="AudiogramTypeResult" value="@Model.AudiogramTypeResult">
+                                    </div>
+                                </div>
+                                <div class="col-6">
+                                    <label class=" col-form-label" for="EyeExamination">@(DataTypeExtention.GetDisplayName<StudentMedicalTest>("EyeExamination"))</label>
+                                    <div class="col-md-9">
+                                        <input type="text" required class="form-control" id="EyeExamination" name="EyeExamination" value="@Model.EyeExamination">
+                                    </div>
+                                </div>
+                                <div class="col-6">
+                                    <label class=" col-form-label" for="EyeExaminationResult">@(DataTypeExtention.GetDisplayName<StudentMedicalTest>("EyeExaminationResult"))</label>
+                                    <div class="col-md-9">
+                                        <input type="text" required class="form-control" id="EyeExaminationResult" name="EyeExaminationResult" value="@Model.EyeExaminationResult">
+                                    </div>
+                                </div>
+                                <div class="col-6">
+                                    <label class=" col-form-label" for="BrainScan">@(DataTypeExtention.GetDisplayName<StudentMedicalTest>("BrainScan"))</label>
+                                    <div class="col-md-9">
+                                        <input type="text" required class="form-control" id="BrainScan" name="BrainScan" value="@Model.BrainScan">
+                                    </div>
+                                </div>
+                                <div class="col-6">
+                                    <label class=" col-form-label" for="BrainScanResult">@(DataTypeExtention.GetDisplayName<StudentMedicalTest>("BrainScanResult"))</label>
+                                    <div class="col-md-9">
+                                        <input type="text" required class="form-control" id="BrainScanResult" name="BrainScanResult" value="@Model.BrainScanResult">
+                                    </div>
+                                </div>
+                                <div class="col-6">
+                                    <label class=" col-form-label" for="LaboratoryTests">@(DataTypeExtention.GetDisplayName<StudentMedicalTest>("LaboratoryTests"))</label>
+                                    <div class="col-md-9">
+                                        <input type="text" required class="form-control" id="LaboratoryTests" name="LaboratoryTests" value="@Model.LaboratoryTests">
+                                    </div>
+                                </div>
+                                <div class="col-6">
+                                    <label class=" col-form-label" for="PreviousMedications">@(DataTypeExtention.GetDisplayName<StudentMedicalTest>("PreviousMedications"))</label>
+                                    <div class="col-md-9">
+                                        <input type="text" required class="form-control" id="PreviousMedications" name="PreviousMedications" value="@Model.PreviousMedications">
+                                    </div>
+                                </div>
+                                <div class="col-6">
+                                    <label class=" col-form-label" for="CurrentMedications">@(DataTypeExtention.GetDisplayName<StudentMedicalTest>("CurrentMedications"))</label>
+                                    <div class="col-md-9">
+                                        <input type="text" required class="form-control" id="CurrentMedications" name="CurrentMedications" value="@Model.CurrentMedications">
+                                    </div>
+                                </div>
+
+                                <div style="padding-top:20px">
+                                    <button type="submit" class="btn btn-primary">التالي</button>
+                                </div>
+                            </div>
+                        </div> <!-- end col -->
+                    </div> <!-- end row -->
+                </form>
+            </div> <!-- end card-body -->
+        </div> <!-- end card-->
+    </div> <!-- end col -->
+</div>
+

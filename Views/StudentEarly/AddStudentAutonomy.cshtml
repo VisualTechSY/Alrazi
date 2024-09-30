@@ -1,0 +1,69 @@
+﻿@using Alrazi.Tools
+@model StudentAutonomy
+
+@{
+    ViewData["Title"] = "إضافة الاستقلالية الذاتية للطفل";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<!-- start page title -->
+<div class="row">
+    <div class="col-12">
+        <div class="page-title-box">
+            <div class="page-title-right">
+                <ol class="breadcrumb m-0">
+                    <li class="breadcrumb-item"><a href="~/Panel">الرئيسية</a></li>
+                    <li class="breadcrumb-item active">إضافة الاستقلالية الذاتية للطفل</li>
+                </ol>
+            </div>
+            <h4 class="page-title">إضافة الاستقلالية الذاتية للطفل</h4>
+        </div>
+    </div>
+</div>
+<!-- end page title -->
+
+<div class="row">
+    <div class="col-xl-12">
+        <div class="card">
+            <div class="card-body">
+                <h4 class="header-title mb-3"> الاستقلالية الذاتية للطفل</h4>
+                <form method="post">
+                    <div class="row">
+                        <div class="col-12">
+                            <div class="row">
+                                <div class="col-6">
+                                    <label class=" col-form-label" for="Food">@(DataTypeExtention.GetDisplayName<StudentAutonomy>("Food"))</label>
+                                    <div class="col-md-9">
+                                        <input type="text" required class="form-control" id="Food" name="Food" value="@Model.Food">
+                                    </div>
+                                </div>
+                                <div class="col-6">
+                                    <label class=" col-form-label" for="Drink">@(DataTypeExtention.GetDisplayName<StudentAutonomy>("Drink"))</label>
+                                    <div class="col-md-9">
+                                        <input type="text" required class="form-control" id="Drink" name="Drink" value="@Model.Drink">
+                                    </div>
+                                </div>
+                                <div class="col-6">
+                                    <label class=" col-form-label" for="Cleanliness">@(DataTypeExtention.GetDisplayName<StudentAutonomy>("Cleanliness"))</label>
+                                    <div class="col-md-9">
+                                        <input type="text" required class="form-control" id="Cleanliness" name="Cleanliness" value="@Model.Cleanliness">
+                                    </div>
+                                </div>
+                                <div class="col-6">
+                                    <label class=" col-form-label" for="Clothes">@(DataTypeExtention.GetDisplayName<StudentAutonomy>("Clothes"))</label>
+                                    <div class="col-md-9">
+                                        <input type="text" required class="form-control" id="Clothes" name="Clothes" value="@Model.Clothes">
+                                    </div>
+                                </div>
+
+                                <div style="padding-top:20px">
+                                    <button type="submit" class="btn btn-primary">التالي</button>
+                                </div>
+                            </div>
+                        </div> <!-- end col -->
+                    </div> <!-- end row -->
+                </form>
+            </div> <!-- end card-body -->
+        </div> <!-- end card-->
+    </div> <!-- end col -->
+</div>

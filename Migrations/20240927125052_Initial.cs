@@ -120,9 +120,11 @@ namespace Alrazi.Migrations
                 {
                     Id = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
+                    StudentStatus = table.Column<int>(type: "int", nullable: false),
                     FirstName = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     LastName = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     StateNumber = table.Column<int>(type: "int", nullable: false),
+                    BirthPlace = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     BirthDate = table.Column<DateTime>(type: "datetime2", nullable: false),
                     AgeTimeDate = table.Column<DateTime>(type: "datetime2", nullable: false),
                     StudyStateDate = table.Column<DateTime>(type: "datetime2", nullable: false),
@@ -487,9 +489,11 @@ namespace Alrazi.Migrations
                     ComplicationsDuringPregnancy = table.Column<bool>(type: "bit", nullable: false),
                     MonthMotherExposedRadiation = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     TookMedicationWhilePregnant = table.Column<bool>(type: "bit", nullable: false),
+                    PsychologicalState = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     PregnancyDuration = table.Column<int>(type: "int", nullable: false),
                     IsNatural = table.Column<bool>(type: "bit", nullable: false),
                     PlaceBirth = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    BirthSupervisor = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     NurseryLong = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     NurseryReason = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     GrowthComplete = table.Column<bool>(type: "bit", nullable: false),
@@ -558,11 +562,11 @@ namespace Alrazi.Migrations
                 columns: table => new
                 {
                     Id = table.Column<int>(type: "int", nullable: false),
-                    OutputOperations = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    SleepProblems = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    HyperActivity = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    Seizures = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    LanguageProblems = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    OutputOperations = table.Column<bool>(type: "bit", nullable: false),
+                    SleepProblems = table.Column<bool>(type: "bit", nullable: false),
+                    HyperActivity = table.Column<bool>(type: "bit", nullable: false),
+                    Seizures = table.Column<bool>(type: "bit", nullable: false),
+                    LanguageProblems = table.Column<bool>(type: "bit", nullable: false),
                     OtherProblems = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     EatProblems = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     Allergy = table.Column<string>(type: "nvarchar(max)", nullable: true)
@@ -582,7 +586,9 @@ namespace Alrazi.Migrations
                 name: "StudentSiblings",
                 columns: table => new
                 {
-                    Id = table.Column<int>(type: "int", nullable: false),
+                    Id = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    StudentId = table.Column<int>(type: "int", nullable: false),
                     Order = table.Column<int>(type: "int", nullable: false),
                     FullName = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     IsMale = table.Column<bool>(type: "bit", nullable: false),
@@ -593,8 +599,8 @@ namespace Alrazi.Migrations
                 {
                     table.PrimaryKey("PK_StudentSiblings", x => x.Id);
                     table.ForeignKey(
-                        name: "FK_StudentSiblings_Students_Id",
-                        column: x => x.Id,
+                        name: "FK_StudentSiblings_Students_StudentId",
+                        column: x => x.StudentId,
                         principalTable: "Students",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Restrict);
@@ -611,7 +617,7 @@ namespace Alrazi.Migrations
                     Play = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     Interaction = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     ChildRelationships = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    HouseHelp = table.Column<string>(type: "nvarchar(max)", nullable: false)
+                    HouseHelp = table.Column<string>(type: "nvarchar(max)", nullable: true)
                 },
                 constraints: table =>
                 {
@@ -718,6 +724,11 @@ namespace Alrazi.Migrations
                 name: "IX_Students_NationalityId",
                 table: "Students",
                 column: "NationalityId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_StudentSiblings_StudentId",
+                table: "StudentSiblings",
+                column: "StudentId");
 
             migrationBuilder.CreateIndex(
                 name: "IX_StudentVisitCenters_StudentId",

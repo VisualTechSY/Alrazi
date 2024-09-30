@@ -1,0 +1,86 @@
+﻿@using Alrazi.Tools
+@model StudentDevelopment
+@{
+    ViewData["Title"] = "إضافة تطور نمو الطفل";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<!-- start page title -->
+<div class="row">
+    <div class="col-12">
+        <div class="page-title-box">
+            <div class="page-title-right">
+                <ol class="breadcrumb m-0">
+                    <li class="breadcrumb-item"><a href="~/Panel">الرئيسية</a></li>
+                    <li class="breadcrumb-item active">إضافة تطور نمو الطفل</li>
+                </ol>
+            </div>
+            <h4 class="page-title">إضافة تطور نمو الطفل</h4>
+        </div>
+    </div>
+</div>
+<!-- end page title -->
+
+<div class="row">
+    <div class="col-xl-12">
+        <div class="card">
+            <div class="card-body">
+                <h4 class="header-title mb-3"> تطور نمو الطفل</h4>
+                <form method="post">
+                    <div class="row">
+                        <div class="col-12">
+                            <div class="row">
+                                <div class="col-6">
+                                    <label class=" col-form-label" for="Breastfeeding">@(DataTypeExtention.GetDisplayName<StudentDevelopment>("Breastfeeding"))</label>
+                                    <div class="col-md-9">
+                                        <input type="text" required class="form-control" id="Breastfeeding" name="Breastfeeding" value="@Model.Breastfeeding">
+                                    </div>
+                                </div>
+                                <div class="col-6">
+                                    <label class=" col-form-label" for="Teething">@(DataTypeExtention.GetDisplayName<StudentDevelopment>("Teething"))</label>
+                                    <div class="col-md-9">
+                                        <input type="text" required class="form-control" id="Teething" name="Teething" value="@Model.Teething">
+                                    </div>
+                                </div>
+                                <div class="col-6">
+                                    <label class=" col-form-label" for="ChewingFood">@(DataTypeExtention.GetDisplayName<StudentDevelopment>("ChewingFood"))</label>
+                                    <div class="col-md-9">
+                                        <input type="text" required class="form-control" id="ChewingFood" name="ChewingFood" value="@Model.ChewingFood">
+                                    </div>
+                                </div>
+                                <div class="col-6">
+                                    <label class=" col-form-label" for="Walking">@(DataTypeExtention.GetDisplayName<StudentDevelopment>("Walking"))</label>
+                                    <div class="col-md-9">
+                                        <input type="text" required class="form-control" id="Walking" name="Walking" value="@Model.Walking">
+                                    </div>
+                                </div>
+                                <div class="col-6">
+                                    <label class=" col-form-label" for="Signal">@(DataTypeExtention.GetDisplayName<StudentDevelopment>("Signal"))</label>
+                                    <div class="col-md-9">
+                                        <input type="text" required class="form-control" id="Signal" name="Signal" value="@Model.Signal">
+                                    </div>
+                                </div>
+                                  <div class="col-6">
+                                    <label class=" col-form-label" for="Immunity">@(DataTypeExtention.GetDisplayName<StudentDevelopment>("Immunity"))</label>
+                                    <div class="col-md-9">
+                                        <input type="text" required class="form-control" id="Immunity" name="Immunity" value="@Model.Immunity">
+                                    </div>
+                                </div>
+                                <div class="col-6">
+                                    <label class=" col-form-label" for="FirstWords">@(DataTypeExtention.GetDisplayName<StudentDevelopment>("FirstWords"))</label>
+                                    <div class="col-md-9">
+                                        <input type="text" required class="form-control" id="FirstWords" name="FirstWords" value="@Model.FirstWords">
+                                    </div>
+                                </div>
+
+                                <div style="padding-top:20px">
+                                    <button type="submit" class="btn btn-primary">التالي</button>
+                                </div>
+                            </div>
+                        </div> <!-- end col -->
+                    </div> <!-- end row -->
+                </form>
+            </div> <!-- end card-body -->
+        </div> <!-- end card-->
+    </div> <!-- end col -->
+</div>

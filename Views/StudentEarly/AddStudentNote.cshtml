@@ -1,0 +1,62 @@
+﻿@using Alrazi.Tools
+@model StudentNote
+
+@{
+    ViewData["Title"] = "إضافة معلومات أخرى";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<!-- start page title -->
+<div class="row">
+    <div class="col-12">
+        <div class="page-title-box">
+            <div class="page-title-right">
+                <ol class="breadcrumb m-0">
+                    <li class="breadcrumb-item"><a href="~/Panel">الرئيسية</a></li>
+                    <li class="breadcrumb-item active">إضافة معلومات أخرى</li>
+                </ol>
+            </div>
+            <h4 class="page-title">إضافة معلومات أخرى</h4>
+        </div>
+    </div>
+</div>
+<!-- end page title -->
+
+<div class="row">
+    <div class="col-xl-12">
+        <div class="card">
+            <div class="card-body">
+                <h4 class="header-title mb-3"> معلومات أخرى</h4>
+                <form method="post">
+                    <div class="row">
+                        <div class="col-12">
+                            <div class="row">
+                                <div class="col-6">
+                                    <label class=" col-form-label" for="FirstDiscoveryParents">@(DataTypeExtention.GetDisplayName<StudentNote>("FirstDiscoveryParents"))</label>
+                                    <div class="col-md-9">
+                                        <input type="text" required class="form-control" id="FirstDiscoveryParents" name="FirstDiscoveryParents" value="@Model.FirstDiscoveryParents">
+                                    </div>
+                                </div>
+                                <div class="col-6">
+                                    <label class=" col-form-label" for="OtherNote">@(DataTypeExtention.GetDisplayName<StudentNote>("OtherNote"))</label>
+                                    <div class="col-md-9">
+                                        <input type="text" required class="form-control" id="OtherNote" name="OtherNote" value="@Model.OtherNote">
+                                    </div>
+                                </div>
+                                <div class="col-6">
+                                    <label class=" col-form-label" for="DescribeProblemAsSeenParents">@(DataTypeExtention.GetDisplayName<StudentNote>("DescribeProblemAsSeenParents"))</label>
+                                    <div class="col-md-9">
+                                        <input type="text" required class="form-control" id="DescribeProblemAsSeenParents" name="DescribeProblemAsSeenParents" value="@Model.DescribeProblemAsSeenParents">
+                                    </div>
+                                </div>
+                                <div style="padding-top:20px">
+                                    <button type="submit" class="btn btn-primary">التالي</button>
+                                </div>
+                            </div>
+                        </div> <!-- end col -->
+                    </div> <!-- end row -->
+                </form>
+            </div> <!-- end card-body -->
+        </div> <!-- end card-->
+    </div> <!-- end col -->
+</div>

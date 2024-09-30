@@ -21,6 +21,9 @@ builder.Services.AddDbContext<Context>(options =>
 
 builder.Services.AddTransient<AccountService>();
 builder.Services.AddTransient<ConfigService>();
+builder.Services.AddTransient<StudentService>();
+
+builder.Services.AddHostedService<CheckIdel>();
 
 var app = builder.Build();
 
@@ -30,12 +33,12 @@ await context.Database.MigrateAsync();
 
 if (!context.Accounts.Any())
 {
-    await context.Accounts.AddAsync(new Alrazi.Models.Account
+    await context.Accounts.AddAsync(new Account
     {
         UserName = "admin",
         Password = "admin",
         Picture = "https://cdn-icons-png.flaticon.com/512/219/219983.png",
-        Employee = new Alrazi.Models.Employee
+        Employee = new Employee
         {
             FullName = "Alaa Alkhawam",
             EmployeePermissions = Enum.GetValues<Permission>().Select(x=> new Alrazi.Models.EmployeePermission

@@ -1,0 +1,102 @@
+﻿@using Alrazi.Tools
+@model StudentMedical
+@{
+    ViewData["Title"] = "إضافة التاريخ الطبي للطفل";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<!-- start page title -->
+<div class="row">
+    <div class="col-12">
+        <div class="page-title-box">
+            <div class="page-title-right">
+                <ol class="breadcrumb m-0">
+                    <li class="breadcrumb-item"><a href="~/Panel">الرئيسية</a></li>
+                    <li class="breadcrumb-item active">إضافة التاريخ الطبي للطفل</li>
+                </ol>
+            </div>
+            <h4 class="page-title">إضافة التاريخ الطبي للطفل</h4>
+        </div>
+    </div>
+</div>
+<!-- end page title -->
+
+<div class="row">
+    <div class="col-xl-12">
+        <div class="card">
+            <div class="card-body">
+                <h4 class="header-title mb-3"> التاريخ الطبي للطفل</h4>
+                <form method="post">
+                    <div class="row">
+                        <div class="col-12">
+                            <div class="row">
+                                <div class="col-6">
+                                    <label class=" col-form-label" for="HeadInjury">@(DataTypeExtention.GetDisplayName<StudentMedical>("HeadInjury"))</label>
+                                    <div class="col-md-9">
+                                        <select class="form-control" name="HeadInjury">
+                                            @if (Model.HeadInjury)
+                                            {
+                                                <option selected value="True">نعم</option>
+                                                <option value="False">لا</option>
+                                            }
+                                            else
+                                            {
+                                                <option value="True">نعم</option>
+                                                <option selected value="False">لا</option>
+                                            }
+                                        </select>
+                                    </div>
+                                </div>
+                                <div class="col-6">
+                                    <label class=" col-form-label" for="SevereInfections">@(DataTypeExtention.GetDisplayName<StudentMedical>("SevereInfections"))</label>
+                                    <div class="col-md-9">
+                                        <select class="form-control" name="SevereInfections">
+                                            @if (Model.SevereInfections)
+                                            {
+                                                <option selected value="True">نعم</option>
+                                                <option value="False">لا</option>
+                                            }
+                                            else
+                                            {
+                                                <option value="True">نعم</option>
+                                                <option selected value="False">لا</option>
+                                            }
+                                        </select>
+                                    </div>
+                                </div>
+                                <div class="col-6">
+                                    <label class=" col-form-label" for="VaccineRelatedProblems">@(DataTypeExtention.GetDisplayName<StudentMedical>("VaccineRelatedProblems"))</label>
+                                    <div class="col-md-9">
+                                        <select class="form-control" name="VaccineRelatedProblems">
+                                            @if (Model.VaccineRelatedProblems)
+                                            {
+                                                <option selected value="True">نعم</option>
+                                                <option value="False">لا</option>
+                                            }
+                                            else
+                                            {
+                                                <option value="True">نعم</option>
+                                                <option selected value="False">لا</option>
+                                            }
+                                        </select>
+                                    </div>
+                                </div>
+                                <div class="col-6">
+                                    <label class=" col-form-label" for="Tests">@(DataTypeExtention.GetDisplayName<StudentMedical>("Tests"))</label>
+                                    <div class="col-md-9">
+                                        <input type="text" required class="form-control" id="Tests" name="Tests" value="@Model.Tests">
+                                    </div>
+                                </div>
+
+                                <div style="padding-top:20px">
+                                    <button type="submit" class="btn btn-primary">التالي</button>
+                                </div>
+                            </div>
+                        </div> <!-- end col -->
+                    </div> <!-- end row -->
+                </form>
+            </div> <!-- end card-body -->
+        </div> <!-- end card-->
+    </div> <!-- end col -->
+</div>
+

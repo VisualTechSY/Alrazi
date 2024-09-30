@@ -12,7 +12,7 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace Alrazi.Migrations
 {
     [DbContext(typeof(Context))]
-    [Migration("20240917193349_Initial")]
+    [Migration("20240927125052_Initial")]
     partial class Initial
     {
         /// <inheritdoc />
@@ -209,6 +209,10 @@ namespace Alrazi.Migrations
                     b.Property<DateTime>("BirthDate")
                         .HasColumnType("datetime2");
 
+                    b.Property<string>("BirthPlace")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
                     b.Property<string>("Class")
                         .HasColumnType("nvarchar(max)");
 
@@ -245,6 +249,9 @@ namespace Alrazi.Migrations
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<int>("StateNumber")
+                        .HasColumnType("int");
+
+                    b.Property<int>("StudentStatus")
                         .HasColumnType("int");
 
                     b.Property<DateTime>("StudyStateDate")
@@ -392,7 +399,7 @@ namespace Alrazi.Migrations
                     b.ToTable("StudentDevelopments");
                 });
 
-            modelBuilder.Entity("Alrazi.Models.StudentEducationalَualification", b =>
+            modelBuilder.Entity("Alrazi.Models.StudentEducationalualification", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
@@ -735,6 +742,10 @@ namespace Alrazi.Migrations
                     b.Property<int>("Id")
                         .HasColumnType("int");
 
+                    b.Property<string>("BirthSupervisor")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
                     b.Property<bool>("ComplicationsDuringPregnancy")
                         .HasColumnType("bit");
 
@@ -769,6 +780,10 @@ namespace Alrazi.Migrations
 
                     b.Property<int>("PregnancyDuration")
                         .HasColumnType("int");
+
+                    b.Property<string>("PsychologicalState")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("RhesusFactor")
                         .IsRequired()
@@ -848,29 +863,24 @@ namespace Alrazi.Migrations
                     b.Property<string>("EatProblems")
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<string>("HyperActivity")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
+                    b.Property<bool>("HyperActivity")
+                        .HasColumnType("bit");
 
-                    b.Property<string>("LanguageProblems")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
+                    b.Property<bool>("LanguageProblems")
+                        .HasColumnType("bit");
 
                     b.Property<string>("OtherProblems")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<string>("OutputOperations")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
+                    b.Property<bool>("OutputOperations")
+                        .HasColumnType("bit");
 
-                    b.Property<string>("Seizures")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
+                    b.Property<bool>("Seizures")
+                        .HasColumnType("bit");
 
-                    b.Property<string>("SleepProblems")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
+                    b.Property<bool>("SleepProblems")
+                        .HasColumnType("bit");
 
                     b.HasKey("Id");
 
@@ -903,7 +913,10 @@ namespace Alrazi.Migrations
             modelBuilder.Entity("Alrazi.Models.StudentSibling", b =>
                 {
                     b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
                         .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
 
                     b.Property<DateTime>("BirthDate")
                         .HasColumnType("datetime2");
@@ -918,11 +931,16 @@ namespace Alrazi.Migrations
                     b.Property<int>("Order")
                         .HasColumnType("int");
 
+                    b.Property<int>("StudentId")
+                        .HasColumnType("int");
+
                     b.Property<string>("StudyLevel")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.HasKey("Id");
+
+                    b.HasIndex("StudentId");
 
                     b.ToTable("StudentSiblings");
                 });
@@ -940,7 +958,6 @@ namespace Alrazi.Migrations
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("HouseHelp")
-                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("IntentionalCommunication")
@@ -1076,8 +1093,8 @@ namespace Alrazi.Migrations
             modelBuilder.Entity("Alrazi.Models.StudentAutonomy", b =>
                 {
                     b.HasOne("Alrazi.Models.Student", "Student")
-                        .WithMany()
-                        .HasForeignKey("Id")
+                        .WithOne("StudentAutonomy")
+                        .HasForeignKey("Alrazi.Models.StudentAutonomy", "Id")
                         .OnDelete(DeleteBehavior.Restrict)
                         .IsRequired();
 
@@ -1087,18 +1104,18 @@ namespace Alrazi.Migrations
             modelBuilder.Entity("Alrazi.Models.StudentDevelopment", b =>
                 {
                     b.HasOne("Alrazi.Models.Student", "Student")
-                        .WithMany()
-                        .HasForeignKey("Id")
+                        .WithOne("StudentDevelopment")
+                        .HasForeignKey("Alrazi.Models.StudentDevelopment", "Id")
                         .OnDelete(DeleteBehavior.Restrict)
                         .IsRequired();
 
                     b.Navigation("Student");
                 });
 
-            modelBuilder.Entity("Alrazi.Models.StudentEducationalَualification", b =>
+            modelBuilder.Entity("Alrazi.Models.StudentEducationalualification", b =>
                 {
                     b.HasOne("Alrazi.Models.Student", "Student")
-                        .WithMany()
+                        .WithMany("StudentEducationalualifications")
                         .HasForeignKey("StudentId")
                         .OnDelete(DeleteBehavior.Restrict)
                         .IsRequired();
@@ -1109,8 +1126,8 @@ namespace Alrazi.Migrations
             modelBuilder.Entity("Alrazi.Models.StudentFamilyActivity", b =>
                 {
                     b.HasOne("Alrazi.Models.Student", "Student")
-                        .WithMany()
-                        .HasForeignKey("Id")
+                        .WithOne("StudentFamilyActivity")
+                        .HasForeignKey("Alrazi.Models.StudentFamilyActivity", "Id")
                         .OnDelete(DeleteBehavior.Restrict)
                         .IsRequired();
 
@@ -1120,8 +1137,8 @@ namespace Alrazi.Migrations
             modelBuilder.Entity("Alrazi.Models.StudentFamilyInfo", b =>
                 {
                     b.HasOne("Alrazi.Models.Student", "Student")
-                        .WithMany()
-                        .HasForeignKey("Id")
+                        .WithOne("StudentFamilyInfo")
+                        .HasForeignKey("Alrazi.Models.StudentFamilyInfo", "Id")
                         .OnDelete(DeleteBehavior.Restrict)
                         .IsRequired();
 
@@ -1153,8 +1170,8 @@ namespace Alrazi.Migrations
             modelBuilder.Entity("Alrazi.Models.StudentMedical", b =>
                 {
                     b.HasOne("Alrazi.Models.Student", "Student")
-                        .WithMany()
-                        .HasForeignKey("Id")
+                        .WithOne("StudentMedical")
+                        .HasForeignKey("Alrazi.Models.StudentMedical", "Id")
                         .OnDelete(DeleteBehavior.Restrict)
                         .IsRequired();
 
@@ -1164,8 +1181,8 @@ namespace Alrazi.Migrations
             modelBuilder.Entity("Alrazi.Models.StudentMedicalTest", b =>
                 {
                     b.HasOne("Alrazi.Models.Student", "Student")
-                        .WithMany()
-                        .HasForeignKey("Id")
+                        .WithOne("StudentMedicalTest")
+                        .HasForeignKey("Alrazi.Models.StudentMedicalTest", "Id")
                         .OnDelete(DeleteBehavior.Restrict)
                         .IsRequired();
 
@@ -1186,8 +1203,8 @@ namespace Alrazi.Migrations
             modelBuilder.Entity("Alrazi.Models.StudentMotherMedical", b =>
                 {
                     b.HasOne("Alrazi.Models.Student", "Student")
-                        .WithMany()
-                        .HasForeignKey("Id")
+                        .WithOne("StudentMotherMedical")
+                        .HasForeignKey("Alrazi.Models.StudentMotherMedical", "Id")
                         .OnDelete(DeleteBehavior.Restrict)
                         .IsRequired();
 
@@ -1197,8 +1214,8 @@ namespace Alrazi.Migrations
             modelBuilder.Entity("Alrazi.Models.StudentNote", b =>
                 {
                     b.HasOne("Alrazi.Models.Student", "Student")
-                        .WithMany()
-                        .HasForeignKey("Id")
+                        .WithOne("StudentNote")
+                        .HasForeignKey("Alrazi.Models.StudentNote", "Id")
                         .OnDelete(DeleteBehavior.Restrict)
                         .IsRequired();
 
@@ -1208,8 +1225,8 @@ namespace Alrazi.Migrations
             modelBuilder.Entity("Alrazi.Models.StudentPotentialEnhancer", b =>
                 {
                     b.HasOne("Alrazi.Models.Student", "Student")
-                        .WithMany()
-                        .HasForeignKey("Id")
+                        .WithOne("StudentPotentialEnhancer")
+                        .HasForeignKey("Alrazi.Models.StudentPotentialEnhancer", "Id")
                         .OnDelete(DeleteBehavior.Restrict)
                         .IsRequired();
 
@@ -1219,8 +1236,8 @@ namespace Alrazi.Migrations
             modelBuilder.Entity("Alrazi.Models.StudentPsychologyDevelopment", b =>
                 {
                     b.HasOne("Alrazi.Models.Student", "Student")
-                        .WithMany()
-                        .HasForeignKey("Id")
+                        .WithOne("StudentPsychologyDevelopment")
+                        .HasForeignKey("Alrazi.Models.StudentPsychologyDevelopment", "Id")
                         .OnDelete(DeleteBehavior.Restrict)
                         .IsRequired();
 
@@ -1236,7 +1253,7 @@ namespace Alrazi.Migrations
                         .IsRequired();
 
                     b.HasOne("Alrazi.Models.StudentPsychologyDevelopment", "StudentPsychologyDevelopment")
-                        .WithMany()
+                        .WithMany("StudentPsychologyDevelopmentBehavioralProblems")
                         .HasForeignKey("StudentPsychologyDevelopmentId")
                         .OnDelete(DeleteBehavior.Restrict)
                         .IsRequired();
@@ -1249,8 +1266,8 @@ namespace Alrazi.Migrations
             modelBuilder.Entity("Alrazi.Models.StudentSibling", b =>
                 {
                     b.HasOne("Alrazi.Models.Student", "Student")
-                        .WithMany()
-                        .HasForeignKey("Id")
+                        .WithMany("StudentSiblings")
+                        .HasForeignKey("StudentId")
                         .OnDelete(DeleteBehavior.Restrict)
                         .IsRequired();
 
@@ -1260,8 +1277,8 @@ namespace Alrazi.Migrations
             modelBuilder.Entity("Alrazi.Models.StudentSocialDevelopment", b =>
                 {
                     b.HasOne("Alrazi.Models.Student", "Student")
-                        .WithMany()
-                        .HasForeignKey("Id")
+                        .WithOne("StudentSocialDevelopment")
+                        .HasForeignKey("Alrazi.Models.StudentSocialDevelopment", "Id")
                         .OnDelete(DeleteBehavior.Restrict)
                         .IsRequired();
 
@@ -1288,6 +1305,51 @@ namespace Alrazi.Migrations
             modelBuilder.Entity("Alrazi.Models.Employee", b =>
                 {
                     b.Navigation("EmployeePermissions");
+                });
+
+            modelBuilder.Entity("Alrazi.Models.Student", b =>
+                {
+                    b.Navigation("StudentAutonomy")
+                        .IsRequired();
+
+                    b.Navigation("StudentDevelopment")
+                        .IsRequired();
+
+                    b.Navigation("StudentEducationalualifications");
+
+                    b.Navigation("StudentFamilyActivity")
+                        .IsRequired();
+
+                    b.Navigation("StudentFamilyInfo")
+                        .IsRequired();
+
+                    b.Navigation("StudentMedical")
+                        .IsRequired();
+
+                    b.Navigation("StudentMedicalTest")
+                        .IsRequired();
+
+                    b.Navigation("StudentMotherMedical")
+                        .IsRequired();
+
+                    b.Navigation("StudentNote")
+                        .IsRequired();
+
+                    b.Navigation("StudentPotentialEnhancer")
+                        .IsRequired();
+
+                    b.Navigation("StudentPsychologyDevelopment")
+                        .IsRequired();
+
+                    b.Navigation("StudentSiblings");
+
+                    b.Navigation("StudentSocialDevelopment")
+                        .IsRequired();
+                });
+
+            modelBuilder.Entity("Alrazi.Models.StudentPsychologyDevelopment", b =>
+                {
+                    b.Navigation("StudentPsychologyDevelopmentBehavioralProblems");
                 });
 #pragma warning restore 612, 618
         }

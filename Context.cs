@@ -21,7 +21,7 @@ namespace Alrazi
         public DbSet<StudentAcademic> StudentAcademics { get; set; }
         public DbSet<StudentAutonomy> StudentAutonomies { get; set; }
         public DbSet<StudentDevelopment> StudentDevelopments { get; set; }
-        public DbSet<StudentEducationalَualification> StudentEducationals { get; set; }
+        public DbSet<StudentEducationalualification> StudentEducationals { get; set; }
         public DbSet<StudentFamilyActivity> StudentFamilyActivities { get; set; }
         public DbSet<StudentFamilyInfo> StudentFamilyInfos { get; set; }
         public DbSet<StudentInterests> StudentInterests { get; set; }

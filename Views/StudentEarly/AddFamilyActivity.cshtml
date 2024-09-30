@@ -1,0 +1,80 @@
+﻿@using Alrazi.Tools
+@model StudentFamilyActivity
+@{
+    ViewData["Title"] = "إضافة نشاطات العائلة";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<!-- start page title -->
+<div class="row">
+    <div class="col-12">
+        <div class="page-title-box">
+            <div class="page-title-right">
+                <ol class="breadcrumb m-0">
+                    <li class="breadcrumb-item"><a href="~/Panel">الرئيسية</a></li>
+                    <li class="breadcrumb-item active">إضافة نشاطات العائلة</li>
+                </ol>
+            </div>
+            <h4 class="page-title">إضافة نشاطات العائلة</h4>
+        </div>
+    </div>
+</div>
+<!-- end page title -->
+
+<div class="row">
+    <div class="col-xl-12">
+        <div class="card">
+            <div class="card-body">
+                <h4 class="header-title mb-3"> نشاطات العائلة</h4>
+                <form method="post">
+                    <div class="row">
+                        <div class="col-12">
+                            <div class="row">
+                                <div class="col-6">
+                                    <label class=" col-form-label" for="RelationshipParents">@(DataTypeExtention.GetDisplayName<StudentFamilyActivity>("RelationshipParents"))</label>
+                                    <div class="col-md-9">
+                                        <input type="text" required class="form-control" id="RelationshipParents" name="RelationshipParents" value="@Model.RelationshipParents">
+                                    </div>
+                                </div>
+                                <div class="col-6">
+                                    <label class=" col-form-label" for="RelationshipSiblings">@(DataTypeExtention.GetDisplayName<StudentFamilyActivity>("RelationshipSiblings"))</label>
+                                    <div class="col-md-9">
+                                        <input type="text" required class="form-control" id="RelationshipSiblings" name="RelationshipSiblings" value="@Model.RelationshipSiblings">
+                                    </div>
+                                </div>
+                                <div class="col-6">
+                                    <label class=" col-form-label" for="FamilyVisits">@(DataTypeExtention.GetDisplayName<StudentFamilyActivity>("FamilyVisits"))</label>
+                                    <div class="col-md-9">
+                                        <input type="text" required class="form-control" id="FamilyVisits" name="FamilyVisits" value="@Model.FamilyVisits">
+                                    </div>
+                                </div>
+                                <div class="col-6">
+                                    <label class=" col-form-label" for="WatchingTV">@(DataTypeExtention.GetDisplayName<StudentFamilyActivity>("WatchingTV"))</label>
+                                    <div class="col-md-9">
+                                        <input type="text" required class="form-control" id="WatchingTV" name="WatchingTV" value="@Model.WatchingTV">
+                                    </div>
+                                </div>
+                                <div class="col-6">
+                                    <label class=" col-form-label" for="InteractCelebrations">@(DataTypeExtention.GetDisplayName<StudentFamilyActivity>("InteractCelebrations"))</label>
+                                    <div class="col-md-9">
+                                        <input type="text" required class="form-control" id="InteractCelebrations" name="InteractCelebrations" value="@Model.InteractCelebrations">
+                                    </div>
+                                </div>
+                                <div class="col-6">
+                                    <label class=" col-form-label" for="HandlingMoney">@(DataTypeExtention.GetDisplayName<StudentFamilyActivity>("HandlingMoney"))</label>
+                                    <div class="col-md-9">
+                                        <input type="text" required class="form-control" id="HandlingMoney" name="HandlingMoney" value="@Model.HandlingMoney">
+                                    </div>
+                                </div>
+
+                                <div style="padding-top:20px">
+                                    <button type="submit" class="btn btn-primary">التالي</button>
+                                </div>
+                            </div>
+                        </div> <!-- end col -->
+                    </div> <!-- end row -->
+                </form>
+            </div> <!-- end card-body -->
+        </div> <!-- end card-->
+    </div> <!-- end col -->
+</div>

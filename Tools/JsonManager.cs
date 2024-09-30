@@ -26,5 +26,10 @@ namespace Alrazi.Tools
         {
             return JsonConvert.DeserializeObject<T>(json);
         }
+
+        public static string ConvertToString(object obj)
+        {
+            return JsonConvert.SerializeObject(obj);
+        }
     }
 }

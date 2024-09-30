@@ -55,5 +55,12 @@ namespace Alrazi.Controllers
             return View();
         }
 
+        [HttpGet("Logout")]
+        public IActionResult Logout()
+        {
+            HttpContext.Session.Clear();
+            return Redirect("~/Login");
+        }
+
     }
 }

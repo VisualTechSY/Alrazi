@@ -62,35 +62,20 @@
                                     </div>
                                 </div>
                             </div>
-                            
                             <div class="row ">
                                 <div class="col-4">
-                                    <label class="col-md-3 col-form-label" for="StudyStateDate">تاريخ دراسة الحالة</label>
+                                    <label class="col-md-3 col-form-label" for="StateNumber">رقم دراسة الحالة</label>
                                     <div class="col-md-9">
-                                        <input type="date" required class="form-control" id="StudyStateDate" name="StudyStateDate" onblur="getAgeDateTime()" value="@DataTypeExtention.GetStringFromDate(Model.StudyStateDate)">
+                                        <input type="text" required class="form-control" id="StateNumber" name="StateNumber" value="@Model.StateNumber">
                                     </div>
                                 </div>
                                 <div class="col-4">
-                                    <label class="col-md-3 col-form-label" for="BirthDate">تاريخ الميلاد</label>
+                                    <label class="col-md-3 col-form-label" for="AccessDate">تاريخ دراسة الحالة</label>
                                     <div class="col-md-9">
-                                        <input type="date" required class="form-control" id="BirthDate" name="BirthDate" onblur="getAgeDateTime()" value="@DataTypeExtention.GetStringFromDate(Model.BirthDate)">
+                                        <input type="date" required class="form-control" id="AccessDate" name="AccessDate" value="@DataTypeExtention.GetStringFromDate(Model.AccessDate)">
                                     </div>
                                 </div>
                                 <div class="col-4">
-                                    <label class="col-md-3 col-form-label" for="AgeTimeDate">العمر الزمني</label>
-                                    <div class="col-md-9">
-                                        <input type="text" disabled class="form-control" id="AgeTimeDate" >
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="row ">
-                                <div class="col-6">
-                                    <label class="col-md-3 col-form-label" for="BirthPlace">مكان الميلاد</label>
-                                    <div class="col-md-9">
-                                        <input type="text" required class="form-control" id="BirthPlace" name="BirthPlace" value="@Model.BirthPlace">
-                                    </div>
-                                </div>
-                                <div class="col-6">
                                     <label class="col-md-3 col-form-label" for="IsMale">الجنس</label>
                                     <div class="col-md-9">
                                         <select class="form-control" id="IsMale" name="IsMale">
@@ -105,6 +90,26 @@
                                                 <option selected value="False">أنثى</option>
                                             }
                                         </select>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row ">
+                                <div class="col-4">
+                                    <label class="col-md-3 col-form-label" for="BirthPlace">مكان الميلاد</label>
+                                    <div class="col-md-9">
+                                        <input type="text" required class="form-control" id="BirthPlace" name="BirthPlace" value="@Model.BirthPlace">
+                                    </div>
+                                </div>
+                                <div class="col-4">
+                                    <label class="col-md-3 col-form-label" for="BirthDate">تاريخ الميلاد</label>
+                                    <div class="col-md-9">
+                                        <input type="date" required class="form-control" id="BirthDate" name="BirthDate" value="@DataTypeExtention.GetStringFromDate(Model.BirthDate)">
+                                    </div>
+                                </div>
+                                <div class="col-4">
+                                    <label class="col-md-3 col-form-label" for="AgeTimeDate">العمر الزمني</label>
+                                    <div class="col-md-9">
+                                        <input type="date" required class="form-control" id="AgeTimeDate" >
                                     </div>
                                 </div>
                             </div>
@@ -190,45 +195,3 @@
         </div> <!-- end card-->
     </div> <!-- end col -->
 </div>
-
-@* <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.7.1/jquery.min.js" integrity="sha512-v2CJ7UaYy4JwqLDIrZUI/4hqeoQieOmAZNXBeQyjo21dadnwR+8ZaIJVT8EE2iyI61OV8e6M8PP2/4hpQINQ/g==" crossorigin="anonymous" referrerpolicy="no-referrer"></script> *@
-<script>
-
-    document.addEventListener('DOMContentLoaded', function () {
-        getAgeDateTime();
-    });
-
-    function getAgeDateTime() {
-
-        var birthDate = $("#BirthDate").val();
-        var studyStateDate = $("#StudyStateDate").val();
-        if (birthDate == '' || studyStateDate == '')
-        {
-            $("#AgeTimeDate").val('');
-            return;
-        }
-
-
-        const birthdate = new Date(birthDate);
-        const currentDate = new Date(studyStateDate);
-
-        let ageYears = currentDate.getFullYear() - birthdate.getFullYear();
-        let ageMonths = currentDate.getMonth() - birthdate.getMonth();
-        let ageDays = currentDate.getDate() - birthdate.getDate();
-
-        if (ageDays < 0) {
-            ageMonths--;
-            ageDays += new Date(currentDate.getFullYear(), currentDate.getMonth(), 0).getDate();
-        }
-
-        if (ageMonths < 0) {
-            ageYears--;
-            ageMonths += 12;
-        }
-
-        var str = `العام : ${ageYears} - الشهر : ${ageMonths} - اليوم ${ageDays}`;
-
-        $("#AgeTimeDate").val(str);
-    }
-
-</script>

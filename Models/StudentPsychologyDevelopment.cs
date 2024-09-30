@@ -1,4 +1,5 @@
-﻿using System.ComponentModel.DataAnnotations.Schema;
+﻿using System.ComponentModel;
+using System.ComponentModel.DataAnnotations.Schema;
 
 namespace Alrazi.Models
 {
@@ -7,12 +8,19 @@ namespace Alrazi.Models
         [ForeignKey("Student")]
         public int Id { get; set; }
         public Student Student { get; set; }
-        public string OutputOperations { get; set; }
-        public string SleepProblems { get; set; }
-        public string HyperActivity { get; set; }
-        public string Seizures { get; set; }
-        public string LanguageProblems { get; set; }
+        [DisplayName("هل يضبط عملية الإخراج")]
+        public bool OutputOperations { get; set; }
+        [DisplayName("هل هنالك مشاكل في النوم")]
+        public bool SleepProblems { get; set; }
+        [DisplayName("هل لدى الطفل نشاط زائد")]
+        public bool HyperActivity { get; set; }
+        [DisplayName("هل يعاني من نوبات اختلاجية")]
+        public bool Seizures { get; set; }
+        [DisplayName("هل هنالك مشاكل نطقية أو لغوية")]
+        public bool LanguageProblems { get; set; }
+        [DisplayName("هل هنالك مشاكل أخرى")]
         public string OtherProblems { get; set; }
+        public List<StudentPsychologyDevelopmentBehavioralProblem> StudentPsychologyDevelopmentBehavioralProblems { get; set; }
 
         //LD
         public string? EatProblems { get; set; }

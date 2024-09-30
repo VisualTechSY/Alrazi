@@ -1,0 +1,80 @@
+﻿@using Alrazi.Tools
+@model StudentSocialDevelopment
+@{
+    ViewData["Title"] = "إضافة النمو الاجتماعي والانفعالي للطفل";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<!-- start page title -->
+<div class="row">
+    <div class="col-12">
+        <div class="page-title-box">
+            <div class="page-title-right">
+                <ol class="breadcrumb m-0">
+                    <li class="breadcrumb-item"><a href="~/Panel">الرئيسية</a></li>
+                    <li class="breadcrumb-item active">إضافة النمو الاجتماعي والانفعالي للطفل</li>
+                </ol>
+            </div>
+            <h4 class="page-title">إضافة النمو الاجتماعي والانفعالي للطفل</h4>
+        </div>
+    </div>
+</div>
+<!-- end page title -->
+
+<div class="row">
+    <div class="col-xl-12">
+        <div class="card">
+            <div class="card-body">
+                <h4 class="header-title mb-3"> النمو الاجتماعي والانفعالي للطفل</h4>
+                <form method="post">
+                    <div class="row">
+                        <div class="col-12">
+                            <div class="row">
+                                <div class="col-6">
+                                    <label class=" col-form-label" for="VisualCommunication">@(DataTypeExtention.GetDisplayName<StudentSocialDevelopment>("VisualCommunication"))</label>
+                                    <div class="col-md-9">
+                                        <input type="text" required class="form-control" id="VisualCommunication" name="VisualCommunication" value="@Model.VisualCommunication">
+                                    </div>
+                                </div>
+                                <div class="col-6">
+                                    <label class=" col-form-label" for="IntentionalCommunication">@(DataTypeExtention.GetDisplayName<StudentSocialDevelopment>("IntentionalCommunication"))</label>
+                                    <div class="col-md-9">
+                                        <input type="text" required class="form-control" id="IntentionalCommunication" name="IntentionalCommunication" value="@Model.VisualCommunication">
+                                    </div>
+                                </div>
+                                <div class="col-6">
+                                    <label class=" col-form-label" for="FacialExpressions">@(DataTypeExtention.GetDisplayName<StudentSocialDevelopment>("FacialExpressions"))</label>
+                                    <div class="col-md-9">
+                                        <input type="text" required class="form-control" id="FacialExpressions" name="FacialExpressions" value="@Model.FacialExpressions">
+                                    </div>
+                                </div>
+                                <div class="col-6">
+                                    <label class=" col-form-label" for="Play">@(DataTypeExtention.GetDisplayName<StudentSocialDevelopment>("Play"))</label>
+                                    <div class="col-md-9">
+                                        <input type="text" required class="form-control" id="Play" name="Play" value="@Model.Play">
+                                    </div>
+                                </div>
+                                <div class="col-6">
+                                    <label class=" col-form-label" for="Interaction">@(DataTypeExtention.GetDisplayName<StudentSocialDevelopment>("Interaction"))</label>
+                                    <div class="col-md-9">
+                                        <input type="text" required class="form-control" id="Interaction" name="Interaction" value="@Model.Interaction">
+                                    </div>
+                                </div>
+                                <div class="col-6">
+                                    <label class=" col-form-label" for="ChildRelationships">@(DataTypeExtention.GetDisplayName<StudentSocialDevelopment>("ChildRelationships"))</label>
+                                    <div class="col-md-9">
+                                        <input type="text" required class="form-control" id="ChildRelationships" name="ChildRelationships" value="@Model.ChildRelationships">
+                                    </div>
+                                </div>
+
+                                <div style="padding-top:20px">
+                                    <button type="submit" class="btn btn-primary">التالي</button>
+                                </div>
+                            </div>
+                        </div> <!-- end col -->
+                    </div> <!-- end row -->
+                </form>
+            </div> <!-- end card-body -->
+        </div> <!-- end card-->
+    </div> <!-- end col -->
+</div>

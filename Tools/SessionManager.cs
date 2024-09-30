@@ -1,5 +1,6 @@
 ﻿using Alrazi.Enums;
 using Alrazi.Models;
+using Microsoft.AspNetCore.Http;
 
 namespace Alrazi.Tools
 {
@@ -26,5 +27,19 @@ namespace Alrazi.Tools
         {
             httpContext.Session.Clear();
         }
+
+        public static void CreateStudent(this HttpContext httpContext , object data , StudentStatus studentStatus)
+        {
+            httpContext.Session.SetString(studentStatus.ToString(), JsonManager.ConvertToString(data));
+        }
+
+        public static T GetStudent<T>(this HttpContext httpContext , StudentStatus studentStatus)
+        {
+            var getData = httpContext.Session.GetString(studentStatus.ToString());
+            if (string.IsNullOrWhiteSpace(getData))
+                return Activator.CreateInstance<T>();
+            return JsonManager.ConvertToObject<T>(getData);
+        }
+
     }
 }

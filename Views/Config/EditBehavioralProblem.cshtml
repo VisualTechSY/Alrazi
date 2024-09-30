@@ -1,0 +1,62 @@
+﻿@model BehavioralProblem
+@{
+    ViewData["Title"] = "تعديل مشكلة سلوكية";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<!-- start page title -->
+<div class="row">
+    <div class="col-12">
+        <div class="page-title-box">
+            <div class="page-title-right">
+                <ol class="breadcrumb m-0">
+                    <li class="breadcrumb-item"><a href="~/Panel">الرئيسية</a></li>
+                    <li class="breadcrumb-item"><a href="~/Get-Behavioral-Problems">استعراض المشاكل السلوكية</a></li>
+                    <li class="breadcrumb-item active">تعديل مشكلة سلوكية</li>
+                </ol>
+            </div>
+            <h4 class="page-title">تعديل مشكلة سلوكية</h4>
+        </div>
+    </div>
+</div>
+<!-- end page title -->
+
+
+<div class="row">
+    <div class="col-12">
+        <div class="card">
+            <div class="card-body">
+                <form method="post" action="~/Edit-Behavioral-Problem">
+                    <input type="hidden" name="id" value="@Model.Id" />
+                    @if (!string.IsNullOrWhiteSpace(ViewBag.Message))
+                    {
+                        @if (ViewBag.Done)
+                        {
+                            <p style="color:green">@ViewBag.Message</p>
+                        }
+                        else
+                        {
+                            <p style="color:red">@ViewBag.Message</p>
+                        }
+                    }
+                    <div class="mb-3">
+                        <label for="name" class="form-label">اسم المشكلة</label>
+                        <input type="text" value="@Model.Name" id="name" required name="name" class="form-control" placeholder="اسم المشكلة">
+                    </div>
+
+                    <div style="padding-top:20px">
+                        <button type="submit" class="btn btn-primary">تعديل</button>
+                        @if (Model.IsActive)
+                        {
+                            <a href="~/ChangeBehavioralProblemState/@Model.Id" class="btn btn-danger">الغاء تفعيل</a>
+                        }
+                        else
+                        {
+                            <a href="~/ChangeBehavioralProblemState/@Model.Id" class="btn btn-success">تفعيل</a>
+                        }
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>

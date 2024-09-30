@@ -197,5 +197,60 @@ namespace Alrazi.Controllers
             await configService.UpdateConfigs(configs.ToArray());
             return View(await configService.GetConfigs());
         }
+
+        [HttpGet("Get-Behavioral-Problems")]
+        public async Task<IActionResult> GetBehavioralProblems()
+        {
+            if (!HttpContext.HasSession())
+                return RedirectToAction("Index");
+            return View(await configService.GetBehavioralProblems());
+        }
+
+        [HttpGet("Add-Behavioral-Problem")]
+        public IActionResult AddBehavioralProblem()
+        {
+            if (!HttpContext.HasSession())
+                return RedirectToAction("Index");
+            return View();
+        }
+
+        [HttpPost("Add-Behavioral-Problem")]
+        public async Task<IActionResult> AddBehavioralProblem(string name)
+        {
+            if (!HttpContext.HasSession())
+                return RedirectToAction("Index");
+            var data = await configService.AddBehavioralProblem(name);
+            ViewBag.Done = data.Item1;
+            ViewBag.Message = data.Item2;
+            return View();
+        }
+
+        [HttpGet("Edit-Behavioral-Problem/{id}")]
+        public async Task<IActionResult> EditBehavioralProblem(int id)
+        {
+            if (!HttpContext.HasSession())
+                return RedirectToAction("Index");
+            return View(await configService.GetBehavioralProblemById(id));
+        }
+
+        [HttpPost("Edit-Behavioral-Problem")]
+        public async Task<IActionResult> EditBehavioralProblem(int id, string name)
+        {
+            if (!HttpContext.HasSession())
+                return RedirectToAction("Index");
+            var data = await configService.EditBehavioralProblem(id, name);
+            ViewBag.Done = data.Item1;
+            ViewBag.Message = data.Item2;
+            return View(await configService.GetBehavioralProblemById(id));
+        }
+
+        [HttpGet("ChangeBehavioralProblemState/{id}")]
+        public async Task<IActionResult> ChangeBehavioralProblemState(int id)
+        {
+            if (!HttpContext.HasSession())
+                return RedirectToAction("Index");
+            await configService.ChangeBehavioralProblemState(id);
+            return Redirect("~/Edit-Behavioral-Problem/" + id);
+        }
     }
 }

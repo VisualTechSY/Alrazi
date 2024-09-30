@@ -1,0 +1,132 @@
+﻿@model List<StudentEducationalualification>
+@{
+    ViewData["Title"] = "إضافة التأهيل التربوي";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<!-- start page title -->
+<div class="row">
+    <div class="col-12">
+        <div class="page-title-box">
+            <div class="page-title-right">
+                <ol class="breadcrumb m-0">
+                    <li class="breadcrumb-item"><a href="~/Panel">الرئيسية</a></li>
+                    <li class="breadcrumb-item active">إضافة التأهيل التربوي</li>
+                </ol>
+            </div>
+            <h4 class="page-title">إضافة التأهيل التربوي</h4>
+        </div>
+    </div>
+</div>
+<!-- end page title -->
+
+<div class="row">
+    <div class="col-xl-12">
+        <div class="card">
+            <div class="card-body">
+                <h4 class="header-title mb-3"> معلومات التأهيل التربوي</h4>
+                <form method="post">
+                    <div class="row">
+                        <div class="col-12">
+                            <div class="row">
+
+                                <table class="table table-centered mb-0">
+                                    <thead class="table-dark">
+                                        <tr>
+                                            <th>اسم المركز</th>
+                                            <th>التشخيص</th>
+                                            <th>الأخصائي</th>
+                                            <th>التأهيل</th>
+                                            <th>محاور التأهيل</th>
+                                            <th>المدة الزمنية</th>
+                                            <th></th>
+                                        </tr>
+                                    </thead>
+                                    <tr>
+                                        <td>
+                                            <input type="text" id="CenterName" class="form-control" />
+                                        </td>
+                                        <td>
+                                            <input type="text" id="Diagnosis" class="form-control" />
+                                        </td>
+                                        <td>
+                                            <input type="text" class="form-control" id="Specialist" />
+                                        </td>
+                                        <td>
+                                            <input type="text" class="form-control" id="Rehabilitation" />
+                                        </td>
+                                        <td>
+                                            <input type="text" class="form-control" id="RehabilitationAxes" />
+                                        </td>
+                                        <td>
+                                            <input type="text" class="form-control" id="Duration" />
+                                        </td>
+                                        <td>
+                                            <a href="#" onclick="AddRecord()">إضافة</a>
+                                        </td>
+                                    </tr>
+                                    <tbody id="tblData">
+                                        @foreach (var item in Model)
+                                        {
+                                            <tr>
+                                                <td>@item.CenterName</td>
+                                                <td>@item.Diagnosis</td>
+                                                <td>@item.Specialist</td>
+                                                <td>@item.Rehabilitation</td>
+                                                <td>@item.RehabilitationAxes</td>
+                                                <td>@item.Duration</td>
+                                                <td>
+                                                    <a href="#" onclick="RemoveRecord('@item.UId')" class="action-icon"> <i class="mdi mdi-delete"></i></a>
+                                                </td>
+                                            </tr>
+                                        }
+                                    </tbody>
+                                </table>
+
+                                <div style="padding-top:20px">
+                                    <button type="submit" class="btn btn-primary">التالي</button>
+                                </div>
+
+                            </div>
+                        </div> <!-- end col -->
+                    </div> <!-- end row -->
+                </form>
+            </div> <!-- end card-body -->
+        </div> <!-- end card-->
+    </div> <!-- end col -->
+</div>
+
+<script>
+    function AddRecord() {
+        var CenterName = $("#CenterName").val();
+        var Diagnosis = $("#Diagnosis").val();
+        var Specialist = $("#Specialist").val();
+        var Rehabilitation = $("#Rehabilitation").val();
+        var RehabilitationAxes = $("#RehabilitationAxes").val();
+        var Duration = $("#Duration").val();
+
+        $.ajax({
+            type: 'POST',
+            url: '/AddStudentEducationalualification',
+            data: { CenterName: CenterName, Diagnosis: Diagnosis, Specialist: Specialist, Rehabilitation: Rehabilitation,
+                RehabilitationAxes: RehabilitationAxes, Duration: Duration
+            },
+            success: function (result) {
+                location.reload();
+            }
+        });
+
+    }
+
+    function RemoveRecord(id) {
+        $.ajax({
+            type: 'POST',
+            url: '/DeleteStudentEducationalualification',
+            data: { id: id },
+            success: function (result) {
+                location.reload();
+            }
+        });
+    }
+
+</script>

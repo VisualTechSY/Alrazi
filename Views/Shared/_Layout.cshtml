@@ -95,7 +95,7 @@
                     <li class="dropdown">
                         <a class="nav-link dropdown-toggle arrow-none nav-user px-2" data-bs-toggle="dropdown" href="#" role="button" aria-haspopup="false" aria-expanded="false">
                             <span class="account-user-avatar">
-                                <img src="~/assets/images/users/avatar-1.jpg" alt="user-image" width="32" class="rounded-circle">
+                                <img src="@Context.Session.GetString("Picture")" alt="user-image" width="32" class="rounded-circle">
                             </span>
                             <span class="d-lg-flex flex-column gap-1 d-none">
                                 <h5 class="my-0">علاء الخوام</h5>
@@ -114,7 +114,7 @@
                             </a>
 
                             <!-- item-->
-                            <a href="javascript:void(0);" class="dropdown-item">
+                            <a href="~/Logout" class="dropdown-item">
                                 <i class="mdi mdi-logout me-1"></i>
                                 <span>تسجيل الخروج</span>
                             </a>
@@ -141,6 +141,8 @@
                                     <a href="~/Get-Diagnoses" class="dropdown-item">التشخيصات</a>
                                     <a href="~/Add-Nationality" class="dropdown-item">إضافة جنسية</a>
                                     <a href="~/Get-Nationalities" class="dropdown-item">الجنسيات</a>
+                                    <a href="~/Add-Behavioral-Problem" class="dropdown-item">إضافة مشكلة سلوكية</a>
+                                    <a href="~/Get-Behavioral-Problems" class="dropdown-item">المشاكل السلوكية</a>
                                     <a href="~/Manage-Configs" class="dropdown-item">إعدادات النظام</a>
                                 </div>
                             </li>
@@ -157,7 +159,7 @@
                                     <i class="uil-copy-alt"></i>التقارير <div class="arrow-down"></div>
                                 </a>
                                 <div class="dropdown-menu" aria-labelledby="topnav-dashboards">
-                                    <a href="dashboard-analytics.html" class="dropdown-item">Analytics</a>
+                                    <a href="#" class="dropdown-item">Analytics</a>
                                 </div>
                             </li>
                             <li class="nav-item dropdown">
@@ -217,12 +219,6 @@
 
     <!-- Vendor js -->
     <script src="~/assets/js/vendor.min.js"></script>
-
-    <!-- Bootstrap Wizard Form js -->
-    <script src="~/assets/vendor/twitter-bootstrap-wizard/jquery.bootstrap.wizard.min.js"></script>
-
-    <!-- Wizard Form Demo js -->
-    <script src="~/assets/js/pages/demo.form-wizard.js"></script>
 
     <!-- App js -->
     <script src="~/assets/js/app.min.js"></script>
