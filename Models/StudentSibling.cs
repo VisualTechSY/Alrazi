@@ -13,6 +13,9 @@ namespace Alrazi.Models
         public DateTime BirthDate { get; set; }
         public string StudyLevel { get; set; }
 
+        //LD
+        public string? HealthStatus { get; set; }
+
         [NotMapped]
         public Guid UId { get; set; } = Guid.NewGuid();
     }

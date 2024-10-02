@@ -1,4 +1,5 @@
-﻿@using Alrazi.Tools
+﻿@using Alrazi.Enums
+@using Alrazi.Tools
 @model StudentFamilyInfo
 @{
     ViewData["Title"] = "معلومات عامة عن العائلة";
@@ -84,12 +85,55 @@
                                         <input type="text" class="form-control" id="FatherAndMotherDegree" name="FatherAndMotherDegree" value="@Model.FatherAndMotherDegree">
                                     </div>
                                 </div>
-                                <div class="col-6">
-                                    <label class=" col-form-label" for="MotherAtBirthYear">عمر الأم عند الإنجاب</label>
-                                    <div class="col-md-9">
-                                        <input type="number" class="form-control" id="MotherAtBirthYear" name="MotherAtBirthYear" value="@Model.GetMotherAtBirthYear">
+                                @if (ViewBag.StudentType == StudentType.StudentEarly)
+                                {                                  
+                                    <div class="col-6">
+                                        <label class=" col-form-label" for="MotherAtBirthYear">عمر الأم عند الإنجاب</label>
+                                        <div class="col-md-9">
+                                            <input type="number" class="form-control" id="MotherAtBirthYear" name="MotherAtBirthYear" value="@Model.GetMotherAtBirthYear">
+                                        </div>
                                     </div>
-                                </div>
+                                }
+                                else if (ViewBag.StudentType == StudentType.StudentLearningDifficulties)
+                                {
+                                    <div class="col-6">
+                                        <label class=" col-form-label" for="SeparatedParents">هل الأبوين منفصلين</label>
+                                        <div class="col-md-9">
+
+                                            <select class="form-control">
+                                                @if (@Model.SeparatedParents ==true)
+                                                {
+                                                    <option value="1" selected>نعم</option>
+                                                    <option value="0">لا</option>
+                                                }
+                                                else
+                                                {
+                                                    <option value="1">نعم</option>
+                                                    <option value="0"selected>لا</option>
+                                                }
+                                            </select>
+                                        </div>
+                                    </div>
+
+                                    <div class="col-6">
+                                        <label class=" col-form-label" for="ChildResidence">مع من يقيم الطفل.</label>
+                                        <div class="col-md-9">
+                                                <select class="form-control">
+                                                    @foreach (ChildResidence item in (ChildResidence[])Enum.GetValues(typeof(ChildResidence)))
+                                                    {                                                      
+                                                        @if (Model.ChildResidence==item)
+                                                        {
+                                                            <option value="@item" selected>@ChildResidenceManager.GetArabic(item)</option>
+                                                        }
+                                                        else
+                                                        {
+                                                            <option value="@item">@ChildResidenceManager.GetArabic(item)</option>
+                                                        }
+                                                    }
+                                                </select>
+                                        </div>
+                                    </div>
+                                }
                                 <div class="col-6">
                                     <label class=" col-form-label">هل يعاني أحد الأبوين من الأمراض</label>
                                     <div class="col-md-9">

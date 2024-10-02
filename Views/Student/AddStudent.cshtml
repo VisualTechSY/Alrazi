@@ -150,30 +150,50 @@
                             </div>
                             <div class="row ">
                                 <div class="col-6">
-                                    <label class="col-md-3 col-form-label" for="DiagnosisId">تشخيص المحول</label>
-                                    <div class="col-md-9">
-                                        <select required class="form-control" required id="DiagnosisId" name="DiagnosisId">
-                                            @foreach (var item in ViewData["Diagnoses"] as List<Diagnosis>)
-                                            {
-                                                @if (item.Id == Model.DiagnosisId)
-                                                {
-                                                    <option selected value="@item.Id">@item.Name</option>
-                                                }
-                                                else
-                                                {
-                                                    <option value="@item.Id">@item.Name</option>
-                                                }
-                                            }
-                                        </select>
-                                    </div>
-                                </div>
-                                <div class="col-6">
                                     <label class="col-md-3 col-form-label" for="DiagnosisNumber">هاتف الجهة المحولة</label>
                                     <div class="col-md-9">
                                         <input type="text" required class="form-control" id="DiagnosisNumber" name="DiagnosisNumber" value="@Model.DiagnosisNumber">
                                     </div>
                                 </div>
+                                <div class="col-6">
+                                </div>
                             </div>
+
+                            <div class="col-6">
+                                <label class="col-md-3 col-form-label" for="DiagnosisId">تشخيص المحول</label>
+                                <div class="col-md-9">
+                                    <select required class="form-control" required id="DiagnosisId" name="DiagnosisId">
+                                        @foreach (var item in ViewData["Diagnoses"] as List<Diagnosis>)
+                                        {
+                                            @if (item.Id == Model.DiagnosisId)
+                                            {
+                                                <option selected value="@item.Id">@item.Name</option>
+                                            }
+                                            else
+                                            {
+                                                <option value="@item.Id">@item.Name</option>
+                                            }
+                                        }
+                                    </select>
+                                </div>
+                            </div>
+
+                            <div class="row">
+                                <div class="col-6">
+                                    <label class="col-md-3 col-form-label" for="SchoolName">اسم المدرسة</label>
+                                    <div class="col-md-9">
+                                        <input type="text" required class="form-control" id="SchoolName" name="SchoolName" value="@Model.SchoolName">
+                                    </div>
+                                </div>
+                                <div class="col-6">
+                                    <label class="col-md-3 col-form-label" for="Class">الصف</label>
+                                    <div class="col-md-9">
+                                        <input type="text" required class="form-control" id="Class" name="Class" value="@Model.Class">
+                                    </div>
+                                </div>
+                            </div>
+
+
                             <div class="row ">
                                 <div class="col-11">
                                     <label class="col-md-6 col-form-label" for="FamilyBio">ملخص المشكلة الحالة (نوعها وأعراضها) كما يرويها ولي الأمر</label>
@@ -229,6 +249,7 @@
         var str = `العام : ${ageYears} - الشهر : ${ageMonths} - اليوم ${ageDays}`;
 
         $("#AgeTimeDate").val(str);
+
     }
 
 </script>

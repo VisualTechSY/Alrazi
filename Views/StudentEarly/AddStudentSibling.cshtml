@@ -1,4 +1,5 @@
-﻿@using Alrazi.Tools
+﻿@using Alrazi.Enums
+@using Alrazi.Tools
 @model List<StudentSibling>
 @{
     ViewData["Title"] = "معلومات الأشقاء";
@@ -38,6 +39,10 @@
                                             <th>الاسم</th>
                                             <th>الجنس</th>
                                             <th>العمر</th>
+                                            @if(ViewBag.StudentType==StudentType.StudentLearningDifficulties)
+                                            {
+                                                <th>الحالة الصحية</th>
+                                            }
                                             <th>المستوى التعليمي</th>
                                             <th></th>
                                        </tr>
@@ -58,6 +63,16 @@
                                         <td>
                                             <input type="number" class="form-control" id="age" />
                                         </td>
+                                        @if (ViewBag.StudentType == StudentType.StudentLearningDifficulties)
+                                        {
+                                        <td>
+                                            <input type="text" class="form-control" id="healthStatus" />
+                                            </td>
+                                        }
+                                        else
+                                        {
+                                            <input type="hidden" class="form-control" id="healthStatus" value="" />
+                                        }
                                         <td>
                                             <input type="text" class="form-control" id="level" />
                                         </td>
@@ -82,6 +97,12 @@
                                                 <td>
                                                     @(DateTime.Now.Year - item.BirthDate.Year)
                                                 </td>
+                                                @if (ViewBag.StudentType == StudentType.StudentLearningDifficulties)
+                                                {
+                                                <td>
+                                                    @item.HealthStatus
+                                                </td>
+                                                }
                                                 <td>@item.StudyLevel</td>
                                                 <td>
                                                     <a href="#" onclick="RemoveRecord('@item.UId')" class="action-icon"> <i class="mdi mdi-delete"></i></a>
@@ -111,11 +132,12 @@
         var name = $("#name").val();
         var isMale = $("#isMale").val();
         var age = $("#age").val();
+        var healthStatus = $("#healthStatus").val();
 
         $.ajax({
             type: 'POST',
             url: '/AddSiblingRecord',
-            data: { order: order, name: name, isMale: isMale, age:age , level:level },
+            data: { order: order, name: name, isMale: isMale, age: age, level: level, healthStatus:healthStatus },
             success: function (result) {
                 location.reload();
             }

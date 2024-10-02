@@ -1,6 +1,5 @@
 ﻿using Alrazi.Enums;
 using Alrazi.Models;
-using Microsoft.AspNetCore.Http;
 
 namespace Alrazi.Tools
 {
@@ -8,12 +7,12 @@ namespace Alrazi.Tools
     {
         public static bool HasSession(this HttpContext httpContext) => httpContext.Session.GetInt32("Id").HasValue;
         public static int GetMyId(this HttpContext httpContext) => httpContext.Session.GetInt32("Id").Value;
-        public static bool HasPermission(this HttpContext httpContext , Permission permission) => httpContext.Session.GetInt32(permission.ToString()).HasValue;
+        public static bool HasPermission(this HttpContext httpContext, Permission permission) => httpContext.Session.GetInt32(permission.ToString()).HasValue;
         public static string GetMyPicture(this HttpContext httpContext) => httpContext.Session.GetString("Picture");
         public static string GetMyName(this HttpContext httpContext) => httpContext.Session.GetString("FullName");
 
 
-        public static void SetSession(this HttpContext httpContext , Account account)
+        public static void SetSession(this HttpContext httpContext, Account account)
         {
             httpContext.Session.SetInt32("Id", account.Id);
             httpContext.Session.SetString("FullName", account.Employee.FullName);
@@ -28,17 +27,28 @@ namespace Alrazi.Tools
             httpContext.Session.Clear();
         }
 
-        public static void CreateStudent(this HttpContext httpContext , object data , StudentStatus studentStatus)
+        public static void CreateStudent(this HttpContext httpContext, object data, StudentStatus studentStatus)
         {
             httpContext.Session.SetString(studentStatus.ToString(), JsonManager.ConvertToString(data));
         }
 
-        public static T GetStudent<T>(this HttpContext httpContext , StudentStatus studentStatus)
+        public static T GetStudent<T>(this HttpContext httpContext, StudentStatus studentStatus)
         {
             var getData = httpContext.Session.GetString(studentStatus.ToString());
             if (string.IsNullOrWhiteSpace(getData))
                 return Activator.CreateInstance<T>();
             return JsonManager.ConvertToObject<T>(getData);
+        }
+        public static void SetStudentType(this HttpContext httpContext, StudentType studentType)
+        {
+            httpContext.Session.SetString("studentType", Enum.GetName(studentType));
+        }
+        public static StudentType GetStudentType(this HttpContext httpContext)
+        {
+            var val = httpContext.Session.GetString("studentType");
+            if (string.IsNullOrWhiteSpace(val))
+                return StudentType.none;
+            return (StudentType)Enum.Parse(typeof(StudentType), val);
         }
 
     }
