@@ -1,4 +1,5 @@
-﻿@using Alrazi.Tools
+﻿@using Alrazi.Enums
+@using Alrazi.Tools
 @model StudentMedical
 @{
     ViewData["Title"] = "إضافة التاريخ الطبي للطفل";
@@ -81,13 +82,47 @@
                                         </select>
                                     </div>
                                 </div>
-                                <div class="col-6">
-                                    <label class=" col-form-label" for="Tests">@(DataTypeExtention.GetDisplayName<StudentMedical>("Tests"))</label>
-                                    <div class="col-md-9">
-                                        <input type="text" required class="form-control" id="Tests" name="Tests" value="@Model.Tests">
+                                @if (ViewBag.StudentType == StudentType.StudentEarly)
+                                {
+                                    <div class="col-6">
+                                        <label class=" col-form-label" for="Tests">@(DataTypeExtention.GetDisplayName<StudentMedical>("Tests"))</label>
+                                        <div class="col-md-9">
+                                            <input type="text" required class="form-control" id="Tests" name="Tests" value="@Model.Tests">
+                                        </div>
                                     </div>
-                                </div>
-
+                                }
+                                else if (ViewBag.StudentType == StudentType.StudentLearningDifficulties)
+                                {
+                                    <div class="col-6">
+                                        <label class=" col-form-label" for="OtherProplem">@(DataTypeExtention.GetDisplayName<StudentMedical>("OtherProplem"))</label>
+                                        <div class="col-md-9">
+                                            <input type="text" required class="form-control" id="OtherProplem" name="OtherProplem" value="@Model.OtherProplem">
+                                        </div>
+                                    </div>
+                                    <div class="col-6">
+                                        <label class=" col-form-label" for="RhesusFactor">@(DataTypeExtention.GetDisplayName<StudentMedical>("RhesusFactor"))</label>
+                                        <div class="col-md-9">
+                                            <input type="text" required class="form-control" id="RhesusFactor" name="RhesusFactor" value="@Model.RhesusFactor">
+                                        </div>
+                                    </div>
+                                    <div class="col-6">
+                                        <label class=" col-form-label" for="GotJaundice">@(DataTypeExtention.GetDisplayName<StudentMedical>("GotJaundice"))</label>
+                                        <div class="col-md-9">
+                                            <select class="form-control" name="GotJaundice">
+                                                @if (Model.GotJaundice == true)
+                                                {
+                                                    <option value="1" selected>نعم</option>
+                                                    <option value="0">لا</option>
+                                                }
+                                                else
+                                                {
+                                                    <option value="1">نعم</option>
+                                                    <option value="0" selected>لا</option>
+                                                }
+                                            </select>
+                                        </div>
+                                    </div>
+                                }
                                 <div style="padding-top:20px">
                                     <button type="submit" class="btn btn-primary">التالي</button>
                                 </div>

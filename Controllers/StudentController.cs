@@ -24,16 +24,12 @@ namespace Alrazi.Controllers
             if (!HttpContext.HasSession())
                 return RedirectToAction("Index");
 
+            ViewBag.LDAgeTime = (await configService.GetConfigs()).First(x => x.ConfigKey == ConfigKey.MinStudyDate).Value;
             ViewData["Nationalities"] = (await configService.GetNationalities()).Where(x => x.IsActive).ToList();
             ViewData["AccessChannels"] = (await configService.GetAccessChannels()).Where(x => x.IsActive).ToList();
             ViewData["Diagnoses"] = (await configService.GetDiagnoses()).Where(x => x.IsActive).ToList();
 
-            return SessionManager.GetStudentType(HttpContext) switch
-            {
-                StudentType.StudentEarly => View(SessionManager.GetStudent<Student>(HttpContext, StudentStatus.Early_Student)),
-                StudentType.StudentLearningDifficulties => View(SessionManager.GetStudent<Student>(HttpContext, StudentStatus.LD_Student)),
-                _ => View(new Student()),
-            };
+            return View(SessionManager.GetStudent<Student>(HttpContext, StudentStatus.Student));
         }
 
         [HttpPost("Add-Student")]
@@ -42,16 +38,13 @@ namespace Alrazi.Controllers
             if (!HttpContext.HasSession())
                 return RedirectToAction("Index");
             var configAge = (await configService.GetConfigs()).First(x => x.ConfigKey == ConfigKey.MinStudyDate).Value;
+
             if (student.GetAge() > Convert.ToInt16(configAge))
-            {
                 SessionManager.SetStudentType(HttpContext, StudentType.StudentLearningDifficulties);
-                SessionManager.CreateStudent(HttpContext, student, StudentStatus.LD_Student);
-            }
             else
-            {
                 SessionManager.SetStudentType(HttpContext, StudentType.StudentEarly);
-                SessionManager.CreateStudent(HttpContext, student, StudentStatus.Early_Student);
-            }
+
+            SessionManager.CreateStudent(HttpContext, student, StudentStatus.Student);
             return Redirect("~/Add-Student-Family-Info");
         }
 
@@ -63,12 +56,7 @@ namespace Alrazi.Controllers
 
             ViewBag.StudentType = SessionManager.GetStudentType(HttpContext);
 
-            return ViewBag.StudentType switch
-            {
-                StudentType.StudentEarly => View(SessionManager.GetStudent<StudentFamilyInfo>(HttpContext, StudentStatus.Early_StudentFamilyInfo)),
-                StudentType.StudentLearningDifficulties => View(SessionManager.GetStudent<StudentFamilyInfo>(HttpContext, StudentStatus.LD_StudentFamilyInfo)),
-                _ => View(RedirectToAction("Index")),
-            };
+            return View(SessionManager.GetStudent<StudentFamilyInfo>(HttpContext, StudentStatus.StudentFamilyActivity));
         }
 
         [HttpPost("Add-Student-Family-Info")]
@@ -81,10 +69,7 @@ namespace Alrazi.Controllers
             studentFamilyInfo.FatherBirthDate = new DateTime(DateTime.Now.Year - studentFamilyInfo.FatherYear, 1, 1);
             studentFamilyInfo.MotherAgeAtBirth = new DateTime(DateTime.Now.Year - studentFamilyInfo.MotherAtBirthYear, 1, 1);
 
-            if (SessionManager.GetStudentType(HttpContext) == StudentType.StudentEarly)
-                SessionManager.CreateStudent(HttpContext, studentFamilyInfo, StudentStatus.Early_StudentFamilyInfo);
-            else if (SessionManager.GetStudentType(HttpContext) == StudentType.StudentLearningDifficulties)
-                SessionManager.CreateStudent(HttpContext, studentFamilyInfo, StudentStatus.LD_StudentFamilyInfo);
+            SessionManager.CreateStudent(HttpContext, studentFamilyInfo, StudentStatus.StudentFamilyActivity);
 
             return Redirect("~/Add-Student-Sibling");
         }
@@ -97,13 +82,7 @@ namespace Alrazi.Controllers
                 return RedirectToAction("Index");
 
             ViewBag.StudentType = SessionManager.GetStudentType(HttpContext);
-
-            return ViewBag.StudentType switch
-            {
-                StudentType.StudentEarly => View(SessionManager.GetStudent<StudentFamilyInfo>(HttpContext, StudentStatus.Early_StudentFamilyInfo)),
-                StudentType.StudentLearningDifficulties => View(SessionManager.GetStudent<StudentFamilyInfo>(HttpContext, StudentStatus.LD_StudentFamilyInfo)),
-                _ => View(RedirectToAction("Index")),
-            };
+            return View(SessionManager.GetStudent<List<StudentSibling>>(HttpContext, StudentStatus.StudentSibling));
 
         }
 
@@ -113,10 +92,7 @@ namespace Alrazi.Controllers
             if (!HttpContext.HasSession())
                 return;
             List<StudentSibling> getData = [];
-            if (SessionManager.GetStudentType(HttpContext) == StudentType.StudentEarly)
-                getData = SessionManager.GetStudent<List<StudentSibling>>(HttpContext, StudentStatus.Early_StudentSibling);
-            else if (SessionManager.GetStudentType(HttpContext) == StudentType.StudentLearningDifficulties)
-                getData = SessionManager.GetStudent<List<StudentSibling>>(HttpContext, StudentStatus.LD_StudentSibling);
+            getData = SessionManager.GetStudent<List<StudentSibling>>(HttpContext, StudentStatus.StudentSibling);
 
             getData.Add(new StudentSibling
             {
@@ -128,11 +104,7 @@ namespace Alrazi.Controllers
                 StudyLevel = level
             });
 
-            if (SessionManager.GetStudentType(HttpContext) == StudentType.StudentEarly)
-                SessionManager.CreateStudent(HttpContext, getData, StudentStatus.Early_StudentSibling);
-            else if (SessionManager.GetStudentType(HttpContext) == StudentType.StudentLearningDifficulties)
-                SessionManager.CreateStudent(HttpContext, getData, StudentStatus.LD_StudentSibling);
-
+            SessionManager.CreateStudent(HttpContext, getData, StudentStatus.StudentSibling);
         }
 
         [HttpPost("DeleteSiblingRecord")]
@@ -141,17 +113,11 @@ namespace Alrazi.Controllers
             if (!HttpContext.HasSession())
                 return;
             List<StudentSibling> getData = [];
-            if (SessionManager.GetStudentType(HttpContext) == StudentType.StudentEarly)
-                getData = SessionManager.GetStudent<List<StudentSibling>>(HttpContext, StudentStatus.Early_StudentSibling);
-            else if (SessionManager.GetStudentType(HttpContext) == StudentType.StudentLearningDifficulties)
-                getData = SessionManager.GetStudent<List<StudentSibling>>(HttpContext, StudentStatus.LD_StudentSibling);
+            getData = SessionManager.GetStudent<List<StudentSibling>>(HttpContext, StudentStatus.StudentSibling);
 
             getData.Remove(getData.First(x => x.UId == id));
 
-            if (SessionManager.GetStudentType(HttpContext) == StudentType.StudentEarly)
-                SessionManager.CreateStudent(HttpContext, getData, StudentStatus.Early_StudentSibling);
-            else if (SessionManager.GetStudentType(HttpContext) == StudentType.StudentLearningDifficulties)
-                SessionManager.CreateStudent(HttpContext, getData, StudentStatus.LD_StudentSibling);
+            SessionManager.CreateStudent(HttpContext, getData, StudentStatus.StudentSibling);
 
         }
 
@@ -160,13 +126,169 @@ namespace Alrazi.Controllers
         {
             if (!HttpContext.HasSession())
                 return RedirectToAction("Index");
-            if (SessionManager.GetStudentType(HttpContext) == StudentType.StudentEarly)
-                return Redirect("~/Add-Student-Mother-Medical");
-            else if (SessionManager.GetStudentType(HttpContext) == StudentType.StudentLearningDifficulties)
-                return RedirectToAction("Index");
-            else
+
+            return Redirect("~/Add-Student-Mother-Medical");
+
+        }
+
+        [HttpGet("Add-Student-Mother-Medical")]
+        public IActionResult AddStudentMotherMedical()
+        {
+            if (!HttpContext.HasSession())
                 return RedirectToAction("Index");
 
+            ViewBag.StudentType = SessionManager.GetStudentType(HttpContext);
+
+            return View(SessionManager.GetStudent<StudentMotherMedical>(HttpContext, StudentStatus.StudentMotherMedical));
+        }
+
+        [HttpPost("Add-Student-Mother-Medical")]
+        public IActionResult AddStudentMotherMedical(StudentMotherMedical studentMotherMedical)
+        {
+            if (!HttpContext.HasSession())
+                return RedirectToAction("Index");
+            SessionManager.CreateStudent(HttpContext, studentMotherMedical, StudentStatus.StudentMotherMedical);
+            return Redirect("~/Add-Student-Medical");
+        }
+
+        [HttpGet("Add-Student-Medical")]
+        public IActionResult AddStudentMedical()
+        {
+            if (!HttpContext.HasSession())
+                return RedirectToAction("Index");
+            ViewBag.StudentType = SessionManager.GetStudentType(HttpContext);
+
+            return View(SessionManager.GetStudent<StudentMedical>(HttpContext, StudentStatus.StudentMedical));
+        }
+
+        [HttpPost("Add-Student-Medical")]
+        public IActionResult AddStudentMedical(StudentMedical studentMedical)
+        {
+            if (!HttpContext.HasSession())
+                return RedirectToAction("Index");
+            SessionManager.CreateStudent(HttpContext, studentMedical, StudentStatus.StudentMedical);
+            return Redirect("~/Add-Student-Medical-Test");
+        }
+
+        [HttpGet("Add-Student-Medical-Test")]
+        public IActionResult AddStudentMedicalTest()
+        {
+            if (!HttpContext.HasSession())
+                return RedirectToAction("Index");
+
+            ViewBag.StudentType = SessionManager.GetStudentType(HttpContext);
+
+            return View(SessionManager.GetStudent<StudentMedicalTest>(HttpContext, StudentStatus.StudentMedicalTest));
+        }
+
+        [HttpPost("Add-Student-Medical-Test")]
+        public IActionResult AddStudentMedicalTest(StudentMedicalTest studentMedicalTest)
+        {
+            if (!HttpContext.HasSession())
+                return RedirectToAction("Index");
+            SessionManager.CreateStudent(HttpContext, studentMedicalTest, StudentStatus.StudentMedicalTest);
+            return Redirect("~/Add-Student-Psychology-Development");
+        }
+
+        [HttpGet("Add-Student-Psychology-Development")]
+        public async Task<IActionResult> AddStudentPsychologyDevelopment()
+        {
+            if (!HttpContext.HasSession())
+                return RedirectToAction("Index");
+
+            var studentType = SessionManager.GetStudentType(HttpContext);
+
+            ViewBag.StudentType = studentType;
+
+            ViewData["BehavioralProblems"] = (await configService.GetBehavioralProblems()).Where(x => x.IsActive).ToList();
+
+            var getData = SessionManager.GetStudent<StudentPsychologyDevelopment>(HttpContext, StudentStatus.StudentPsychologyDevelopment);
+            if (getData.StudentPsychologyDevelopmentBehavioralProblems is null)
+                getData.StudentPsychologyDevelopmentBehavioralProblems = new();
+
+
+            return View(getData);
+        }
+
+        [HttpPost("Add-Student-Psychology-Development")]
+        public IActionResult AddStudentPsychologyDevelopment(StudentPsychologyDevelopment studentPsychologyDevelopment, int[] BehavioralProblems)
+        {
+            if (!HttpContext.HasSession())
+                return RedirectToAction("Index");
+            studentPsychologyDevelopment.StudentPsychologyDevelopmentBehavioralProblems = new List<StudentPsychologyDevelopmentBehavioralProblem>();
+            foreach (var item in BehavioralProblems)
+            {
+                studentPsychologyDevelopment.StudentPsychologyDevelopmentBehavioralProblems.Add(new StudentPsychologyDevelopmentBehavioralProblem
+                {
+                    BehavioralProblemId = item
+                });
+            }
+            SessionManager.CreateStudent(HttpContext, studentPsychologyDevelopment, StudentStatus.StudentPsychologyDevelopment);
+            var studentType = SessionManager.GetStudentType(HttpContext);
+            if (studentType == StudentType.StudentEarly)
+                return Redirect("~/Add-Student-Development");
+            return Redirect("~/Add-Student-Social-Development");
+        }
+
+        [HttpGet("Add-Student-Social-Development")]
+        public IActionResult AddStudentSocialDevelopment()
+        {
+            if (!HttpContext.HasSession())
+                return RedirectToAction("Index");
+
+            ViewBag.StudentType = SessionManager.GetStudentType(HttpContext);
+            return View(SessionManager.GetStudent<StudentSocialDevelopment>(HttpContext, StudentStatus.StudentSocialDevelopment));
+        }
+
+        [HttpPost("Add-Student-Social-Development")]
+        public IActionResult AddStudentSocialDevelopment(StudentSocialDevelopment studentSocialDevelopment)
+        {
+            if (!HttpContext.HasSession())
+                return RedirectToAction("Index");
+            SessionManager.CreateStudent(HttpContext, studentSocialDevelopment, StudentStatus.StudentSocialDevelopment);
+            return Redirect("~/Add-Family-Activity");
+        }
+
+        [HttpGet("Add-Family-Activity")]
+        public IActionResult AddFamilyActivity()
+        {
+            if (!HttpContext.HasSession())
+                return RedirectToAction("Index");
+
+            ViewBag.StudentType = SessionManager.GetStudentType(HttpContext);
+            return View(SessionManager.GetStudent<StudentFamilyActivity>(HttpContext, StudentStatus.StudentFamilyActivity));
+        }
+
+        [HttpPost("Add-Family-Activity")]
+        public IActionResult AddFamilyActivity(StudentFamilyActivity studentFamilyActivity)
+        {
+            if (!HttpContext.HasSession())
+                return RedirectToAction("Index");
+            SessionManager.CreateStudent(HttpContext, studentFamilyActivity, StudentStatus.StudentFamilyActivity);
+            var studentType = SessionManager.GetStudentType(HttpContext);
+
+            if (studentType == StudentType.StudentEarly)
+                return Redirect("~/Add-Student-Autonomy");
+
+            return Redirect("~/Add-Student-Interests");
+        }
+
+        [HttpGet("Add-Student-Note")]
+        public IActionResult AddStudentNote()
+        {
+            if (!HttpContext.HasSession())
+                return RedirectToAction("Index");
+            ViewBag.StudentType = SessionManager.GetStudentType(HttpContext);
+            return View(SessionManager.GetStudent<StudentNote>(HttpContext, StudentStatus.StudentNote));
+        }
+
+        [HttpPost("Add-Student-Note")]
+        public IActionResult AddStudentNote(StudentNote studentNote)
+        {
+            if (!HttpContext.HasSession())
+                return RedirectToAction("Index");
+            SessionManager.CreateStudent(HttpContext, studentNote, StudentStatus.StudentNote);
+            return Redirect("~/Save-Student");
         }
     }
 }

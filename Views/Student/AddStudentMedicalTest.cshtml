@@ -1,4 +1,5 @@
-﻿@using Alrazi.Tools
+﻿@using Alrazi.Enums
+@using Alrazi.Tools
 @model StudentMedicalTest
 @{
     ViewData["Title"] = "إضافة الفحوصات الطبية التي أجريت للطفل";
@@ -84,6 +85,42 @@
                                         <input type="text" required class="form-control" id="CurrentMedications" name="CurrentMedications" value="@Model.CurrentMedications">
                                     </div>
                                 </div>
+                                @if (ViewBag.StudentType == StudentType.StudentEarly)
+                                {
+                                    <div class="col-6">
+                                        <label class=" col-form-label" for="LaboratoryTests">@(DataTypeExtention.GetDisplayName<StudentMedicalTest>("LaboratoryTests"))</label>
+                                        <div class="col-md-9">
+                                            <input type="text" required class="form-control" id="LaboratoryTests" name="LaboratoryTests" value="@Model.LaboratoryTests">
+                                        </div>
+                                    </div>
+                                }
+                                else if (ViewBag.StudentType == StudentType.StudentLearningDifficulties)
+                                {
+                                    <div class="col-6">
+                                        <label class=" col-form-label" for="DoctorDiagnosis">@(DataTypeExtention.GetDisplayName<StudentMedicalTest>("DoctorDiagnosis"))</label>
+                                        <div class="col-md-9">
+                                            <input type="text" required class="form-control" id="DoctorDiagnosis" name="DoctorDiagnosis" value="@Model.DoctorDiagnosis">
+                                        </div>
+                                    </div>
+                                    <div class="col-6">
+                                        <label class=" col-form-label" for="DiagnosisResult">@(DataTypeExtention.GetDisplayName<StudentMedicalTest>("DiagnosisResult"))</label>
+                                        <div class="col-md-9">
+                                            <input type="text" required class="form-control" id="DiagnosisResult" name="DiagnosisResult" value="@Model.DiagnosisResult">
+                                        </div>
+                                    </div>
+                                    <div class="col-6">
+                                        <label class=" col-form-label" for="DoctorAddress">@(DataTypeExtention.GetDisplayName<StudentMedicalTest>("DoctorAddress"))</label>
+                                        <div class="col-md-9">
+                                            <input type="text" required class="form-control" id="DoctorAddress" name="DoctorAddress" value="@Model.DoctorAddress">
+                                        </div>
+                                    </div>
+                                    <div class="col-6">
+                                        <label class=" col-form-label" for="DoctorNumber">@(DataTypeExtention.GetDisplayName<StudentMedicalTest>("DoctorNumber"))</label>
+                                        <div class="col-md-9">
+                                            <input type="text" required class="form-control" id="DoctorNumber" name="DoctorNumber" value="@Model.DoctorNumber">
+                                        </div>
+                                    </div>
+                                }
 
                                 <div style="padding-top:20px">
                                     <button type="submit" class="btn btn-primary">التالي</button>

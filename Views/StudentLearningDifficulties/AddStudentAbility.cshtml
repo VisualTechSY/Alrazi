@@ -1,0 +1,173 @@
+﻿@using Alrazi.Enums
+@using Alrazi.Tools
+@model StudentAbility
+
+@{
+    ViewData["Title"] = "إضافة قدرات الطالب";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<!-- start page title -->
+<div class="row">
+    <div class="col-12">
+        <div class="page-title-box">
+            <div class="page-title-right">
+                <ol class="breadcrumb m-0">
+                    <li class="breadcrumb-item"><a href="~/Panel">الرئيسية</a></li>
+                    <li class="breadcrumb-item active">إضافة قدرات الطالب</li>
+                </ol>
+            </div>
+            <h4 class="page-title">إضافة قدرات الطالب</h4>
+        </div>
+    </div>
+</div>
+<!-- end page title -->
+
+<div class="row">
+    <div class="col-xl-12">
+        <div class="card">
+            <div class="card-body">
+                <h4 class="header-title mb-3"> قدرات الطالب</h4>
+                <form method="post">
+                    <div class="row">
+                        <div class="col-12">
+                            <div class="row">
+                                <div class="col-6">
+                                    <label class="col-md-3 col-form-label" for="Focus">@(DataTypeExtention.GetDisplayName<StudentAbility>("Focus"))</label>
+                                    <div class="col-md-9">
+                                        <select class="form-control" id="Focus" name="Focus">
+                                            @foreach (var item in Enum.GetValues<Focus>())
+                                            {
+                                                @if (item == Model.Focus)
+                                                {
+                                                    <option selected value="@item">@FocusManager.GetArabic(item)</option>
+                                                }
+                                                else
+                                                {
+                                                    <option value="@item">@FocusManager.GetArabic(item)</option>
+                                                }
+                                            }
+                                        </select>
+                                    </div>
+                                </div>
+                                <div class="col-6">
+                                    <label class="col-md-3 col-form-label" for="RehabilitationSystem">@(DataTypeExtention.GetDisplayName<StudentAbility>("RehabilitationSystem"))</label>
+                                    <div class="col-md-9">
+                                        <select class="form-control" id="RehabilitationSystem" name="RehabilitationSystem">
+                                            @foreach (var item in Enum.GetValues<RehabilitationSystem>())
+                                            {
+                                                @if (item == Model.RehabilitationSystem)
+                                                {
+                                                    <option selected value="@item">@RehabilitationSystemManager.GetArabic(item)</option>
+                                                }
+                                                else
+                                                {
+                                                    <option value="@item">@RehabilitationSystemManager.GetArabic(item)</option>
+                                                }
+                                            }
+                                        </select>
+                                    </div>
+                                </div>
+                                <div class="col-6">
+                                    <label class="col-md-3 col-form-label" for="ContinuousTraining">@(DataTypeExtention.GetDisplayName<StudentAbility>("ContinuousTraining"))</label>
+                                    <div class="col-md-9">
+                                        <select class="form-control" id="ContinuousTraining" name="ContinuousTraining">
+                                            @if (Model.ContinuousTraining)
+                                            {
+                                                <option selected value="True">مستمر</option>
+                                                <option value="False">متوقف</option>
+                                            }
+                                            else
+                                            {
+                                                <option value="True">مستمر</option>
+                                                <option selected value="False">متوقف</option>
+                                            }
+                                        </select>
+                                    </div>
+                                </div>
+                                <div class="col-6">
+                                    <label class=" col-form-label" for="ReasonContinuousTraining">@(DataTypeExtention.GetDisplayName<StudentAbility>("ReasonContinuousTraining"))</label>
+                                    <div class="col-md-9">
+                                        <input type="text" required class="form-control" id="ReasonContinuousTraining" name="ReasonContinuousTraining" value="@Model.ReasonContinuousTraining">
+                                    </div>
+                                </div>
+                                <div class="col-6">
+                                    <label class="col-md-3 col-form-label" for="WeaknessRead">@(DataTypeExtention.GetDisplayName<StudentAbility>("WeaknessRead"))</label>
+                                    <div class="col-md-9">
+                                        <select class="form-control" id="WeaknessRead" name="WeaknessRead">
+                                            @if (Model.WeaknessRead)
+                                            {
+                                                <option selected value="True">نعم</option>
+                                                <option value="False">لا</option>
+                                            }
+                                            else
+                                            {
+                                                <option value="True">نعم</option>
+                                                <option selected value="False">لا</option>
+                                            }
+                                        </select>
+                                    </div>
+                                </div>
+                                <div class="col-6">
+                                    <label class="col-md-3 col-form-label" for="WeaknessWrite">@(DataTypeExtention.GetDisplayName<StudentAbility>("WeaknessWrite"))</label>
+                                    <div class="col-md-9">
+                                        <select class="form-control" id="WeaknessWrite" name="WeaknessWrite">
+                                            @if (Model.WeaknessWrite)
+                                            {
+                                                <option selected value="True">نعم</option>
+                                                <option value="False">لا</option>
+                                            }
+                                            else
+                                            {
+                                                <option value="True">نعم</option>
+                                                <option selected value="False">لا</option>
+                                            }
+                                        </select>
+                                    </div>
+                                </div>
+                                <div class="col-6">
+                                    <label class="col-md-3 col-form-label" for="WeaknessCalc">@(DataTypeExtention.GetDisplayName<StudentAbility>("WeaknessCalc"))</label>
+                                    <div class="col-md-9">
+                                        <select class="form-control" id="WeaknessCalc" name="WeaknessCalc">
+                                            @if (Model.WeaknessCalc)
+                                            {
+                                                <option selected value="True">نعم</option>
+                                                <option value="False">لا</option>
+                                            }
+                                            else
+                                            {
+                                                <option value="True">نعم</option>
+                                                <option selected value="False">لا</option>
+                                            }
+                                        </select>
+                                    </div>
+                                </div>
+                                <div class="col-6">
+                                    <label class="col-md-3 col-form-label" for="WeaknessSciences">@(DataTypeExtention.GetDisplayName<StudentAbility>("WeaknessSciences"))</label>
+                                    <div class="col-md-9">
+                                        <select class="form-control" id="WeaknessSciences" name="WeaknessSciences">
+                                            @if (Model.WeaknessSciences)
+                                            {
+                                                <option selected value="True">نعم</option>
+                                                <option value="False">لا</option>
+                                            }
+                                            else
+                                            {
+                                                <option value="True">نعم</option>
+                                                <option selected value="False">لا</option>
+                                            }
+                                        </select>
+                                    </div>
+                                </div>
+
+                                <div style="padding-top:20px">
+                                    <button type="submit" class="btn btn-primary">التالي</button>
+                                </div>
+                            </div>
+                        </div> <!-- end col -->
+                    </div> <!-- end row -->
+                </form>
+            </div> <!-- end card-body -->
+        </div> <!-- end card-->
+    </div> <!-- end col -->
+</div>

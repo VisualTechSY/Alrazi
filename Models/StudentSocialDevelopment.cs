@@ -24,6 +24,7 @@ namespace Alrazi.Models
         public string? ChildRelationships { get; set; }
 
         //LD
+        [DisplayName("المساعدة في المنزل")]
         public string? HouseHelp { get; set; }
 
     }

@@ -85,16 +85,13 @@
                                         <input type="text" class="form-control" id="FatherAndMotherDegree" name="FatherAndMotherDegree" value="@Model.FatherAndMotherDegree">
                                     </div>
                                 </div>
-                                @if (ViewBag.StudentType == StudentType.StudentEarly)
-                                {                                  
-                                    <div class="col-6">
-                                        <label class=" col-form-label" for="MotherAtBirthYear">عمر الأم عند الإنجاب</label>
-                                        <div class="col-md-9">
-                                            <input type="number" class="form-control" id="MotherAtBirthYear" name="MotherAtBirthYear" value="@Model.GetMotherAtBirthYear">
-                                        </div>
+                                <div class="col-6">
+                                    <label class=" col-form-label" for="MotherAtBirthYear">عمر الأم عند الإنجاب</label>
+                                    <div class="col-md-9">
+                                        <input type="number" class="form-control" id="MotherAtBirthYear" name="MotherAtBirthYear" value="@Model.GetMotherAtBirthYear">
                                     </div>
-                                }
-                                else if (ViewBag.StudentType == StudentType.StudentLearningDifficulties)
+                                </div>
+                                @if (ViewBag.StudentType == StudentType.StudentLearningDifficulties)
                                 {
                                     <div class="col-6">
                                         <label class=" col-form-label" for="SeparatedParents">هل الأبوين منفصلين</label>

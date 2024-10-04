@@ -10,5 +10,8 @@ namespace Alrazi.Models
         public Student Student { get; set; }
         public Interests Interests { get; set; }
         public string Value { get; set; }
+
+        [NotMapped]
+        public Guid UId { get; set; } = Guid.NewGuid();
     }
 }

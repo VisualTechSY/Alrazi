@@ -21,17 +21,23 @@ namespace Alrazi.Models
         public string BrainScan { get; set; }
         [DisplayName("نتيجة فحص الدماغ")]
         public int BrainScanResult { get; set; }
-        [DisplayName("التحاليل المخبرية")]
-        public string LaboratoryTests { get; set; }
         [DisplayName("الأدوية السابقة")]
         public string PreviousMedications { get; set; }
         [DisplayName("الأدوية الحالية")]
         public string CurrentMedications { get; set; }
 
+        //Early
+        [DisplayName("التحاليل المخبرية")]
+        public string? LaboratoryTests { get; set; }
+
         //LD
+        [DisplayName("تم التشخيص من قبل الطبيب")]
         public string? DoctorDiagnosis { get; set; }
+        [DisplayName("نتائج التشخيص")]
         public string? DiagnosisResult { get; set; }
+        [DisplayName("عنوانه")]
         public string? DoctorAddress { get; set; }
+        [DisplayName("رقم هاتفه")]
         public string? DoctorNumber { get; set; }
     }
 }

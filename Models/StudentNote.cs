@@ -18,8 +18,11 @@ namespace Alrazi.Models
         public string? DescribeProblemAsSeenParents { get; set; }
 
         //LD
+        [DisplayName("يتكلم بطلاقة ؟ أم مرتبك و متعثر في كلامه ؟ أم قليل الكلام ؟")]
         public string? SpeakingWay { get; set; }
+        [DisplayName("المشكلات  التي تعاني منها الأسرة أثناء التعامل مع الطفل فى المنزل ؟")]
         public string? FamilyProblemsWithChild { get; set; }
+        [DisplayName("المسكلات  التي تعاني منها الأسرة أثناء التعامل مع الطفل فى المنزل ؟")]
         public string? SkillsRequiredChild { get; set; }
     }
 }

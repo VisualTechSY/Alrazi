@@ -1,4 +1,5 @@
-﻿@using Alrazi.Tools
+﻿@using Alrazi.Enums
+@using Alrazi.Tools
 @model StudentSocialDevelopment
 @{
     ViewData["Title"] = "إضافة النمو الاجتماعي والانفعالي للطفل";
@@ -60,12 +61,25 @@
                                         <input type="text" required class="form-control" id="Interaction" name="Interaction" value="@Model.Interaction">
                                     </div>
                                 </div>
-                                <div class="col-6">
-                                    <label class=" col-form-label" for="ChildRelationships">@(DataTypeExtention.GetDisplayName<StudentSocialDevelopment>("ChildRelationships"))</label>
-                                    <div class="col-md-9">
-                                        <input type="text" required class="form-control" id="ChildRelationships" name="ChildRelationships" value="@Model.ChildRelationships">
+                               
+                                @if (ViewBag.StudentType == StudentType.StudentEarly)
+                                {
+                                    <div class="col-6">
+                                        <label class=" col-form-label" for="ChildRelationships">@(DataTypeExtention.GetDisplayName<StudentSocialDevelopment>("ChildRelationships"))</label>
+                                        <div class="col-md-9">
+                                            <input type="text" required class="form-control" id="ChildRelationships" name="ChildRelationships" value="@Model.ChildRelationships">
+                                        </div>
                                     </div>
-                                </div>
+                                }
+                                else if (ViewBag.StudentType == StudentType.StudentLearningDifficulties)
+                                {
+                                    <div class="col-6">
+                                        <label class=" col-form-label" for="HouseHelp">@(DataTypeExtention.GetDisplayName<StudentSocialDevelopment>("HouseHelp"))</label>
+                                        <div class="col-md-9">
+                                            <input type="text" required class="form-control" id="HouseHelp" name="HouseHelp" value="@Model.HouseHelp">
+                                        </div>
+                                    </div>
+                                }
 
                                 <div style="padding-top:20px">
                                     <button type="submit" class="btn btn-primary">التالي</button>

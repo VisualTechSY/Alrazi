@@ -1,0 +1,86 @@
+﻿@using Alrazi.Tools
+@model StudentAcademic
+
+@{
+    ViewData["Title"] = "إضافة السيرة الأكاديمية والنفسية";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<!-- start page title -->
+<div class="row">
+    <div class="col-12">
+        <div class="page-title-box">
+            <div class="page-title-right">
+                <ol class="breadcrumb m-0">
+                    <li class="breadcrumb-item"><a href="~/Panel">الرئيسية</a></li>
+                    <li class="breadcrumb-item active">إضافة السيرة الأكاديمية والنفسية</li>
+                </ol>
+            </div>
+            <h4 class="page-title">إضافة السيرة الأكاديمية والنفسية</h4>
+        </div>
+    </div>
+</div>
+<!-- end page title -->
+
+<div class="row">
+    <div class="col-xl-12">
+        <div class="card">
+            <div class="card-body">
+                <h4 class="header-title mb-3"> السيرة الأكديمية والنفسية بشكل عام</h4>
+                <form method="post">
+                    <div class="row">
+                        <div class="col-12">
+                            <div class="row">
+                                <div class="col-6">
+                                    <label class="col-md-3 col-form-label" for="LoveSchool">@(DataTypeExtention.GetDisplayName<StudentAcademic>("LoveSchool"))</label>
+                                    <div class="col-md-9">
+                                        <select class="form-control" id="LoveSchool" name="LoveSchool">
+                                            @if (Model.LoveSchool)
+                                            {
+                                                <option selected value="True">نعم</option>
+                                                <option value="False">لا</option>
+                                            }
+                                            else
+                                            {
+                                                <option value="True">نعم</option>
+                                                <option selected value="False">لا</option>
+                                            }
+                                        </select>
+                                    </div>
+                                </div>
+                                <div class="col-6">
+                                    <label class=" col-form-label" for="TopStudyLevel">@(DataTypeExtention.GetDisplayName<StudentAcademic>("TopStudyLevel"))</label>
+                                    <div class="col-md-9">
+                                        <input type="text" required class="form-control" id="TopStudyLevel" name="TopStudyLevel" value="@Model.TopStudyLevel">
+                                    </div>
+                                </div>
+                                <div class="col-6">
+                                    <label class=" col-form-label" for="ReasonFailure">@(DataTypeExtention.GetDisplayName<StudentAcademic>("ReasonFailure"))</label>
+                                    <div class="col-md-9">
+                                        <input type="text" required class="form-control" id="ReasonFailure" name="ReasonFailure" value="@Model.ReasonFailure">
+                                    </div>
+                                </div>
+                                <div class="col-6">
+                                    <label class=" col-form-label" for="ReplayInformation">@(DataTypeExtention.GetDisplayName<StudentAcademic>("ReplayInformation"))</label>
+                                    <div class="col-md-9">
+                                        <input type="text" required class="form-control" id="ReplayInformation" name="ReplayInformation" value="@Model.ReplayInformation">
+                                    </div>
+                                </div>
+                                <div class="col-6">
+                                    <label class=" col-form-label" for="MovingSchoolInformation">@(DataTypeExtention.GetDisplayName<StudentAcademic>("MovingSchoolInformation"))</label>
+                                    <div class="col-md-9">
+                                        <input type="text" required class="form-control" id="MovingSchoolInformation" name="MovingSchoolInformation" value="@Model.MovingSchoolInformation">
+                                    </div>
+                                </div>
+
+                                <div style="padding-top:20px">
+                                    <button type="submit" class="btn btn-primary">التالي</button>
+                                </div>
+                            </div>
+                        </div> <!-- end col -->
+                    </div> <!-- end row -->
+                </form>
+            </div> <!-- end card-body -->
+        </div> <!-- end card-->
+    </div> <!-- end col -->
+</div>

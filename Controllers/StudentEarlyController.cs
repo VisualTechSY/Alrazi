@@ -18,58 +18,6 @@ namespace Alrazi.Controllers
             this.studentService = studentService;
         }
 
-
-        [HttpGet("Add-Student-Mother-Medical")]
-        public IActionResult AddStudentMotherMedical()
-        {
-            if (!HttpContext.HasSession())
-                return RedirectToAction("Index");
-            return View(SessionManager.GetStudent<StudentMotherMedical>(HttpContext, StudentStatus.Early_StudentMotherMedical));
-        }
-
-        [HttpPost("Add-Student-Mother-Medical")]
-        public IActionResult AddStudentMotherMedical(StudentMotherMedical studentMotherMedical)
-        {
-            if (!HttpContext.HasSession())
-                return RedirectToAction("Index");
-            SessionManager.CreateStudent(HttpContext, studentMotherMedical, StudentStatus.Early_StudentMotherMedical);
-            return Redirect("~/Add-Student-Medical");
-        }
-
-        [HttpGet("Add-Student-Medical")]
-        public IActionResult AddStudentMedical()
-        {
-            if (!HttpContext.HasSession())
-                return RedirectToAction("Index");
-            return View(SessionManager.GetStudent<StudentMedical>(HttpContext, StudentStatus.Early_StudentMedical));
-        }
-
-        [HttpPost("Add-Student-Medical")]
-        public IActionResult AddStudentMedical(StudentMedical studentMedical)
-        {
-            if (!HttpContext.HasSession())
-                return RedirectToAction("Index");
-            SessionManager.CreateStudent(HttpContext, studentMedical, StudentStatus.Early_StudentMedical);
-            return Redirect("~/Add-Student-Medical-Test");
-        }
-
-        [HttpGet("Add-Student-Medical-Test")]
-        public IActionResult AddStudentMedicalTest()
-        {
-            if (!HttpContext.HasSession())
-                return RedirectToAction("Index");
-            return View(SessionManager.GetStudent<StudentMedicalTest>(HttpContext, StudentStatus.Early_StudentMedicalTest));
-        }
-
-        [HttpPost("Add-Student-Medical-Test")]
-        public IActionResult AddStudentMedicalTest(StudentMedicalTest studentMedicalTest)
-        {
-            if (!HttpContext.HasSession())
-                return RedirectToAction("Index");
-            SessionManager.CreateStudent(HttpContext, studentMedicalTest, StudentStatus.Early_StudentMedicalTest);
-            return Redirect("~/Add-Student-Development");
-        }
-
         [HttpGet("Add-Student-Development")]
         public IActionResult AddStudentDevelopment()
         {
@@ -84,54 +32,10 @@ namespace Alrazi.Controllers
             if (!HttpContext.HasSession())
                 return RedirectToAction("Index");
             SessionManager.CreateStudent(HttpContext, studentDevelopment, StudentStatus.Early_StudentDevelopment);
-            return Redirect("~/Add-Student-Psychology-Development");
-        }
-
-        [HttpGet("Add-Student-Psychology-Development")]
-        public async Task<IActionResult> AddStudentPsychologyDevelopment()
-        {
-            if (!HttpContext.HasSession())
-                return RedirectToAction("Index");
-            ViewData["BehavioralProblems"] = (await configService.GetBehavioralProblems()).Where(x=> x.IsActive).ToList();
-            var getData = SessionManager.GetStudent<StudentPsychologyDevelopment>(HttpContext, StudentStatus.Early_StudentPsychologyDevelopment);
-            if (getData.StudentPsychologyDevelopmentBehavioralProblems is null)
-                getData.StudentPsychologyDevelopmentBehavioralProblems = new();
-            return View(getData);
-        }
-
-        [HttpPost("Add-Student-Psychology-Development")]
-        public IActionResult AddStudentPsychologyDevelopment(StudentPsychologyDevelopment studentPsychologyDevelopment , int[] BehavioralProblems)
-        {
-            if (!HttpContext.HasSession())
-                return RedirectToAction("Index");
-            studentPsychologyDevelopment.StudentPsychologyDevelopmentBehavioralProblems = new List<StudentPsychologyDevelopmentBehavioralProblem>();
-            foreach (var item in BehavioralProblems)
-            {
-                studentPsychologyDevelopment.StudentPsychologyDevelopmentBehavioralProblems.Add(new StudentPsychologyDevelopmentBehavioralProblem
-                {
-                    BehavioralProblemId = item
-                });
-            }
-            SessionManager.CreateStudent(HttpContext, studentPsychologyDevelopment, StudentStatus.Early_StudentPsychologyDevelopment);
             return Redirect("~/Add-Student-Social-Development");
         }
 
-        [HttpGet("Add-Student-Social-Development")]
-        public IActionResult AddStudentSocialDevelopment()
-        {
-            if (!HttpContext.HasSession())
-                return RedirectToAction("Index");
-            return View(SessionManager.GetStudent<StudentSocialDevelopment>(HttpContext, StudentStatus.Early_StudentSocialDevelopment));
-        }
-
-        [HttpPost("Add-Student-Social-Development")]
-        public IActionResult AddStudentSocialDevelopment(StudentSocialDevelopment studentSocialDevelopment)
-        {
-            if (!HttpContext.HasSession())
-                return RedirectToAction("Index");
-            SessionManager.CreateStudent(HttpContext, studentSocialDevelopment, StudentStatus.Early_StudentSocialDevelopment);
-            return Redirect("~/Add-Student-Autonomy");
-        }
+       
 
         [HttpGet("Add-Student-Autonomy")]
         public IActionResult AddStudentAutonomy()
@@ -147,25 +51,10 @@ namespace Alrazi.Controllers
             if (!HttpContext.HasSession())
                 return RedirectToAction("Index");
             SessionManager.CreateStudent(HttpContext, studentAutonomy, StudentStatus.Early_StudentAutonomy);
-            return Redirect("~/Add-Family-Activity");
-        }
-
-        [HttpGet("Add-Family-Activity")]
-        public IActionResult AddFamilyActivity()
-        {
-            if (!HttpContext.HasSession())
-                return RedirectToAction("Index");
-            return View(SessionManager.GetStudent<StudentFamilyActivity>(HttpContext, StudentStatus.Early_StudentFamilyActivity));
-        }
-
-        [HttpPost("Add-Family-Activity")]
-        public IActionResult AddFamilyActivity(StudentFamilyActivity studentFamilyActivity)
-        {
-            if (!HttpContext.HasSession())
-                return RedirectToAction("Index");
-            SessionManager.CreateStudent(HttpContext, studentFamilyActivity, StudentStatus.Early_StudentFamilyActivity);
             return Redirect("~/Add-Student-Potential-Enhancer");
         }
+
+        
 
         [HttpGet("Add-Student-Potential-Enhancer")]
         public IActionResult AddStudentPotentialEnhancer()
@@ -220,42 +109,25 @@ namespace Alrazi.Controllers
             return Redirect("~/Add-Student-Note");
         }
 
-        [HttpGet("Add-Student-Note")]
-        public IActionResult AddStudentNote()
-        {
-            if (!HttpContext.HasSession())
-                return RedirectToAction("Index");
-            return View(SessionManager.GetStudent<StudentNote>(HttpContext, StudentStatus.Early_StudentNote));
-        }
-
-        [HttpPost("Add-Student-Note")]
-        public IActionResult AddStudentNote(StudentNote studentNote)
-        {
-            if (!HttpContext.HasSession())
-                return RedirectToAction("Index");
-            SessionManager.CreateStudent(HttpContext, studentNote, StudentStatus.Early_StudentNote);
-            return Redirect("~/Save-Student");
-        }
-
         [HttpGet("Save-Student")]
         public async Task<IActionResult> SaveStudent()
         {
             if (!HttpContext.HasSession())
                 return RedirectToAction("Index");
-            var student = SessionManager.GetStudent<Student>(HttpContext, StudentStatus.Early_Student);
-            var studentFamilyInfo = SessionManager.GetStudent<StudentFamilyInfo>(HttpContext, StudentStatus.Early_StudentFamilyInfo);
-            var studentSiblings = SessionManager.GetStudent<List<StudentSibling>>(HttpContext, StudentStatus.Early_StudentSibling);
-            var studentMotherMedical = SessionManager.GetStudent<StudentMotherMedical>(HttpContext, StudentStatus.Early_StudentMotherMedical);
-            var studentMedical = SessionManager.GetStudent<StudentMedical>(HttpContext, StudentStatus.Early_StudentMedical);
-            var studentMedicalTest = SessionManager.GetStudent<StudentMedicalTest>(HttpContext, StudentStatus.Early_StudentMedicalTest);
+            var student = SessionManager.GetStudent<Student>(HttpContext, StudentStatus.Student);
+            var studentFamilyInfo = SessionManager.GetStudent<StudentFamilyInfo>(HttpContext, StudentStatus.StudentFamilyInfo);
+            var studentSiblings = SessionManager.GetStudent<List<StudentSibling>>(HttpContext, StudentStatus.StudentSibling);
+            var studentMotherMedical = SessionManager.GetStudent<StudentMotherMedical>(HttpContext, StudentStatus.StudentMotherMedical);
+            var studentMedical = SessionManager.GetStudent<StudentMedical>(HttpContext, StudentStatus.StudentMedical);
+            var studentMedicalTest = SessionManager.GetStudent<StudentMedicalTest>(HttpContext, StudentStatus.StudentMedicalTest);
             var studentDevelopment = SessionManager.GetStudent<StudentDevelopment>(HttpContext, StudentStatus.Early_StudentDevelopment);
-            var studentPsychologyDevelopment = SessionManager.GetStudent<StudentPsychologyDevelopment>(HttpContext, StudentStatus.Early_StudentPsychologyDevelopment);
-            var studentSocialDevelopment = SessionManager.GetStudent<StudentSocialDevelopment>(HttpContext, StudentStatus.Early_StudentSocialDevelopment);
+            var studentPsychologyDevelopment = SessionManager.GetStudent<StudentPsychologyDevelopment>(HttpContext, StudentStatus.StudentPsychologyDevelopment);
+            var studentSocialDevelopment = SessionManager.GetStudent<StudentSocialDevelopment>(HttpContext, StudentStatus.StudentSocialDevelopment);
             var studentAutonomy = SessionManager.GetStudent<StudentAutonomy>(HttpContext, StudentStatus.Early_StudentAutonomy);
-            var studentFamilyActivity = SessionManager.GetStudent<StudentFamilyActivity>(HttpContext, StudentStatus.Early_StudentFamilyActivity);
+            var studentFamilyActivity = SessionManager.GetStudent<StudentFamilyActivity>(HttpContext, StudentStatus.StudentFamilyActivity);
             var studentPotentialEnhancer = SessionManager.GetStudent<StudentPotentialEnhancer>(HttpContext, StudentStatus.Early_StudentPotentialEnhancer);
             var studentEducationalualifications = SessionManager.GetStudent<List<StudentEducationalualification>>(HttpContext, StudentStatus.Early_StudentEducationalualification);
-            var studentNote = SessionManager.GetStudent<StudentNote>(HttpContext, StudentStatus.Early_StudentNote);
+            var studentNote = SessionManager.GetStudent<StudentNote>(HttpContext, StudentStatus.StudentNote);
             await studentService.AddEarlyStudent(student, studentFamilyInfo, studentSiblings, studentMotherMedical, studentMedical,
                 studentMedicalTest, studentDevelopment, studentPsychologyDevelopment, studentSocialDevelopment, studentAutonomy,
                 studentFamilyActivity, studentPotentialEnhancer, studentEducationalualifications, studentNote);

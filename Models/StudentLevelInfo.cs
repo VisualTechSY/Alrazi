@@ -16,5 +16,8 @@ namespace Alrazi.Models
         public string Level5 { get; set; }
         public string Level6 { get; set; }
         public string LevelResult { get; set; }
+
+        [NotMapped]
+        public Guid UId { get; set; } = Guid.NewGuid();
     }
 }

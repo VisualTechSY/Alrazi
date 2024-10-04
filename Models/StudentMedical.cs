@@ -15,7 +15,18 @@ namespace Alrazi.Models
         public bool SevereInfections { get; set; }
         [DisplayName("يعاني من مشاكل مرتبطة باللقاح")]
         public bool VaccineRelatedProblems { get; set; }
+
+        //EL
         [DisplayName("الفحوصات التي أجريت للطفل")]
         public string Tests { get; set; }
+
+        //LD
+        [DisplayName("أصيب باليرقان")]
+        public bool GotJaundice { get; set; }
+        [DisplayName("العامل الريزوسي")]
+        public string RhesusFactor { get; set; }
+        [DisplayName("أي مشاكل أخرى")]
+        public string OtherProplem { get; set; }
+
     }
 }

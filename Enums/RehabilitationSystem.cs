@@ -2,6 +2,7 @@
 {
     public enum RehabilitationSystem
     {
+        None,
         IndividualSessions,
         Class
     }
@@ -12,6 +13,8 @@
         {
             switch (rehabilitationSystem)
             {
+                case RehabilitationSystem.None:
+                    return "لم يخضع";
                 case RehabilitationSystem.IndividualSessions:
                     return "جلسات فردية";
                 case RehabilitationSystem.Class:
