@@ -56,7 +56,7 @@ namespace Alrazi.Controllers
 
             ViewBag.StudentType = SessionManager.GetStudentType(HttpContext);
 
-            return View(SessionManager.GetStudent<StudentFamilyInfo>(HttpContext, StudentStatus.StudentFamilyActivity));
+            return View(SessionManager.GetStudent<StudentFamilyInfo>(HttpContext, StudentStatus.StudentFamilyInfo));
         }
 
         [HttpPost("Add-Student-Family-Info")]
@@ -69,7 +69,7 @@ namespace Alrazi.Controllers
             studentFamilyInfo.FatherBirthDate = new DateTime(DateTime.Now.Year - studentFamilyInfo.FatherYear, 1, 1);
             studentFamilyInfo.MotherAgeAtBirth = new DateTime(DateTime.Now.Year - studentFamilyInfo.MotherAtBirthYear, 1, 1);
 
-            SessionManager.CreateStudent(HttpContext, studentFamilyInfo, StudentStatus.StudentFamilyActivity);
+            SessionManager.CreateStudent(HttpContext, studentFamilyInfo, StudentStatus.StudentFamilyInfo);
 
             return Redirect("~/Add-Student-Sibling");
         }
@@ -288,7 +288,13 @@ namespace Alrazi.Controllers
             if (!HttpContext.HasSession())
                 return RedirectToAction("Index");
             SessionManager.CreateStudent(HttpContext, studentNote, StudentStatus.StudentNote);
-            return Redirect("~/Save-Student");
+
+            var studentType = SessionManager.GetStudentType(HttpContext);
+            if (studentType == StudentType.StudentEarly)
+                return Redirect("~/Save-Early-Student");
+
+            return Redirect("~/Save-LD-Student");
+
         }
     }
 }

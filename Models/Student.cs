@@ -42,7 +42,12 @@ namespace Alrazi.Models
 		public StudentFamilyActivity StudentFamilyActivity { get; set; }
 		public StudentPotentialEnhancer StudentPotentialEnhancer { get; set; }
 		public StudentNote StudentNote { get; set; }
+		public StudentAcademic StudentAcademic { get; set; }
+		public StudentAbility StudentAbility { get; set; }
 		public List<StudentSibling> StudentSiblings { get; set; }
+		public List<StudentInterests> StudentInterests { get; set; }
+		public List<StudentLevelInfo> StudentLevelInfos { get; set; }
+		public List<StudentVisitCenter> StudentVisitCenters { get; set; }
 		public List<StudentEducationalualification> StudentEducationalualifications { get; set; }
 
 		//public string GetAgeDateTime()

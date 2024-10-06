@@ -44,7 +44,7 @@
                                         <input type="text" required class="form-control" id="OtherNote" name="OtherNote" value="@Model.OtherNote">
                                     </div>
                                 </div>
-                                @if (ViewBag.StudentType = StudentType.StudentEarly)
+                                @if (ViewBag.StudentType == StudentType.StudentEarly)
                                 {
                                     <div class="col-6">
                                         <label class=" col-form-label" for="DescribeProblemAsSeenParents">@(DataTypeExtention.GetDisplayName<StudentNote>("DescribeProblemAsSeenParents"))</label>
@@ -53,7 +53,7 @@
                                         </div>
                                     </div>
                                 }
-                                else if (ViewBag.StudentType = StudentType.StudentLearningDifficulties)
+                                else if (ViewBag.StudentType == StudentType.StudentLearningDifficulties)
                                 {
                                     <div class="col-6">
                                         <label class=" col-form-label" for="SpeakingWay">@(DataTypeExtention.GetDisplayName<StudentNote>("SpeakingWay"))</label>

@@ -109,8 +109,8 @@ namespace Alrazi.Controllers
             return Redirect("~/Add-Student-Note");
         }
 
-        [HttpGet("Save-Student")]
-        public async Task<IActionResult> SaveStudent()
+        [HttpGet("Save-Early-Student")]
+        public async Task<IActionResult> SaveEarlyStudent()
         {
             if (!HttpContext.HasSession())
                 return RedirectToAction("Index");
@@ -128,9 +128,12 @@ namespace Alrazi.Controllers
             var studentPotentialEnhancer = SessionManager.GetStudent<StudentPotentialEnhancer>(HttpContext, StudentStatus.Early_StudentPotentialEnhancer);
             var studentEducationalualifications = SessionManager.GetStudent<List<StudentEducationalualification>>(HttpContext, StudentStatus.Early_StudentEducationalualification);
             var studentNote = SessionManager.GetStudent<StudentNote>(HttpContext, StudentStatus.StudentNote);
+
             await studentService.AddEarlyStudent(student, studentFamilyInfo, studentSiblings, studentMotherMedical, studentMedical,
                 studentMedicalTest, studentDevelopment, studentPsychologyDevelopment, studentSocialDevelopment, studentAutonomy,
                 studentFamilyActivity, studentPotentialEnhancer, studentEducationalualifications, studentNote);
+
+
             return View();
         }
     }

@@ -14,7 +14,7 @@ namespace Alrazi.Models
         public string OtherNote { get; set; }
 
         //Early
-        [DisplayName("وصف مشكلة الطالب كما يراها ولي األمر:")]
+        [DisplayName("وصف مشكلة الطالب كما يراها ولي الأمر:")]
         public string? DescribeProblemAsSeenParents { get; set; }
 
         //LD

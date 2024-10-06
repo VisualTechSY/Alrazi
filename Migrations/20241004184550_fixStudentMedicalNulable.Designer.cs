@@ -4,6 +4,7 @@ using Alrazi;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -11,9 +12,11 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace Alrazi.Migrations
 {
     [DbContext(typeof(Context))]
-    partial class ContextModelSnapshot : ModelSnapshot
+    [Migration("20241004184550_fixStudentMedicalNulable")]
+    partial class fixStudentMedicalNulable
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -633,6 +636,7 @@ namespace Alrazi.Migrations
                         .HasColumnType("bit");
 
                     b.Property<string>("Tests")
+                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<bool>("VaccineRelatedProblems")
@@ -1072,8 +1076,8 @@ namespace Alrazi.Migrations
             modelBuilder.Entity("Alrazi.Models.StudentAbility", b =>
                 {
                     b.HasOne("Alrazi.Models.Student", "Student")
-                        .WithOne("StudentAbility")
-                        .HasForeignKey("Alrazi.Models.StudentAbility", "Id")
+                        .WithMany()
+                        .HasForeignKey("Id")
                         .OnDelete(DeleteBehavior.Restrict)
                         .IsRequired();
 
@@ -1083,8 +1087,8 @@ namespace Alrazi.Migrations
             modelBuilder.Entity("Alrazi.Models.StudentAcademic", b =>
                 {
                     b.HasOne("Alrazi.Models.Student", "Student")
-                        .WithOne("StudentAcademic")
-                        .HasForeignKey("Alrazi.Models.StudentAcademic", "Id")
+                        .WithMany()
+                        .HasForeignKey("Id")
                         .OnDelete(DeleteBehavior.Restrict)
                         .IsRequired();
 
@@ -1149,7 +1153,7 @@ namespace Alrazi.Migrations
             modelBuilder.Entity("Alrazi.Models.StudentInterests", b =>
                 {
                     b.HasOne("Alrazi.Models.Student", "Student")
-                        .WithMany("StudentInterests")
+                        .WithMany()
                         .HasForeignKey("StudentId")
                         .OnDelete(DeleteBehavior.Restrict)
                         .IsRequired();
@@ -1160,7 +1164,7 @@ namespace Alrazi.Migrations
             modelBuilder.Entity("Alrazi.Models.StudentLevelInfo", b =>
                 {
                     b.HasOne("Alrazi.Models.Student", "Student")
-                        .WithMany("StudentLevelInfos")
+                        .WithMany()
                         .HasForeignKey("StudentId")
                         .OnDelete(DeleteBehavior.Restrict)
                         .IsRequired();
@@ -1289,7 +1293,7 @@ namespace Alrazi.Migrations
             modelBuilder.Entity("Alrazi.Models.StudentVisitCenter", b =>
                 {
                     b.HasOne("Alrazi.Models.Student", "Student")
-                        .WithMany("StudentVisitCenters")
+                        .WithMany()
                         .HasForeignKey("StudentId")
                         .OnDelete(DeleteBehavior.Restrict)
                         .IsRequired();
@@ -1310,12 +1314,6 @@ namespace Alrazi.Migrations
 
             modelBuilder.Entity("Alrazi.Models.Student", b =>
                 {
-                    b.Navigation("StudentAbility")
-                        .IsRequired();
-
-                    b.Navigation("StudentAcademic")
-                        .IsRequired();
-
                     b.Navigation("StudentAutonomy")
                         .IsRequired();
 
@@ -1329,10 +1327,6 @@ namespace Alrazi.Migrations
 
                     b.Navigation("StudentFamilyInfo")
                         .IsRequired();
-
-                    b.Navigation("StudentInterests");
-
-                    b.Navigation("StudentLevelInfos");
 
                     b.Navigation("StudentMedical")
                         .IsRequired();
@@ -1356,8 +1350,6 @@ namespace Alrazi.Migrations
 
                     b.Navigation("StudentSocialDevelopment")
                         .IsRequired();
-
-                    b.Navigation("StudentVisitCenters");
                 });
 
             modelBuilder.Entity("Alrazi.Models.StudentPsychologyDevelopment", b =>

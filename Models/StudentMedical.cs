@@ -18,15 +18,15 @@ namespace Alrazi.Models
 
         //EL
         [DisplayName("الفحوصات التي أجريت للطفل")]
-        public string Tests { get; set; }
+        public string? Tests { get; set; }
 
         //LD
         [DisplayName("أصيب باليرقان")]
         public bool GotJaundice { get; set; }
         [DisplayName("العامل الريزوسي")]
-        public string RhesusFactor { get; set; }
+        public string? RhesusFactor { get; set; }
         [DisplayName("أي مشاكل أخرى")]
-        public string OtherProplem { get; set; }
+        public string? OtherProplem { get; set; }
 
     }
 }

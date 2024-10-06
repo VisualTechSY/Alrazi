@@ -84,7 +84,7 @@ namespace Alrazi.Controllers
                 return RedirectToAction("Index");
 
             SessionManager.CreateStudent(HttpContext, studentAcademic, StudentStatus.LD_StudentAcademic);
-            return Redirect("~/Add-Student-Family-Info");
+            return Redirect("~/Add-Student-Level-Info");
         }
 
         [HttpGet("Add-Student-Level-Info")]
@@ -129,7 +129,7 @@ namespace Alrazi.Controllers
             if (!HttpContext.HasSession())
                 return RedirectToAction("Index");
 
-            return Redirect("~/Add-Student-Academic");
+            return Redirect("~/Add-Student-Ability");
 
         }
 
@@ -195,6 +195,40 @@ namespace Alrazi.Controllers
 
             return Redirect("~/Add-Student-Note");
 
+        }
+
+        [HttpGet("Save-LD-Student")]
+        public async Task<IActionResult> SaveLDStudent()
+        {
+            if (!HttpContext.HasSession())
+                return RedirectToAction("Index");
+
+            var student = SessionManager.GetStudent<Student>(HttpContext, StudentStatus.Student);
+            var studentFamilyInfo = SessionManager.GetStudent<StudentFamilyInfo>(HttpContext, StudentStatus.StudentFamilyInfo);
+            var studentSiblings = SessionManager.GetStudent<List<StudentSibling>>(HttpContext, StudentStatus.StudentSibling);
+            var studentMotherMedical = SessionManager.GetStudent<StudentMotherMedical>(HttpContext, StudentStatus.StudentMotherMedical);
+            var studentMedical = SessionManager.GetStudent<StudentMedical>(HttpContext, StudentStatus.StudentMedical);
+            var studentMedicalTest = SessionManager.GetStudent<StudentMedicalTest>(HttpContext, StudentStatus.StudentMedicalTest);
+            var studentPsychologyDevelopment = SessionManager.GetStudent<StudentPsychologyDevelopment>(HttpContext, StudentStatus.StudentPsychologyDevelopment);
+            var studentFamilyActivity = SessionManager.GetStudent<StudentFamilyActivity>(HttpContext, StudentStatus.StudentFamilyActivity);
+            var studentSocialDevelopment = SessionManager.GetStudent<StudentSocialDevelopment>(HttpContext, StudentStatus.StudentSocialDevelopment);
+            var studentNote = SessionManager.GetStudent<StudentNote>(HttpContext, StudentStatus.StudentNote);
+
+            var studentInterests = SessionManager.GetStudent<List<StudentInterests>>(HttpContext, StudentStatus.LD_StudentInterests);
+            var studentAcademic = SessionManager.GetStudent<StudentAcademic>(HttpContext, StudentStatus.LD_StudentAcademic);
+            var studentLevelInfo = SessionManager.GetStudent<List<StudentLevelInfo>>(HttpContext, StudentStatus.LD_StudentLevelInfo);
+            var studentAbility = SessionManager.GetStudent<StudentAbility>(HttpContext, StudentStatus.LD_StudentAbility);
+            var studentVisitCenter = SessionManager.GetStudent<List<StudentVisitCenter>>(HttpContext, StudentStatus.LD_StudentVisitCenter);
+            //var studentMistake = SessionManager.GetStudent<StudentMistake>(HttpContext, StudentStatus.LD_StudentMistake);
+
+
+
+            await studentService.AddLDStudent(student, studentFamilyInfo, studentSiblings, studentMotherMedical, studentMedical,
+                studentMedicalTest, studentInterests, studentPsychologyDevelopment, studentSocialDevelopment, studentLevelInfo,
+                studentFamilyActivity, studentAcademic, studentAbility, studentNote , studentVisitCenter);
+
+
+            return View();
         }
 
     }
