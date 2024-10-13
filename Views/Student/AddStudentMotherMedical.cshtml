@@ -1,4 +1,5 @@
-﻿@using Alrazi.Tools
+﻿@using Alrazi.Enums
+@using Alrazi.Tools
 @model StudentMotherMedical
 @{
     ViewData["Title"] = "إضافة تاريخ طبي للأم";
@@ -33,18 +34,7 @@
                                 <div class="col-6">
                                     <label class=" col-form-label" for="ComplicationsDuringPregnancy">@(DataTypeExtention.GetDisplayName<StudentMotherMedical>("ComplicationsDuringPregnancy"))</label>
                                     <div class="col-md-9">
-                                        <select class="form-control" name="ComplicationsDuringPregnancy">
-                                            @if (Model.ComplicationsDuringPregnancy)
-                                            {
-                                                <option selected value="True">نعم</option>
-                                                <option value="False">لا</option>
-                                            }
-                                            else
-                                            {
-                                                <option  value="True">نعم</option>
-                                                <option selected value="False">لا</option>
-                                            }
-                                        </select>
+                                        <input type="text" required class="form-control" id="ComplicationsDuringPregnancy" name="ComplicationsDuringPregnancy" value="@Model.ComplicationsDuringPregnancy">
                                     </div>
                                 </div>
                                 <div class="col-6">
@@ -54,10 +44,33 @@
                                     </div>
                                 </div>
                                 <div class="col-6">
+                                    <label class=" col-form-label" for="MotherAtBirthYear">@(DataTypeExtention.GetDisplayName<StudentMotherMedical>("MotherAtBirthYear"))</label>
+                                    <div class="col-md-9">
+                                        <input type="number" class="form-control" id="MotherAtBirthYear" name="MotherAtBirthYear" value="@Model.GetMotherAtBirthYear">
+                                    </div>
+                                </div>
+                                <div class="col-6">
                                     <label class=" col-form-label" for="TookMedicationWhilePregnant">@(DataTypeExtention.GetDisplayName<StudentMotherMedical>("TookMedicationWhilePregnant"))</label>
                                     <div class="col-md-9">
                                         <select class="form-control" name="TookMedicationWhilePregnant">
                                             @if (Model.TookMedicationWhilePregnant)
+                                            {
+                                                <option selected value="True">نعم</option>
+                                                <option value="False">لا</option>
+                                            }
+                                            else
+                                            {
+                                                <option value="True">نعم</option>
+                                                <option selected value="False">لا</option>
+                                            }
+                                        </select>
+                                    </div>
+                                </div>
+                                <div class="col-6">
+                                    <label class=" col-form-label" for="IsBlue">@(DataTypeExtention.GetDisplayName<StudentMotherMedical>("IsBlue"))</label>
+                                    <div class="col-md-9">
+                                        <select class="form-control" name="IsBlue">
+                                            @if (Model.IsBlue)
                                             {
                                                 <option selected value="True">نعم</option>
                                                 <option value="False">لا</option>
@@ -83,18 +96,19 @@
                                     </div>
                                 </div>
                                 <div class="col-6">
-                                    <label class=" col-form-label" for="IsNatural">@(DataTypeExtention.GetDisplayName<StudentMotherMedical>("IsNatural"))</label>
+                                    <label class=" col-form-label" for="BirthType">@(DataTypeExtention.GetDisplayName<StudentMotherMedical>("BirthType"))</label>
                                     <div class="col-md-9">
-                                        <select class="form-control" name="IsNatural">
-                                            @if (Model.IsNatural)
+                                        <select class="form-control" name="BirthType">
+                                            @foreach (var item in Enum.GetValues<BirthType>())
                                             {
-                                                <option selected value="True">طبيعية</option>
-                                                <option value="False">قيصرية</option>
-                                            }
-                                            else
-                                            {
-                                                <option value="True">طبيعية</option>
-                                                <option selected value="False">قيصرية</option>
+                                                @if(item == Model.BirthType)
+                                                {
+                                                    <option value="@item" selected>@BirthTypeManager.GetArabic(item)</option>
+                                                }
+                                                else
+                                                {
+                                                    <option value="@item">@BirthTypeManager.GetArabic(item)</option>
+                                                }
                                             }
                                         </select>
                                     </div>

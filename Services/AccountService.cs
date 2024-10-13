@@ -88,5 +88,13 @@ namespace Alrazi.Services
             employee.Password = employee.UserName;
             await context.SaveChangesAsync();
         }
+
+        public async Task<Account> GetAccount(int id)
+        {
+            return await context.Accounts
+                .Include(x=> x.Employee)
+                .Include(x=> x.Employee.EmployeePermissions)
+                .FirstAsync(x => x.Id == id);
+        }
     }
 }

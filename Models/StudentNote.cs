@@ -20,9 +20,11 @@ namespace Alrazi.Models
         //LD
         [DisplayName("يتكلم بطلاقة ؟ أم مرتبك و متعثر في كلامه ؟ أم قليل الكلام ؟")]
         public string? SpeakingWay { get; set; }
-        [DisplayName("المشكلات  التي تعاني منها الأسرة أثناء التعامل مع الطفل فى المنزل ؟")]
+        [DisplayName("المشكلات  التي تعاني منها الأسرة أثناء التعامل مع الطفل فى المنزل (مرتبة حسب الأولويات) ؟")]
         public string? FamilyProblemsWithChild { get; set; }
-        [DisplayName("المسكلات  التي تعاني منها الأسرة أثناء التعامل مع الطفل فى المنزل ؟")]
+        [DisplayName("المهــارات التي ترغب الأسرة في أن يتعلمها طــفلهم؟")]
+        public string? SkillsFamilyRequiredChild { get; set; }
+        [DisplayName("ماهي المهارات المطلوب تنميتها لدى الطفل في الوقت الحالي مرتبة حسب الأهمية")]
         public string? SkillsRequiredChild { get; set; }
     }
 }

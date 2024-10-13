@@ -24,7 +24,21 @@ namespace Alrazi.Controllers
             if (!HttpContext.HasSession())
                 return RedirectToAction("Index");
 
-            ViewBag.LDAgeTime = (await configService.GetConfigs()).First(x => x.ConfigKey == ConfigKey.MinStudyDate).Value;
+            var getConfigs = await configService.GetConfigs();
+
+            var earlyRange = getConfigs.First(x => x.ConfigKey == ConfigKey.EarlyRange).Value.Split('-');
+            var lDRange = getConfigs.First(x => x.ConfigKey == ConfigKey.LDRange).Value.Split('-');
+            var eQRange = getConfigs.First(x => x.ConfigKey == ConfigKey.EQRange).Value.Split('-');
+
+            ViewBag.EarlyMin = earlyRange[0];
+            ViewBag.EarlyMax = earlyRange[1];
+
+            ViewBag.LDMin = lDRange[0];
+            ViewBag.LDMax = lDRange[1];
+
+            ViewBag.EQMin = eQRange[0];
+            ViewBag.EQMax = eQRange[1];
+
             ViewData["Nationalities"] = (await configService.GetNationalities()).Where(x => x.IsActive).ToList();
             ViewData["AccessChannels"] = (await configService.GetAccessChannels()).Where(x => x.IsActive).ToList();
             ViewData["Diagnoses"] = (await configService.GetDiagnoses()).Where(x => x.IsActive).ToList();
@@ -37,9 +51,15 @@ namespace Alrazi.Controllers
         {
             if (!HttpContext.HasSession())
                 return RedirectToAction("Index");
-            var configAge = (await configService.GetConfigs()).First(x => x.ConfigKey == ConfigKey.MinStudyDate).Value;
 
-            if (student.GetAge() > Convert.ToInt16(configAge))
+            var getConfigs = await configService.GetConfigs();
+
+            var earlyRange = getConfigs.First(x => x.ConfigKey == ConfigKey.EarlyRange).Value.Split('-');
+            var lDRange = getConfigs.First(x => x.ConfigKey == ConfigKey.LDRange).Value.Split('-');
+            var eQRange = getConfigs.First(x => x.ConfigKey == ConfigKey.EQRange).Value.Split('-');
+
+
+            if (student.GetAge() >= Convert.ToInt16(lDRange[0]) && student.GetAge() <= Convert.ToInt16(lDRange[1]))
                 SessionManager.SetStudentType(HttpContext, StudentType.StudentLearningDifficulties);
             else
                 SessionManager.SetStudentType(HttpContext, StudentType.StudentEarly);
@@ -67,7 +87,8 @@ namespace Alrazi.Controllers
 
             studentFamilyInfo.MotherBirthDate = new DateTime(DateTime.Now.Year - studentFamilyInfo.MotherYear, 1, 1);
             studentFamilyInfo.FatherBirthDate = new DateTime(DateTime.Now.Year - studentFamilyInfo.FatherYear, 1, 1);
-            studentFamilyInfo.MotherAgeAtBirth = new DateTime(DateTime.Now.Year - studentFamilyInfo.MotherAtBirthYear, 1, 1);
+
+            ViewBag.StudentType = SessionManager.GetStudentType(HttpContext);
 
             SessionManager.CreateStudent(HttpContext, studentFamilyInfo, StudentStatus.StudentFamilyInfo);
 
@@ -147,6 +168,7 @@ namespace Alrazi.Controllers
         {
             if (!HttpContext.HasSession())
                 return RedirectToAction("Index");
+            studentMotherMedical.MotherAgeAtBirth = new DateTime(DateTime.Now.Year - studentMotherMedical.MotherAtBirthYear, 1, 1);
             SessionManager.CreateStudent(HttpContext, studentMotherMedical, StudentStatus.StudentMotherMedical);
             return Redirect("~/Add-Student-Medical");
         }
@@ -187,6 +209,9 @@ namespace Alrazi.Controllers
             if (!HttpContext.HasSession())
                 return RedirectToAction("Index");
             SessionManager.CreateStudent(HttpContext, studentMedicalTest, StudentStatus.StudentMedicalTest);
+            var getStudentType = SessionManager.GetStudentType(HttpContext);
+            if (getStudentType == StudentType.StudentEarly)
+                return Redirect("~/Add-Student-Development");
             return Redirect("~/Add-Student-Psychology-Development");
         }
 
@@ -204,7 +229,7 @@ namespace Alrazi.Controllers
 
             var getData = SessionManager.GetStudent<StudentPsychologyDevelopment>(HttpContext, StudentStatus.StudentPsychologyDevelopment);
             if (getData.StudentPsychologyDevelopmentBehavioralProblems is null)
-                getData.StudentPsychologyDevelopmentBehavioralProblems = new();
+                getData.StudentPsychologyDevelopmentBehavioralProblems = [];
 
 
             return View(getData);
@@ -225,8 +250,7 @@ namespace Alrazi.Controllers
             }
             SessionManager.CreateStudent(HttpContext, studentPsychologyDevelopment, StudentStatus.StudentPsychologyDevelopment);
             var studentType = SessionManager.GetStudentType(HttpContext);
-            if (studentType == StudentType.StudentEarly)
-                return Redirect("~/Add-Student-Development");
+
             return Redirect("~/Add-Student-Social-Development");
         }
 
@@ -246,6 +270,10 @@ namespace Alrazi.Controllers
             if (!HttpContext.HasSession())
                 return RedirectToAction("Index");
             SessionManager.CreateStudent(HttpContext, studentSocialDevelopment, StudentStatus.StudentSocialDevelopment);
+
+            var studentType = SessionManager.GetStudentType(HttpContext);
+            if (studentType == StudentType.StudentEarly)
+                return Redirect("~/Add-Student-Autonomy");
             return Redirect("~/Add-Family-Activity");
         }
 
@@ -268,7 +296,7 @@ namespace Alrazi.Controllers
             var studentType = SessionManager.GetStudentType(HttpContext);
 
             if (studentType == StudentType.StudentEarly)
-                return Redirect("~/Add-Student-Autonomy");
+                return Redirect("~/Add-Student-Potential-Enhancer");
 
             return Redirect("~/Add-Student-Interests");
         }

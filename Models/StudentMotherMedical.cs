@@ -1,4 +1,5 @@
-﻿using System.ComponentModel;
+﻿using Alrazi.Enums;
+using System.ComponentModel;
 using System.ComponentModel.DataAnnotations.Schema;
 
 namespace Alrazi.Models
@@ -9,7 +10,8 @@ namespace Alrazi.Models
         public int Id { get; set; }
         public Student Student { get; set; }
         [DisplayName("اختلاطات أثناء الحمل")]
-        public bool ComplicationsDuringPregnancy { get; set; }
+        public string ComplicationsDuringPregnancy { get; set; }
+        public DateTime MotherAgeAtBirth { get; set; }
         [DisplayName("هل تعرضت الأم للأشعة أثناء الحمل وفي أي شهر من الحمل")]
         public string MonthMotherExposedRadiation { get; set; }
         [DisplayName("هل تناولت عقاقير طبية أثناء الحمل")]
@@ -19,7 +21,7 @@ namespace Alrazi.Models
         [DisplayName("مدة الحمل")]
         public int PregnancyDuration { get; set; }
         [DisplayName("نوع الولادة")]
-        public bool IsNatural { get; set; }
+        public BirthType BirthType { get; set; }
         [DisplayName("مكان الولادة")]
         public string PlaceBirth { get; set; }
         [DisplayName("المشرف على الولادة")]
@@ -30,11 +32,17 @@ namespace Alrazi.Models
         public string NurseryReason { get; set; }
         [DisplayName("النمو مكتمل")]
         public bool GrowthComplete { get; set; }
+        [DisplayName("هل أزرق لونه")]
+        public bool IsBlue { get; set; }
         [DisplayName("أصيب باليرقان")]
         public bool GotJaundice { get; set; }
         [DisplayName("العامل الريزوسي")]
         public string RhesusFactor { get; set; }
         [DisplayName("أي مشاكل أخرى")]
         public string OtherProblem { get; set; }
+        public int GetMotherAtBirthYear => MotherAgeAtBirth == default ? 0 : DateTime.Now.Year - MotherAgeAtBirth.Year;
+        [NotMapped]
+        [DisplayName("عمر الأم عند الإنجاب")]
+        public int MotherAtBirthYear { get; set; }
     }
 }

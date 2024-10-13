@@ -11,10 +11,12 @@ namespace Alrazi.Controllers
     {
         private readonly ConfigService configService;
         private readonly StudentService studentService;
+        private readonly AccountService accountService;
 
-        public StudentEarlyController(ConfigService configService , StudentService studentService)
+        public StudentEarlyController(ConfigService configService , StudentService studentService , AccountService accountService)
         {
             this.configService = configService;
+            this.accountService = accountService;
             this.studentService = studentService;
         }
 
@@ -32,7 +34,7 @@ namespace Alrazi.Controllers
             if (!HttpContext.HasSession())
                 return RedirectToAction("Index");
             SessionManager.CreateStudent(HttpContext, studentDevelopment, StudentStatus.Early_StudentDevelopment);
-            return Redirect("~/Add-Student-Social-Development");
+            return Redirect("~/Add-Student-Psychology-Development");
         }
 
        
@@ -51,7 +53,7 @@ namespace Alrazi.Controllers
             if (!HttpContext.HasSession())
                 return RedirectToAction("Index");
             SessionManager.CreateStudent(HttpContext, studentAutonomy, StudentStatus.Early_StudentAutonomy);
-            return Redirect("~/Add-Student-Potential-Enhancer");
+            return Redirect("~/Add-Family-Activity");
         }
 
         
@@ -133,6 +135,9 @@ namespace Alrazi.Controllers
                 studentMedicalTest, studentDevelopment, studentPsychologyDevelopment, studentSocialDevelopment, studentAutonomy,
                 studentFamilyActivity, studentPotentialEnhancer, studentEducationalualifications, studentNote);
 
+            var getAccount = await accountService.GetAccount(HttpContext.GetMyId());
+            HttpContext.Session.Clear();
+            HttpContext.SetSession(getAccount);
 
             return View();
         }

@@ -28,7 +28,12 @@
 
                 <h4 class="header-title mb-3"> معلومات الحالة</h4>
                 <form method="post">
-                    <input type="hidden" id="ldAgeTime" value="@ViewBag.LDAgeTime" />
+                    <input type="hidden" id="EarlyMin" value="@ViewBag.EarlyMin" />
+                    <input type="hidden" id="EarlyMax" value="@ViewBag.EarlyMax" />
+                    <input type="hidden" id="LDMin" value="@ViewBag.LDMin" />
+                    <input type="hidden" id="LDMax" value="@ViewBag.LDMax" />
+                    <input type="hidden" id="EQMin" value="@ViewBag.EQMin" />
+                    <input type="hidden" id="EQMax" value="@ViewBag.EQMax" />
                     <div class="row">
                         <div class="col-12">
                             <div class="row">
@@ -202,7 +207,7 @@
                                 </div>
                             </div>
                             <div style="padding-top:20px">
-                                <button type="submit" class="btn btn-primary">التالي</button>
+                                <button type="submit" id="btnNext" class="btn btn-primary">التالي</button>
                             </div>
                         </div> <!-- end col -->
                     </div> <!-- end row -->
@@ -220,6 +225,8 @@
     });
 
     function getAgeDateTime() {
+
+        $("#btnNext").removeClass("d-none");
 
         var birthDate = $("#BirthDate").val();
         var studyStateDate = $("#StudyStateDate").val();
@@ -250,20 +257,25 @@
 
         $("#AgeTimeDate").val(str);
 
-        var getAgeTime = $("#ldAgeTime").val();
+        var EarlyMin = $("#EarlyMin").val();
+        var EarlyMax = $("#EarlyMax").val();
+        var LDMin = $("#LDMin").val();
+        var LDMax = $("#LDMax").val();
+        var EQMin = $("#EQMin").val();
+        var EQMax = $("#EQMax").val();
 
-        if (ageYears >= Number(getAgeTime)) {
+        if (ageYears >= Number(LDMin) && ageYears <= Number(LDMax)) {
             $("SchoolName").prop('required', false);
             $("Class").prop('required', false);
             $("#ldRow").removeClass("d-none");
 
-            var result = (Number(ageYears) - Number(getAgeTime)) - 1;
+            var result = Number(ageYears) - Number(EarlyMax);
 
-            var state = "الحالة هي صعوبات تعلم بفارق " + result + " سنة";
+            var state = "الحالة هي صعوبات تعلم";
 
             $("#StateInfo").html(state);
         }
-        else{
+        else if (ageYears >= Number(EarlyMin) && ageYears <= Number(EarlyMax)) {
             $("#ldRow").addClass("d-none");
             $("SchoolName").prop('required', true);
             $("Class").prop('required', true);
@@ -271,6 +283,18 @@
             $("#Class").val('');
 
             var state = "الحالة هي تدخل مبكر";
+
+            $("#StateInfo").html(state);
+        }
+        else{
+            $("SchoolName").prop('required', false);
+            $("Class").prop('required', false);
+            $("#ldRow").removeClass("d-none");
+            $("#btnNext").addClass("d-none");
+
+            var result = Number(ageYears) - Number(LDMax);
+
+            var state = "الحالة هي تأهيل ";
 
             $("#StateInfo").html(state);
         }

@@ -46,14 +46,7 @@
                                     <input type="hidden" name="configs[@index].ConfigKey" value="@item.ConfigKey" />
                                 </td>
                                 <td>
-                                    @if (item.ConfigKey == ConfigKey.MinStudyDate)
-                                    {
-                                        <input type="number" class="form-control" name="configs[@index].Value" value="@item.Value" />
-                                    }
-                                    else
-                                    {
-                                        <input type="text" class="form-control" name="configs[@index].Value" value="@item.Value" />
-                                    }
+                                    <input type="text" class="form-control" name="configs[@index].Value" value="@item.Value" />
                                 </td>
                             </tr>
                             index++;

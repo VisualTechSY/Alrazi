@@ -29,18 +29,4 @@
         LD_StudentMistake,
 
     }
-
-    public class StudentStatusManager
-    {
-        public static string GetArabic(ConfigKey configKey)
-        {
-            switch (configKey)
-            {
-                case ConfigKey.MinStudyDate:
-                    return "العمر الأدنى لدخول صعوبات التعلم";
-                default:
-                    return "";
-            }
-        }
-    }
 }

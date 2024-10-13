@@ -12,15 +12,15 @@ namespace Alrazi.Models
         [DisplayName("نوع تخطيط السمع")]
         public string AudiogramType { get; set; }
         [DisplayName("نتيجة تخطيط السمع")]
-        public int AudiogramTypeResult { get; set; }
+        public string AudiogramTypeResult { get; set; }
         [DisplayName("نوع فحص البصر")]
         public string EyeExamination { get; set; }
         [DisplayName("نتيجة فحص البصر")]
-        public int EyeExaminationResult { get; set; }
+        public string EyeExaminationResult { get; set; }
         [DisplayName("نوع فحص الدماغ")]
         public string BrainScan { get; set; }
         [DisplayName("نتيجة فحص الدماغ")]
-        public int BrainScanResult { get; set; }
+        public string BrainScanResult { get; set; }
         [DisplayName("الأدوية السابقة")]
         public string PreviousMedications { get; set; }
         [DisplayName("الأدوية الحالية")]

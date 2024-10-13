@@ -17,7 +17,6 @@ namespace Alrazi.Models
         public DateTime FatherBirthDate { get; set; }
         public string FatherStudy { get; set; }
         public string FatherJob { get; set; }
-        public DateTime MotherAgeAtBirth { get; set; }
         public string FatherAndMotherDegree { get; set; }
         public string FatherAndMotherDiseases { get; set; }
         public string DisabilityOfRelative { get; set; }
@@ -27,7 +26,7 @@ namespace Alrazi.Models
 
         //LD
         public bool? SeparatedParents { get; set; }
-        public ChildResidence? ChildResidence { get; set; }
+        public string? ChildResidence { get; set; }
 
 
         public int GetMotherYear => MotherBirthDate == default ? 0 : DateTime.Now.Year - MotherBirthDate.Year;
@@ -37,10 +36,7 @@ namespace Alrazi.Models
         public int GetFatherYear => FatherBirthDate == default ? 0 : DateTime.Now.Year - FatherBirthDate.Year;
         [NotMapped]
         public int FatherYear { get; set; }
-
-        public int GetMotherAtBirthYear => MotherAgeAtBirth == default ? 0 : DateTime.Now.Year - MotherAgeAtBirth.Year;
-        [NotMapped]
-        public int MotherAtBirthYear { get; set; }
+     
 
     }
 }

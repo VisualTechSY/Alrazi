@@ -1,0 +1,99 @@
+﻿@using Alrazi.Enums
+@using Alrazi.Tools
+@model StudentMistake
+@{
+    ViewData["Title"] = "إضافة كمية الأخطاء ونوعها";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<!-- start page title -->
+<div class="row">
+    <div class="col-12">
+        <div class="page-title-box">
+            <div class="page-title-right">
+                <ol class="breadcrumb m-0">
+                    <li class="breadcrumb-item"><a href="~/Panel">الرئيسية</a></li>
+                    <li class="breadcrumb-item active">إضافة كمية الأخطاء ونوعها</li>
+                </ol>
+            </div>
+            <h4 class="page-title">إضافة كمية الأخطاء ونوعها</h4>
+        </div>
+    </div>
+</div>
+<!-- end page title -->
+
+<div class="row">
+    <div class="col-xl-12">
+        <div class="card">
+            <div class="card-body">
+                <h4 class="header-title mb-3"> كمية الأخطاء ونوعها</h4>
+                <form method="post">
+                    <div class="row">
+                        <div class="col-12">
+                            <div class="row">
+                                <div class="col-6">
+                                    <label class=" col-form-label" for="CompareColleagues">@(DataTypeExtention.GetDisplayName<StudentMistake>("CompareColleagues"))</label>
+                                    <div class="col-md-9">
+                                        <input type="text" required class="form-control" id="CompareColleagues" name="CompareColleagues" value="@Model.CompareColleagues">
+                                    </div>
+                                </div>
+                                <div class="col-6">
+                                    <label class=" col-form-label" for="AlotCompareColleagues">@(DataTypeExtention.GetDisplayName<StudentMistake>("AlotCompareColleagues"))</label>
+                                    <div class="col-md-9">
+                                        <input type="text" required class="form-control" id="AlotCompareColleagues" name="AlotCompareColleagues" value="@Model.AlotCompareColleagues">
+                                    </div>
+                                </div>
+                                <div class="col-6">
+                                    <label class=" col-form-label" for="AFewCompareColleagues">@(DataTypeExtention.GetDisplayName<StudentMistake>("AFewCompareColleagues"))</label>
+                                    <div class="col-md-9">
+                                        <input type="text" required class="form-control" id="AFewCompareColleagues" name="AFewCompareColleagues" value="@Model.AFewCompareColleagues">
+                                    </div>
+                                </div>
+                                <div class="col-6">
+                                    <label class=" col-form-label" for="BehavioralDescription">@(DataTypeExtention.GetDisplayName<StudentMistake>("BehavioralDescription"))</label>
+                                    <div class="col-md-9">
+                                        <input type="text" required class="form-control" id="BehavioralDescription" name="BehavioralDescription" value="@Model.BehavioralDescription">
+                                    </div>
+                                </div>
+                                <div class="col-6">
+                                    <label class=" col-form-label" for="SchoolDealing">@(DataTypeExtention.GetDisplayName<StudentMistake>("SchoolDealing"))</label>
+                                    <div class="col-md-9">
+                                        <input type="text" required class="form-control" id="SchoolDealing" name="SchoolDealing" value="@Model.SchoolDealing">
+                                    </div>
+                                </div>
+                                <div class="col-6">
+                                    <label class=" col-form-label" for="UnderstandingWellBehaved">@(DataTypeExtention.GetDisplayName<StudentMistake>("UnderstandingWellBehaved"))</label>
+                                    <div class="col-md-9">
+                                        <input type="text" required class="form-control" id="UnderstandingWellBehaved" name="UnderstandingWellBehaved" value="@Model.UnderstandingWellBehaved">
+                                    </div>
+                                </div>
+                                <div class="col-6">
+                                    <label class=" col-form-label" for="AssaultsOthers">@(DataTypeExtention.GetDisplayName<StudentMistake>("AssaultsOthers"))</label>
+                                    <div class="col-md-9">
+                                        <input type="text" required class="form-control" id="AssaultsOthers" name="AssaultsOthers" value="@Model.AssaultsOthers">
+                                    </div>
+                                </div>
+                                <div class="col-6">
+                                    <label class=" col-form-label" for="SelfReliant">@(DataTypeExtention.GetDisplayName<StudentMistake>("SelfReliant"))</label>
+                                    <div class="col-md-9">
+                                        <input type="text" required class="form-control" id="SelfReliant" name="SelfReliant" value="@Model.SelfReliant">
+                                    </div>
+                                </div>
+                                <div class="col-6">
+                                    <label class=" col-form-label" for="ClearExpression">@(DataTypeExtention.GetDisplayName<StudentMistake>("ClearExpression"))</label>
+                                    <div class="col-md-9">
+                                        <input type="text" required class="form-control" id="ClearExpression" name="ClearExpression" value="@Model.ClearExpression">
+                                    </div>
+                                </div>
+
+                                <div style="padding-top:20px">
+                                    <button type="submit" class="btn btn-primary">التالي</button>
+                                </div>
+                            </div>
+                        </div> <!-- end col -->
+                    </div> <!-- end row -->
+                </form>
+            </div> <!-- end card-body -->
+        </div> <!-- end card-->
+    </div> <!-- end col -->
+</div>

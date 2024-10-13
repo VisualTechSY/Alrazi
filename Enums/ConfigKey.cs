@@ -2,7 +2,9 @@
 {
     public enum ConfigKey
     {
-        MinStudyDate,
+        EarlyRange,
+        LDRange,
+        EQRange,
     }
 
     public class ConfigKeyManager
@@ -11,8 +13,12 @@
         {
             switch (configKey)
             {
-                case ConfigKey.MinStudyDate:
-                    return "العمر الأدنى لدخول صعوبات التعلم";
+                case ConfigKey.EarlyRange:
+                    return "نطاق عمر التدخل المبكر";
+                case ConfigKey.LDRange:
+                    return "نطاق عمر صعوبات التعلم";
+                case ConfigKey.EQRange:
+                    return "نطاق عمر التأهيل التربوي";
                 default:
                     return "";
             }

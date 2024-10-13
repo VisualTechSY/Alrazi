@@ -11,10 +11,12 @@ namespace Alrazi.Controllers
     {
         private readonly ConfigService configService;
         private readonly StudentService studentService;
+        private readonly AccountService accountService;
 
-        public StudentLearningDifficultiesController(ConfigService configService , StudentService studentService)
+        public StudentLearningDifficultiesController(ConfigService configService , StudentService studentService, AccountService accountService)
         {
             this.configService = configService;
+            this.accountService = accountService;
             this.studentService = studentService;
         }
 
@@ -193,9 +195,29 @@ namespace Alrazi.Controllers
             if (!HttpContext.HasSession())
                 return RedirectToAction("Index");
 
-            return Redirect("~/Add-Student-Note");
+            return Redirect("~/Add-Student-Mistake");
 
         }
+
+        [HttpGet("Add-Student-Mistake")]
+        public IActionResult AddStudentMistake()
+        {
+            if (!HttpContext.HasSession())
+                return RedirectToAction("Index");
+
+            return View(SessionManager.GetStudent<StudentMistake>(HttpContext, StudentStatus.LD_StudentMistake));
+        }
+
+        [HttpPost("Add-Student-Mistake")]
+        public IActionResult AddStudentMistake(StudentMistake studentMistake)
+        {
+            if (!HttpContext.HasSession())
+                return RedirectToAction("Index");
+
+            SessionManager.CreateStudent(HttpContext, studentMistake, StudentStatus.LD_StudentMistake);
+            return Redirect("~/Add-Student-Note");
+        }
+
 
         [HttpGet("Save-LD-Student")]
         public async Task<IActionResult> SaveLDStudent()
@@ -227,6 +249,9 @@ namespace Alrazi.Controllers
                 studentMedicalTest, studentInterests, studentPsychologyDevelopment, studentSocialDevelopment, studentLevelInfo,
                 studentFamilyActivity, studentAcademic, studentAbility, studentNote , studentVisitCenter);
 
+            var getAccount = await accountService.GetAccount(HttpContext.GetMyId());
+            HttpContext.Session.Clear();
+            HttpContext.SetSession(getAccount);
 
             return View();
         }
