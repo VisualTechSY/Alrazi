@@ -44,6 +44,7 @@ namespace Alrazi.Models
 		public StudentNote StudentNote { get; set; }
 		public StudentAcademic StudentAcademic { get; set; }
 		public StudentAbility StudentAbility { get; set; }
+		public StudentMistake StudentMistake { get; set; }
 		public List<StudentSibling> StudentSiblings { get; set; }
 		public List<StudentInterests> StudentInterests { get; set; }
 		public List<StudentLevelInfo> StudentLevelInfos { get; set; }

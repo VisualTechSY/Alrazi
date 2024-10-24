@@ -11,11 +11,13 @@ namespace Alrazi.Controllers
     {
         private readonly AccountService accountService;
         private readonly ConfigService configService;
+        private readonly StudentService studentService;
 
-        public StudentController(AccountService accountService, ConfigService configService)
+        public StudentController(AccountService accountService, ConfigService configService , StudentService studentService)
         {
             this.accountService = accountService;
             this.configService = configService;
+            this.studentService = studentService;
         }
 
         [HttpGet("Add-Student")]
@@ -323,6 +325,29 @@ namespace Alrazi.Controllers
 
             return Redirect("~/Save-LD-Student");
 
+        }
+
+        [HttpGet("Get-Students")]
+        public async Task<IActionResult> GetStudents(int year , StudentStatus studentStatus)
+        {
+            if (!HttpContext.HasSession())
+                return RedirectToAction("Index");
+            int startingYear = await studentService.GetStartYear();
+
+            if (startingYear == 0)
+                startingYear = DateTime.Now.Year;
+
+            if (studentStatus == 0)
+                studentStatus = StudentStatus.Early;
+            if (year == 0)
+                year = startingYear;
+
+            ViewBag.StartingYear = startingYear;
+
+
+            ViewBag.StudentStatus = studentStatus;
+            ViewBag.Year = year;
+            return View(await studentService.GetStudentsInfo(year , studentStatus));
         }
     }
 }

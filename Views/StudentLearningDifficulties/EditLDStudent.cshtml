@@ -1,0 +1,1854 @@
+﻿@using Alrazi.Enums
+@using Alrazi.Tools
+@model Student
+@{
+    ViewData["Title"] = "تعديل معلومات الطالب";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<div class="row">
+    <div class="col-12">
+        <div class="page-title-box">
+            <div class="page-title-right">
+                <ol class="breadcrumb m-0">
+                    <li class="breadcrumb-item"><a href="~/Panel">الرئيسية</a></li>
+                    <li class="breadcrumb-item active">تعديل معلومات الطالب</li>
+                </ol>
+            </div>
+            <h4 class="page-title">تعديل معلومات الطالب</h4>
+        </div>
+    </div>
+</div>
+
+<div class="row">
+    <div class="col-xl-12">
+        <div class="card">
+            <div class="card-body">
+
+                <h4 class="header-title mb-3"> معلومات الحالة - صعوبات تعلم</h4>
+                <div method="post">
+                    <input type="hidden" id="EarlyMin" value="@ViewBag.EarlyMin" />
+                    <input type="hidden" id="EarlyMax" value="@ViewBag.EarlyMax" />
+                    <input type="hidden" id="LDMin" value="@ViewBag.LDMin" />
+                    <input type="hidden" id="LDMax" value="@ViewBag.LDMax" />
+                    <input type="hidden" id="EQMin" value="@ViewBag.EQMin" />
+                    <input type="hidden" id="EQMax" value="@ViewBag.EQMax" />
+                    <div class="row">
+                        <div class="col-12">
+                            <div class="row">
+                                <div class="col-4">
+                                    <label class="col-md-3 col-form-label" for="FirstName">الاسم الأول</label>
+                                    <div class="col-md-9">
+                                        <input type="text" required class="form-control" id="FirstName" name="FirstName" value="@Model.FirstName">
+                                    </div>
+                                </div>
+                                <div class="col-4">
+                                    <label class="col-md-3 col-form-label" for="LastName">الكنية</label>
+                                    <div class="col-md-9">
+                                        <input type="text" required class="form-control" id="LastName" name="LastName" value="@Model.LastName">
+                                    </div>
+                                </div>
+                                <div class="col-4">
+                                    <label class="col-md-3 col-form-label" for="NationalityId">الجنسية</label>
+                                    <div class="col-md-9">
+                                        <select required class="form-control" id="NationalityId" name="NationalityId">
+                                            @foreach (var item in ViewData["Nationalities"] as List<Nationality>)
+                                            {
+                                                @if (item.Id == Model.NationalityId)
+                                                {
+                                                    <option selected value="@item.Id">@item.Name</option>
+                                                }
+                                                else
+                                                {
+                                                    <option value="@item.Id">@item.Name</option>
+                                                }
+                                            }
+                                        </select>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="row ">
+                                <div class="col-4">
+                                    <label class="col-md-3 col-form-label" for="StudyStateDate">تاريخ دراسة الحالة</label>
+                                    <div class="col-md-9">
+                                        <input type="date" required class="form-control" id="StudyStateDate" name="StudyStateDate" onblur="getAgeDateTime()" value="@DataTypeExtention.GetStringFromDate(Model.StudyStateDate)">
+                                    </div>
+                                </div>
+                                <div class="col-4">
+                                    <label class="col-md-3 col-form-label" for="BirthDate">تاريخ الميلاد</label>
+                                    <div class="col-md-9">
+                                        <input type="date" required class="form-control" id="BirthDate" name="BirthDate" onblur="getAgeDateTime()" value="@DataTypeExtention.GetStringFromDate(Model.BirthDate)">
+                                    </div>
+                                </div>
+                                <div class="col-4">
+                                    <label class="col-md-3 col-form-label" for="AgeTimeDate">العمر الزمني</label>
+                                    <div class="col-md-9">
+                                        <input type="text" disabled class="form-control" id="AgeTimeDate">
+                                        <b id="StateInfo" style="color:red"></b>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row ">
+                                <div class="col-6">
+                                    <label class="col-md-3 col-form-label" for="BirthPlace">مكان الميلاد</label>
+                                    <div class="col-md-9">
+                                        <input type="text" required class="form-control" id="BirthPlace" name="BirthPlace" value="@Model.BirthPlace">
+                                    </div>
+                                </div>
+                                <div class="col-6">
+                                    <label class="col-md-3 col-form-label" for="IsMale">الجنس</label>
+                                    <div class="col-md-9">
+                                        <select class="form-control" id="IsMale" name="IsMale">
+                                            @if (Model.IsMale)
+                                            {
+                                                <option selected value="True">ذكر</option>
+                                                <option value="False">أنثى</option>
+                                            }
+                                            else
+                                            {
+                                                <option value="True">ذكر</option>
+                                                <option selected value="False">أنثى</option>
+                                            }
+                                        </select>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row ">
+                                <div class="col-6">
+                                    <label class="col-md-3 col-form-label" for="PhoneNumber">رقم الهاتف</label>
+                                    <div class="col-md-9">
+                                        <input type="text" required class="form-control" id="PhoneNumber" name="PhoneNumber" value="@Model.PhoneNumber">
+                                    </div>
+                                </div>
+                                <div class="col-6">
+                                    <label class="col-md-3 col-form-label" for="Address">العنوان</label>
+                                    <div class="col-md-9">
+                                        <input type="text" required class="form-control" id="Address" name="Address" value="@Model.Address">
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row ">
+                                <div class="col-6">
+                                    <label class="col-md-3 col-form-label" for="AccessChannelId">الجهة المحولة</label>
+                                    <div class="col-md-9">
+                                        <select required class="form-control" id="AccessChannelId" name="AccessChannelId">
+                                            @foreach (var item in ViewData["AccessChannels"] as List<AccessChannel>)
+                                            {
+                                                @if (item.Id == Model.AccessChannelId)
+                                                {
+                                                    <option selected value="@item.Id">@item.Name</option>
+                                                }
+                                                else
+                                                {
+                                                    <option value="@item.Id">@item.Name</option>
+                                                }
+                                            }
+                                        </select>
+                                    </div>
+                                </div>
+                                <div class="col-6">
+                                    <label class="col-md-3 col-form-label" for="AccessDate">تاريخ التحويل</label>
+                                    <div class="col-md-9">
+                                        <input type="date" required class="form-control" id="AccessDate" name="AccessDate" value="@DataTypeExtention.GetStringFromDate(Model.AccessDate)">
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row ">
+                                <div class="col-6">
+                                    <label class="col-md-3 col-form-label" for="DiagnosisNumber">هاتف الجهة المحولة</label>
+                                    <div class="col-md-9">
+                                        <input type="text" required class="form-control" id="DiagnosisNumber" name="DiagnosisNumber" value="@Model.DiagnosisNumber">
+                                    </div>
+                                </div>
+                                <div class="col-6">
+                                    <label class="col-md-3 col-form-label" for="DiagnosisId">تشخيص المحول</label>
+                                    <div class="col-md-9">
+                                        <select required class="form-control" required id="DiagnosisId" name="DiagnosisId">
+                                            @foreach (var item in ViewData["Diagnoses"] as List<Diagnosis>)
+                                            {
+                                                @if (item.Id == Model.DiagnosisId)
+                                                {
+                                                    <option selected value="@item.Id">@item.Name</option>
+                                                }
+                                                else
+                                                {
+                                                    <option value="@item.Id">@item.Name</option>
+                                                }
+                                            }
+                                        </select>
+                                    </div>
+                                </div>
+                            </div>
+
+
+
+                            <div class="row d-none" id="ldRow">
+                                <div class="col-6">
+                                    <label class="col-md-3 col-form-label" for="SchoolName">اسم المدرسة</label>
+                                    <div class="col-md-9">
+                                        <input type="text" class="form-control" id="SchoolName" name="SchoolName" value="@Model.SchoolName">
+                                    </div>
+                                </div>
+                                <div class="col-6">
+                                    <label class="col-md-3 col-form-label" for="Class">الصف</label>
+                                    <div class="col-md-9">
+                                        <input type="text" class="form-control" id="Class" name="Class" value="@Model.Class">
+                                    </div>
+                                </div>
+                            </div>
+
+
+                            <div class="row ">
+                                <div class="col-11">
+                                    <label class="col-md-6 col-form-label" for="FamilyBio">ملخص المشكلة الحالة (نوعها وأعراضها) كما يرويها ولي الأمر</label>
+                                    <textarea class="form-control" required id="FamilyBio" name="FamilyBio">@Model.FamilyBio</textarea>
+                                </div>
+                            </div>
+                            <div style="padding-top:20px">
+                                <button type="submit" id="btnNext" class="btn btn-primary">حفظ</button>
+                            </div>
+                        </div> <!-- end col -->
+                    </div> <!-- end row -->
+                </div>
+            </div> <!-- end card-body -->
+        </div> <!-- end card-->
+    </div> <!-- end col -->
+</div>
+
+<div class="row">
+    <div class="col-xl-12">
+        <div class="card">
+            <div class="card-body">
+                <h4 class="header-title mb-3"> معلومات عامة عن العائلة</h4>
+                <div method="post">
+                    <div class="row">
+                        <div class="col-12">
+                            <div class="row">
+                                <div class="col-6">
+                                    <label class=" col-form-label" for="FatherName">اسم الأب</label>
+                                    <div class="col-md-9">
+                                        <input type="text" class="form-control" id="FatherName" name="FatherName" value="@Model.StudentFamilyInfo.FatherName">
+                                    </div>
+                                </div>
+                                <div class="col-6">
+                                    <label class=" col-form-label" for="FatherYear">عمر الأب</label>
+                                    <div class="col-md-9">
+                                        <input type="number" class="form-control" id="FatherYear" name="FatherYear" value="@Model.StudentFamilyInfo.GetFatherYear">
+                                    </div>
+                                </div>
+                                <div class="col-6">
+                                    <label class=" col-form-label" for="FatherStudy">المستوى التعليمي الأب</label>
+                                    <div class="col-md-9">
+                                        <input type="text" class="form-control" id="FatherStudy" name="FatherStudy" value="@Model.StudentFamilyInfo.FatherStudy">
+                                    </div>
+                                </div>
+                                <div class="col-6">
+                                    <label class=" col-form-label" for="FatherJob">عمل الأب ومكانه</label>
+                                    <div class="col-md-9">
+                                        <input type="text" class="form-control" id="FatherJob" name="FatherJob" value="@Model.StudentFamilyInfo.FatherJob">
+                                    </div>
+                                </div>
+                                <div class="col-6">
+                                    <label class=" col-form-label" for="MotherName">اسم الأم</label>
+                                    <div class="col-md-9">
+                                        <input type="text" class="form-control" id="MotherName" name="MotherName" value="@Model.StudentFamilyInfo.MotherName">
+                                    </div>
+                                </div>
+                                <div class="col-6">
+                                    <label class=" col-form-label" for="MotherYear">عمر الأم</label>
+                                    <div class="col-md-9">
+                                        <input type="number" class="form-control" id="MotherYear" name="MotherYear" value="@Model.StudentFamilyInfo.GetMotherYear">
+                                    </div>
+                                </div>
+                                <div class="col-6">
+                                    <label class=" col-form-label" for="MotherStudy">المستوى التعليمي للأم</label>
+                                    <div class="col-md-9">
+                                        <input type="text" class="form-control" id="MotherStudy" name="MotherStudy" value="@Model.StudentFamilyInfo.MotherStudy">
+                                    </div>
+                                </div>
+                                <div class="col-6">
+                                    <label class=" col-form-label" for="MotherJob">عمل الأم ومكانها</label>
+                                    <div class="col-md-9">
+                                        <input type="text" class="form-control" id="MotherJob" name="MotherJob" value="@Model.StudentFamilyInfo.MotherJob">
+                                    </div>
+                                </div>
+                                <div class="col-6">
+                                    <label class=" col-form-label" for="FatherAndMotherDegree">درجة القرابة بين الأم والأب</label>
+                                    <div class="col-md-9">
+                                        <input type="text" class="form-control" id="FatherAndMotherDegree" name="FatherAndMotherDegree" value="@Model.StudentFamilyInfo.FatherAndMotherDegree">
+                                    </div>
+                                </div>
+                                <div class="col-6">
+                                    <label class=" col-form-label">هل يعاني أحد الأبوين من الأمراض</label>
+                                    <div class="col-md-9">
+                                        <select class="form-control">
+                                            @if (string.IsNullOrWhiteSpace(Model.StudentFamilyInfo.FatherAndMotherDiseases))
+                                            {
+                                                <option>نعم</option>
+                                                <option selected>لا</option>
+                                            }
+                                            else
+                                            {
+                                                <option selected>نعم</option>
+                                                <option>لا</option>
+                                            }
+                                        </select>
+                                    </div>
+                                </div>
+                                <div class="col-6">
+                                    <label class=" col-form-label" for="FatherAndMotherDiseases">في حال كان يعاني من الأمراض أذكرها</label>
+                                    <div class="col-md-9">
+                                        <input type="text" class="form-control" id="FatherAndMotherDiseases" name="FatherAndMotherDiseases" value="@Model.StudentFamilyInfo.FatherAndMotherDiseases">
+                                    </div>
+                                </div>
+                                <div class="col-6">
+                                    <label class=" col-form-label" for="SeparatedParents">هل الأبوين منفصلين</label>
+                                    <div class="col-md-9">
+
+                                        <select class="form-control">
+                                            @if (@Model.StudentFamilyInfo.SeparatedParents == true)
+                                            {
+                                                <option value="1" selected>نعم</option>
+                                                <option value="0">لا</option>
+                                            }
+                                            else
+                                            {
+                                                <option value="1">نعم</option>
+                                                <option value="0" selected>لا</option>
+                                            }
+                                        </select>
+                                    </div>
+                                </div>
+
+                                <div class="col-6">
+                                    <label class=" col-form-label" for="ChildResidence">مع من يقيم الطفل.</label>
+                                    <div class="col-md-9">
+                                        <input type="text" class="form-control" id="ChildResidence" name="ChildResidence" value="@Model.StudentFamilyInfo.ChildResidence">
+                                    </div>
+                                </div>
+                                <div class="col-6">
+                                    <label class=" col-form-label" for="userName">هل يوجد بين أقرباء والديه أفراد معاقين</label>
+                                    <div class="col-md-9">
+                                        <select class="form-control">
+                                            @if (string.IsNullOrWhiteSpace(Model.StudentFamilyInfo.DisabilityOfRelative))
+                                            {
+                                                <option>نعم</option>
+                                                <option selected>لا</option>
+                                            }
+                                            else
+                                            {
+                                                <option selected>نعم</option>
+                                                <option>لا</option>
+                                            }
+                                        </select>
+                                    </div>
+                                </div>
+                                <div class="col-6">
+                                    <label class=" col-form-label" for="DisabilityOfRelative">ماهي الإعاقة</label>
+                                    <div class="col-md-9">
+                                        <input type="text" class="form-control" id="DisabilityOfRelative" name="DisabilityOfRelative" value="@Model.StudentFamilyInfo.DisabilityOfRelative">
+                                    </div>
+                                </div>
+                                <div class="col-6">
+                                    <label class=" col-form-label" for="RelationshipWithDisabled">ماهي صلة القرابة</label>
+                                    <div class="col-md-9">
+                                        <input type="text" class="form-control" id="RelationshipWithDisabled" name="RelationshipWithDisabled" value="@Model.StudentFamilyInfo.RelationshipWithDisabled">
+                                    </div>
+                                </div>
+                                <div class="col-6">
+                                    <label class=" col-form-label" for="BrotherAndSisterCount">ماهو عدد أخوة الطفل</label>
+                                    <div class="col-md-9">
+                                        <input type="text" class="form-control" id="BrotherAndSisterCount" name="BrotherAndSisterCount" value="@Model.StudentFamilyInfo.BrotherAndSisterCount">
+                                    </div>
+                                </div>
+                                <div class="col-6">
+                                    <label class=" col-form-label" for="ChildOrder">ترتيب الطفل في الأسرة</label>
+                                    <div class="col-md-9">
+                                        <input type="text" class="form-control" id="ChildOrder" name="ChildOrder" value="@Model.StudentFamilyInfo.ChildOrder">
+                                    </div>
+                                </div>
+                                <div style="padding-top:20px">
+                                    <button type="submit" class="btn btn-primary">حفظ</button>
+                                </div>
+                            </div>
+                        </div> <!-- end col -->
+                    </div> <!-- end row -->
+                </div>
+            </div> <!-- end card-body -->
+        </div> <!-- end card-->
+    </div> <!-- end col -->
+</div>
+
+<div class="row">
+    <div class="col-xl-12">
+        <div class="card">
+            <div class="card-body">
+                <h4 class="header-title mb-3"> معلومات الأشقاء الغير متزوجين</h4>
+                <div method="post">
+                    <div class="row">
+                        <div class="col-12">
+                            <div class="row">
+
+                                <table class="table table-centered mb-0">
+                                    <thead class="table-dark">
+                                        <tr>
+                                            <th>البند</th>
+                                            <th>الاسم</th>
+                                            <th>الجنس</th>
+                                            <th>العمر</th>
+                                            @if (ViewBag.StudentType == StudentType.StudentLearningDifficulties)
+                                            {
+                                                <th>الحالة الصحية</th>
+                                            }
+                                            <th>المستوى التعليمي</th>
+                                            <th></th>
+                                        </tr>
+                                    </thead>
+                                    <tr>
+                                        <td>
+                                            <input type="number" id="order" class="form-control" />
+                                        </td>
+                                        <td>
+                                            <input type="text" id="name" class="form-control" />
+                                        </td>
+                                        <td>
+                                            <select class="form-control" id="isMale">
+                                                <option value="True">ذكر</option>
+                                                <option value="False">أنثى</option>
+                                            </select>
+                                        </td>
+                                        <td>
+                                            <input type="number" class="form-control" id="age" />
+                                        </td>
+                                        @if (ViewBag.StudentType == StudentType.StudentLearningDifficulties)
+                                        {
+                                            <td>
+                                                <input type="text" class="form-control" id="healthStatus" />
+                                            </td>
+                                        }
+                                        else
+                                        {
+                                            <input type="hidden" class="form-control" id="healthStatus" value="" />
+                                        }
+                                        <td>
+                                            <input type="text" class="form-control" id="level" />
+                                        </td>
+                                        <td>
+                                            <a href="#" onclick="AddRecord()">إضافة</a>
+                                        </td>
+                                    </tr>
+                                    <tbody id="tblData">
+                                        @foreach (var item in Model.StudentSiblings)
+                                        {
+                                            <tr>
+                                                <td>@item.Order</td>
+                                                <td>@item.FullName</td>
+                                                @if (item.IsMale)
+                                                {
+                                                    <td>ذكر</td>
+                                                }
+                                                else
+                                                {
+                                                    <td>أنثى</td>
+                                                }
+                                                <td>
+                                                    @(DateTime.Now.Year - item.BirthDate.Year)
+                                                </td>
+                                                @if (ViewBag.StudentType == StudentType.StudentLearningDifficulties)
+                                                {
+                                                    <td>
+                                                        @item.HealthStatus
+                                                    </td>
+                                                }
+                                                <td>@item.StudyLevel</td>
+                                                <td>
+                                                    <a href="#" onclick="RemoveRecord('@item.UId')" class="action-icon"> <i class="mdi mdi-delete"></i></a>
+                                                </td>
+                                            </tr>
+                                        }
+                                    </tbody>
+                                </table>
+
+                                <div style="padding-top:20px">
+                                    <button type="submit" class="btn btn-primary">حفظ</button>
+                                </div>
+
+                            </div>
+                        </div> <!-- end col -->
+                    </div> <!-- end row -->
+                </div>
+            </div> <!-- end card-body -->
+        </div> <!-- end card-->
+    </div> <!-- end col -->
+</div>
+
+<div class="row">
+    <div class="col-xl-12">
+        <div class="card">
+            <div class="card-body">
+                <h4 class="header-title mb-3"> التاريخ الطبي للأم</h4>
+                <div method="post">
+                    <div class="row">
+                        <div class="col-12">
+                            <div class="row">
+                                <div class="col-6">
+                                    <label class=" col-form-label" for="ComplicationsDuringPregnancy">@(DataTypeExtention.GetDisplayName<StudentMotherMedical>("ComplicationsDuringPregnancy"))</label>
+                                    <div class="col-md-9">
+                                        <input type="text" required class="form-control" id="ComplicationsDuringPregnancy" name="ComplicationsDuringPregnancy" value="@Model.StudentMotherMedical.ComplicationsDuringPregnancy">
+                                    </div>
+                                </div>
+                                <div class="col-6">
+                                    <label class=" col-form-label" for="MonthMotherExposedRadiation">@(DataTypeExtention.GetDisplayName<StudentMotherMedical>("MonthMotherExposedRadiation"))</label>
+                                    <div class="col-md-9">
+                                        <input type="text" required class="form-control" id="MonthMotherExposedRadiation" name="MonthMotherExposedRadiation" value="@Model.StudentMotherMedical.MonthMotherExposedRadiation">
+                                    </div>
+                                </div>
+                                <div class="col-6">
+                                    <label class=" col-form-label" for="MotherAtBirthYear">@(DataTypeExtention.GetDisplayName<StudentMotherMedical>("MotherAtBirthYear"))</label>
+                                    <div class="col-md-9">
+                                        <input type="number" class="form-control" id="MotherAtBirthYear" name="MotherAtBirthYear" value="@Model.StudentMotherMedical.GetMotherAtBirthYear">
+                                    </div>
+                                </div>
+                                <div class="col-6">
+                                    <label class=" col-form-label" for="TookMedicationWhilePregnant">@(DataTypeExtention.GetDisplayName<StudentMotherMedical>("TookMedicationWhilePregnant"))</label>
+                                    <div class="col-md-9">
+                                        <select class="form-control" name="TookMedicationWhilePregnant">
+                                            @if (Model.StudentMotherMedical.TookMedicationWhilePregnant)
+                                            {
+                                                <option selected value="True">نعم</option>
+                                                <option value="False">لا</option>
+                                            }
+                                            else
+                                            {
+                                                <option value="True">نعم</option>
+                                                <option selected value="False">لا</option>
+                                            }
+                                        </select>
+                                    </div>
+                                </div>
+                                <div class="col-6">
+                                    <label class=" col-form-label" for="IsBlue">@(DataTypeExtention.GetDisplayName<StudentMotherMedical>("IsBlue"))</label>
+                                    <div class="col-md-9">
+                                        <select class="form-control" name="IsBlue">
+                                            @if (Model.StudentMotherMedical.IsBlue)
+                                            {
+                                                <option selected value="True">نعم</option>
+                                                <option value="False">لا</option>
+                                            }
+                                            else
+                                            {
+                                                <option value="True">نعم</option>
+                                                <option selected value="False">لا</option>
+                                            }
+                                        </select>
+                                    </div>
+                                </div>
+                                <div class="col-6">
+                                    <label class=" col-form-label" for="PsychologicalState">@(DataTypeExtention.GetDisplayName<StudentMotherMedical>("PsychologicalState"))</label>
+                                    <div class="col-md-9">
+                                        <input type="text" required class="form-control" id="PsychologicalState" name="PsychologicalState" value="@Model.StudentMotherMedical.PsychologicalState">
+                                    </div>
+                                </div>
+                                <div class="col-6">
+                                    <label class=" col-form-label" for="PregnancyDuration">@(DataTypeExtention.GetDisplayName<StudentMotherMedical>("PregnancyDuration"))</label>
+                                    <div class="col-md-9">
+                                        <input type="text" required class="form-control" id="PregnancyDuration" name="PregnancyDuration" value="@Model.StudentMotherMedical.PregnancyDuration">
+                                    </div>
+                                </div>
+                                <div class="col-6">
+                                    <label class=" col-form-label" for="BirthType">@(DataTypeExtention.GetDisplayName<StudentMotherMedical>("BirthType"))</label>
+                                    <div class="col-md-9">
+                                        <select class="form-control" name="BirthType">
+                                            @foreach (var item in Enum.GetValues<BirthType>())
+                                            {
+                                                @if (item == Model.StudentMotherMedical.BirthType)
+                                                {
+                                                    <option value="@item" selected>@BirthTypeManager.GetArabic(item)</option>
+                                                }
+                                                else
+                                                {
+                                                    <option value="@item">@BirthTypeManager.GetArabic(item)</option>
+                                                }
+                                            }
+                                        </select>
+                                    </div>
+                                </div>
+                                <div class="col-6">
+                                    <label class=" col-form-label" for="PlaceBirth">@(DataTypeExtention.GetDisplayName<StudentMotherMedical>("PlaceBirth"))</label>
+                                    <div class="col-md-9">
+                                        <input type="text" required class="form-control" id="PlaceBirth" name="PlaceBirth" value="@Model.StudentMotherMedical.PlaceBirth">
+                                    </div>
+                                </div>
+                                <div class="col-6">
+                                    <label class=" col-form-label" for="BirthSupervisor">@(DataTypeExtention.GetDisplayName<StudentMotherMedical>("BirthSupervisor"))</label>
+                                    <div class="col-md-9">
+                                        <input type="text" required class="form-control" id="BirthSupervisor" name="BirthSupervisor" value="@Model.StudentMotherMedical.BirthSupervisor">
+                                    </div>
+                                </div>
+                                <div class="col-6">
+                                    <label class=" col-form-label" for="NurseryLong">@(DataTypeExtention.GetDisplayName<StudentMotherMedical>("NurseryLong"))</label>
+                                    <div class="col-md-9">
+                                        <input type="text" required class="form-control" id="NurseryLong" name="NurseryLong" value="@Model.StudentMotherMedical.NurseryLong">
+                                    </div>
+                                </div>
+                                <div class="col-6">
+                                    <label class=" col-form-label" for="NurseryReason">@(DataTypeExtention.GetDisplayName<StudentMotherMedical>("NurseryReason"))</label>
+                                    <div class="col-md-9">
+                                        <input type="text" required class="form-control" id="NurseryReason" name="NurseryReason" value="@Model.StudentMotherMedical.NurseryReason">
+                                    </div>
+                                </div>
+                                <div class="col-6">
+                                    <label class=" col-form-label" for="GrowthComplete">@(DataTypeExtention.GetDisplayName<StudentMotherMedical>("GrowthComplete"))</label>
+                                    <div class="col-md-9">
+                                        <select class="form-control" name="GrowthComplete">
+                                            @if (Model.StudentMotherMedical.GrowthComplete)
+                                            {
+                                                <option selected value="True">نعم</option>
+                                                <option value="False">لا</option>
+                                            }
+                                            else
+                                            {
+                                                <option value="True">نعم</option>
+                                                <option selected value="False">لا</option>
+                                            }
+                                        </select>
+                                    </div>
+                                </div>
+                                <div class="col-6">
+                                    <label class=" col-form-label" for="GotJaundice">@(DataTypeExtention.GetDisplayName<StudentMotherMedical>("GotJaundice"))</label>
+                                    <div class="col-md-9">
+                                        <select class="form-control" name="GotJaundice">
+                                            @if (Model.StudentMotherMedical.GotJaundice)
+                                            {
+                                                <option selected value="True">نعم</option>
+                                                <option value="False">لا</option>
+                                            }
+                                            else
+                                            {
+                                                <option value="True">نعم</option>
+                                                <option selected value="False">لا</option>
+                                            }
+                                        </select>
+                                    </div>
+                                </div>
+                                <div class="col-6">
+                                    <label class=" col-form-label" for="RhesusFactor">@(DataTypeExtention.GetDisplayName<StudentMotherMedical>("RhesusFactor"))</label>
+                                    <div class="col-md-9">
+                                        <input type="text" required class="form-control" id="RhesusFactor" name="RhesusFactor" value="@Model.StudentMotherMedical.RhesusFactor">
+                                    </div>
+                                </div>
+                                <div class="col-6">
+                                    <label class=" col-form-label" for="OtherProblem">@(DataTypeExtention.GetDisplayName<StudentMotherMedical>("OtherProblem"))</label>
+                                    <div class="col-md-9">
+                                        <input type="text" required class="form-control" id="OtherProblem" name="OtherProblem" value="@Model.StudentMotherMedical.OtherProblem">
+                                    </div>
+                                </div>
+                                <div style="padding-top:20px">
+                                    <button type="submit" class="btn btn-primary">حفظ</button>
+                                </div>
+                            </div>
+                        </div> <!-- end col -->
+                    </div> <!-- end row -->
+                </div>
+            </div> <!-- end card-body -->
+        </div> <!-- end card-->
+    </div> <!-- end col -->
+</div>
+
+<div class="row">
+    <div class="col-xl-12">
+        <div class="card">
+            <div class="card-body">
+                <h4 class="header-title mb-3"> التاريخ الطبي للطفل</h4>
+                <div method="post">
+                    <div class="row">
+                        <div class="col-12">
+                            <div class="row">
+                                <div class="col-6">
+                                    <label class=" col-form-label" for="HeadInjury">@(DataTypeExtention.GetDisplayName<StudentMedical>("HeadInjury"))</label>
+                                    <div class="col-md-9">
+                                        <select class="form-control" name="HeadInjury">
+                                            @if (Model.StudentMedical.HeadInjury)
+                                            {
+                                                <option selected value="True">نعم</option>
+                                                <option value="False">لا</option>
+                                            }
+                                            else
+                                            {
+                                                <option value="True">نعم</option>
+                                                <option selected value="False">لا</option>
+                                            }
+                                        </select>
+                                    </div>
+                                </div>
+                                <div class="col-6">
+                                    <label class=" col-form-label" for="SevereInfections">@(DataTypeExtention.GetDisplayName<StudentMedical>("SevereInfections"))</label>
+                                    <div class="col-md-9">
+                                        <select class="form-control" name="SevereInfections">
+                                            @if (Model.StudentMedical.SevereInfections)
+                                            {
+                                                <option selected value="True">نعم</option>
+                                                <option value="False">لا</option>
+                                            }
+                                            else
+                                            {
+                                                <option value="True">نعم</option>
+                                                <option selected value="False">لا</option>
+                                            }
+                                        </select>
+                                    </div>
+                                </div>
+                                <div class="col-6">
+                                    <label class=" col-form-label" for="VaccineRelatedProblems">@(DataTypeExtention.GetDisplayName<StudentMedical>("VaccineRelatedProblems"))</label>
+                                    <div class="col-md-9">
+                                        <select class="form-control" name="VaccineRelatedProblems">
+                                            @if (Model.StudentMedical.VaccineRelatedProblems)
+                                            {
+                                                <option selected value="True">نعم</option>
+                                                <option value="False">لا</option>
+                                            }
+                                            else
+                                            {
+                                                <option value="True">نعم</option>
+                                                <option selected value="False">لا</option>
+                                            }
+                                        </select>
+                                    </div>
+                                </div>
+                                <div class="col-6">
+                                    <label class=" col-form-label" for="OtherProplem">@(DataTypeExtention.GetDisplayName<StudentMedical>("OtherProplem"))</label>
+                                    <div class="col-md-9">
+                                        <input type="text" required class="form-control" id="OtherProplem" name="OtherProplem" value="@Model.StudentMedical.OtherProplem">
+                                    </div>
+                                </div>
+                                <div class="col-6">
+                                    <label class=" col-form-label" for="RhesusFactor">@(DataTypeExtention.GetDisplayName<StudentMedical>("RhesusFactor"))</label>
+                                    <div class="col-md-9">
+                                        <input type="text" required class="form-control" id="RhesusFactor" name="RhesusFactor" value="@Model.StudentMedical.RhesusFactor">
+                                    </div>
+                                </div>
+                                <div class="col-6">
+                                    <label class=" col-form-label" for="GotJaundice">@(DataTypeExtention.GetDisplayName<StudentMedical>("GotJaundice"))</label>
+                                    <div class="col-md-9">
+                                        <select class="form-control" name="GotJaundice">
+                                            @if (Model.StudentMedical.GotJaundice == true)
+                                            {
+                                                <option value="1" selected>نعم</option>
+                                                <option value="0">لا</option>
+                                            }
+                                            else
+                                            {
+                                                <option value="1">نعم</option>
+                                                <option value="0" selected>لا</option>
+                                            }
+                                        </select>
+                                    </div>
+                                </div>
+                                <div style="padding-top:20px">
+                                    <button type="submit" class="btn btn-primary">حفظ</button>
+                                </div>
+                            </div>
+                        </div> <!-- end col -->
+                    </div> <!-- end row -->
+                </div>
+            </div> <!-- end card-body -->
+        </div> <!-- end card-->
+    </div> <!-- end col -->
+</div>
+
+<div class="row">
+    <div class="col-xl-12">
+        <div class="card">
+            <div class="card-body">
+                <h4 class="header-title mb-3"> الفحوصات الطبية التي أجريت للطفل</h4>
+                <div method="post">
+                    <div class="row">
+                        <div class="col-12">
+                            <div class="row">
+                                <div class="col-6">
+                                    <label class=" col-form-label" for="AudiogramType">@(DataTypeExtention.GetDisplayName<StudentMedicalTest>("AudiogramType"))</label>
+                                    <div class="col-md-9">
+                                        <input type="text" required class="form-control" id="AudiogramType" name="AudiogramType" value="@Model.StudentMedicalTest.AudiogramType">
+                                    </div>
+                                </div>
+                                <div class="col-6">
+                                    <label class=" col-form-label" for="AudiogramTypeResult">@(DataTypeExtention.GetDisplayName<StudentMedicalTest>("AudiogramTypeResult"))</label>
+                                    <div class="col-md-9">
+                                        <input type="text" required class="form-control" id="AudiogramTypeResult" name="AudiogramTypeResult" value="@Model.StudentMedicalTest.AudiogramTypeResult">
+                                    </div>
+                                </div>
+                                <div class="col-6">
+                                    <label class=" col-form-label" for="EyeExamination">@(DataTypeExtention.GetDisplayName<StudentMedicalTest>("EyeExamination"))</label>
+                                    <div class="col-md-9">
+                                        <input type="text" required class="form-control" id="EyeExamination" name="EyeExamination" value="@Model.StudentMedicalTest.EyeExamination">
+                                    </div>
+                                </div>
+                                <div class="col-6">
+                                    <label class=" col-form-label" for="EyeExaminationResult">@(DataTypeExtention.GetDisplayName<StudentMedicalTest>("EyeExaminationResult"))</label>
+                                    <div class="col-md-9">
+                                        <input type="text" required class="form-control" id="EyeExaminationResult" name="EyeExaminationResult" value="@Model.StudentMedicalTest.EyeExaminationResult">
+                                    </div>
+                                </div>
+                                <div class="col-6">
+                                    <label class=" col-form-label" for="BrainScan">@(DataTypeExtention.GetDisplayName<StudentMedicalTest>("BrainScan"))</label>
+                                    <div class="col-md-9">
+                                        <input type="text" required class="form-control" id="BrainScan" name="BrainScan" value="@Model.StudentMedicalTest.BrainScan">
+                                    </div>
+                                </div>
+                                <div class="col-6">
+                                    <label class=" col-form-label" for="BrainScanResult">@(DataTypeExtention.GetDisplayName<StudentMedicalTest>("BrainScanResult"))</label>
+                                    <div class="col-md-9">
+                                        <input type="text" required class="form-control" id="BrainScanResult" name="BrainScanResult" value="@Model.StudentMedicalTest.BrainScanResult">
+                                    </div>
+                                </div>
+                                <div class="col-6">
+                                    <label class=" col-form-label" for="PreviousMedications">@(DataTypeExtention.GetDisplayName<StudentMedicalTest>("PreviousMedications"))</label>
+                                    <div class="col-md-9">
+                                        <input type="text" required class="form-control" id="PreviousMedications" name="PreviousMedications" value="@Model.StudentMedicalTest.PreviousMedications">
+                                    </div>
+                                </div>
+                                <div class="col-6">
+                                    <label class=" col-form-label" for="CurrentMedications">@(DataTypeExtention.GetDisplayName<StudentMedicalTest>("CurrentMedications"))</label>
+                                    <div class="col-md-9">
+                                        <input type="text" required class="form-control" id="CurrentMedications" name="CurrentMedications" value="@Model.StudentMedicalTest.CurrentMedications">
+                                    </div>
+                                </div>
+                                <div class="col-6">
+                                    <label class=" col-form-label" for="DoctorDiagnosis">@(DataTypeExtention.GetDisplayName<StudentMedicalTest>("DoctorDiagnosis"))</label>
+                                    <div class="col-md-9">
+                                        <input type="text" required class="form-control" id="DoctorDiagnosis" name="DoctorDiagnosis" value="@Model.StudentMedicalTest.DoctorDiagnosis">
+                                    </div>
+                                </div>
+                                <div class="col-6">
+                                    <label class=" col-form-label" for="DiagnosisResult">@(DataTypeExtention.GetDisplayName<StudentMedicalTest>("DiagnosisResult"))</label>
+                                    <div class="col-md-9">
+                                        <input type="text" required class="form-control" id="DiagnosisResult" name="DiagnosisResult" value="@Model.StudentMedicalTest.DiagnosisResult">
+                                    </div>
+                                </div>
+                                <div class="col-6">
+                                    <label class=" col-form-label" for="DoctorAddress">@(DataTypeExtention.GetDisplayName<StudentMedicalTest>("DoctorAddress"))</label>
+                                    <div class="col-md-9">
+                                        <input type="text" required class="form-control" id="DoctorAddress" name="DoctorAddress" value="@Model.StudentMedicalTest.DoctorAddress">
+                                    </div>
+                                </div>
+                                <div class="col-6">
+                                    <label class=" col-form-label" for="DoctorNumber">@(DataTypeExtention.GetDisplayName<StudentMedicalTest>("DoctorNumber"))</label>
+                                    <div class="col-md-9">
+                                        <input type="text" required class="form-control" id="DoctorNumber" name="DoctorNumber" value="@Model.StudentMedicalTest.DoctorNumber">
+                                    </div>
+                                </div>
+
+                                <div style="padding-top:20px">
+                                    <button type="submit" class="btn btn-primary">حفظ</button>
+                                </div>
+                            </div>
+                        </div> <!-- end col -->
+                    </div> <!-- end row -->
+                </div>
+            </div> <!-- end card-body -->
+        </div> <!-- end card-->
+    </div> <!-- end col -->
+</div>
+
+<div class="row">
+    <div class="col-xl-12">
+        <div class="card">
+            <div class="card-body">
+                <h4 class="header-title mb-3"> النمو السيكولجي للطفل</h4>
+                <div method="post">
+                    <div class="row">
+                        <div class="col-12">
+                            <div class="row">
+                                <div class="col-6">
+                                    <label class=" col-form-label" for="OutputOperations">@(DataTypeExtention.GetDisplayName<StudentPsychologyDevelopment>("OutputOperations"))</label>
+                                    <div class="col-md-9">
+                                        <select class="form-control" name="OutputOperations">
+                                            @if (Model.StudentPsychologyDevelopment.OutputOperations)
+                                            {
+                                                <option selected value="True">نعم</option>
+                                                <option value="False">لا</option>
+                                            }
+                                            else
+                                            {
+                                                <option value="True">نعم</option>
+                                                <option selected value="False">لا</option>
+                                            }
+                                        </select>
+                                    </div>
+                                </div>
+                                <div class="col-6">
+                                    <label class=" col-form-label" for="SleepProblems">@(DataTypeExtention.GetDisplayName<StudentPsychologyDevelopment>("SleepProblems"))</label>
+                                    <div class="col-md-9">
+                                        <select class="form-control" name="SleepProblems">
+                                            @if (Model.StudentPsychologyDevelopment.SleepProblems)
+                                            {
+                                                <option selected value="True">نعم</option>
+                                                <option value="False">لا</option>
+                                            }
+                                            else
+                                            {
+                                                <option value="True">نعم</option>
+                                                <option selected value="False">لا</option>
+                                            }
+                                        </select>
+                                    </div>
+                                </div>
+                                <div class="col-6">
+                                    <label class=" col-form-label" for="HyperActivity">@(DataTypeExtention.GetDisplayName<StudentPsychologyDevelopment>("HyperActivity"))</label>
+                                    <div class="col-md-9">
+                                        <select class="form-control" name="HyperActivity">
+                                            @if (Model.StudentPsychologyDevelopment.HyperActivity)
+                                            {
+                                                <option selected value="True">نعم</option>
+                                                <option value="False">لا</option>
+                                            }
+                                            else
+                                            {
+                                                <option value="True">نعم</option>
+                                                <option selected value="False">لا</option>
+                                            }
+                                        </select>
+                                    </div>
+                                </div>
+                                <div class="col-6">
+                                    <label class=" col-form-label" for="Seizures">@(DataTypeExtention.GetDisplayName<StudentPsychologyDevelopment>("Seizures"))</label>
+                                    <div class="col-md-9">
+                                        <select class="form-control" name="Seizures">
+                                            @if (Model.StudentPsychologyDevelopment.Seizures)
+                                            {
+                                                <option selected value="True">نعم</option>
+                                                <option value="False">لا</option>
+                                            }
+                                            else
+                                            {
+                                                <option value="True">نعم</option>
+                                                <option selected value="False">لا</option>
+                                            }
+                                        </select>
+                                    </div>
+                                </div>
+                                <div class="col-6">
+                                    <label class=" col-form-label" for="OtherProblems">@(DataTypeExtention.GetDisplayName<StudentPsychologyDevelopment>("OtherProblems"))</label>
+                                    <div class="col-md-9">
+                                        <input type="text" required class="form-control" id="OtherProblems" name="OtherProblems" value="@Model.StudentPsychologyDevelopment.OtherProblems">
+                                    </div>
+                                </div>
+                                <div class="col-6">
+                                    <label class=" col-form-label" for="EatProblems">@(DataTypeExtention.GetDisplayName<StudentPsychologyDevelopment>("EatProblems"))</label>
+                                    <div class="col-md-9">
+                                        <input type="text" required class="form-control" id="EatProblems" name="EatProblems" value="@Model.StudentPsychologyDevelopment.EatProblems">
+                                    </div>
+                                </div>
+                                <div class="col-6">
+                                    <label class=" col-form-label" for="Allergy">@(DataTypeExtention.GetDisplayName<StudentPsychologyDevelopment>("Allergy"))</label>
+                                    <div class="col-md-9">
+                                        <input type="text" required class="form-control" id="Allergy" name="Allergy" value="@Model.StudentPsychologyDevelopment.Allergy">
+                                    </div>
+                                </div>
+
+                                <div style="padding-top:20px">
+                                    <button type="submit" class="btn btn-primary">حفظ</button>
+                                </div>
+                            </div>
+                        </div> <!-- end col -->
+                    </div> <!-- end row -->
+                </div>
+            </div> <!-- end card-body -->
+        </div> <!-- end card-->
+    </div> <!-- end col -->
+</div>
+
+<div class="row">
+    <div class="col-xl-12">
+        <div class="card">
+            <div class="card-body">
+                <h4 class="header-title mb-3"> النمو الاجتماعي والانفعالي للطفل</h4>
+                <div method="post">
+                    <div class="row">
+                        <div class="col-12">
+                            <div class="row">
+                                <div class="col-6">
+                                    <label class=" col-form-label" for="VisualCommunication">@(DataTypeExtention.GetDisplayName<StudentSocialDevelopment>("VisualCommunication"))</label>
+                                    <div class="col-md-9">
+                                        <input type="text" required class="form-control" id="VisualCommunication" name="VisualCommunication" value="@Model.StudentSocialDevelopment.VisualCommunication">
+                                    </div>
+                                </div>
+                                <div class="col-6">
+                                    <label class=" col-form-label" for="IntentionalCommunication">@(DataTypeExtention.GetDisplayName<StudentSocialDevelopment>("IntentionalCommunication"))</label>
+                                    <div class="col-md-9">
+                                        <input type="text" required class="form-control" id="IntentionalCommunication" name="IntentionalCommunication" value="@Model.StudentSocialDevelopment.VisualCommunication">
+                                    </div>
+                                </div>
+                                <div class="col-6">
+                                    <label class=" col-form-label" for="FacialExpressions">@(DataTypeExtention.GetDisplayName<StudentSocialDevelopment>("FacialExpressions"))</label>
+                                    <div class="col-md-9">
+                                        <input type="text" required class="form-control" id="FacialExpressions" name="FacialExpressions" value="@Model.StudentSocialDevelopment.FacialExpressions">
+                                    </div>
+                                </div>
+                                <div class="col-6">
+                                    <label class=" col-form-label" for="Play">@(DataTypeExtention.GetDisplayName<StudentSocialDevelopment>("Play"))</label>
+                                    <div class="col-md-9">
+                                        <input type="text" required class="form-control" id="Play" name="Play" value="@Model.StudentSocialDevelopment.Play">
+                                    </div>
+                                </div>
+                                <div class="col-6">
+                                    <label class=" col-form-label" for="Interaction">@(DataTypeExtention.GetDisplayName<StudentSocialDevelopment>("Interaction"))</label>
+                                    <div class="col-md-9">
+                                        <input type="text" required class="form-control" id="Interaction" name="Interaction" value="@Model.StudentSocialDevelopment.Interaction">
+                                    </div>
+                                </div>
+
+                                <div class="col-6">
+                                    <label class=" col-form-label" for="HouseHelp">@(DataTypeExtention.GetDisplayName<StudentSocialDevelopment>("HouseHelp"))</label>
+                                    <div class="col-md-9">
+                                        <input type="text" required class="form-control" id="HouseHelp" name="HouseHelp" value="@Model.StudentSocialDevelopment.HouseHelp">
+                                    </div>
+                                </div>
+
+                                <div style="padding-top:20px">
+                                    <button type="submit" class="btn btn-primary">حفظ</button>
+                                </div>
+                            </div>
+                        </div> <!-- end col -->
+                    </div> <!-- end row -->
+                </div>
+            </div> <!-- end card-body -->
+        </div> <!-- end card-->
+    </div> <!-- end col -->
+</div>
+
+<div class="row">
+    <div class="col-xl-12">
+        <div class="card">
+            <div class="card-body">
+                <h4 class="header-title mb-3"> نشاطات العائلة</h4>
+                <div method="post">
+                    <div class="row">
+                        <div class="col-12">
+                            <div class="row">
+                                <div class="col-6">
+                                    <label class=" col-form-label" for="RelationshipParents">@(DataTypeExtention.GetDisplayName<StudentFamilyActivity>("RelationshipParents"))</label>
+                                    <div class="col-md-9">
+                                        <input type="text" required class="form-control" id="RelationshipParents" name="RelationshipParents" value="@Model.StudentFamilyActivity.RelationshipParents">
+                                    </div>
+                                </div>
+                                <div class="col-6">
+                                    <label class=" col-form-label" for="RelationshipSiblings">@(DataTypeExtention.GetDisplayName<StudentFamilyActivity>("RelationshipSiblings"))</label>
+                                    <div class="col-md-9">
+                                        <input type="text" required class="form-control" id="RelationshipSiblings" name="RelationshipSiblings" value="@Model.StudentFamilyActivity.RelationshipSiblings">
+                                    </div>
+                                </div>
+                                <div class="col-6">
+                                    <label class=" col-form-label" for="FamilyVisits">@(DataTypeExtention.GetDisplayName<StudentFamilyActivity>("FamilyVisits"))</label>
+                                    <div class="col-md-9">
+                                        <input type="text" required class="form-control" id="FamilyVisits" name="FamilyVisits" value="@Model.StudentFamilyActivity.FamilyVisits">
+                                    </div>
+                                </div>
+                                <div class="col-6">
+                                    <label class=" col-form-label" for="WatchingTV">@(DataTypeExtention.GetDisplayName<StudentFamilyActivity>("WatchingTV"))</label>
+                                    <div class="col-md-9">
+                                        <input type="text" required class="form-control" id="WatchingTV" name="WatchingTV" value="@Model.StudentFamilyActivity.WatchingTV">
+                                    </div>
+                                </div>
+                                <div class="col-6">
+                                    <label class=" col-form-label" for="InteractCelebrations">@(DataTypeExtention.GetDisplayName<StudentFamilyActivity>("InteractCelebrations"))</label>
+                                    <div class="col-md-9">
+                                        <input type="text" required class="form-control" id="InteractCelebrations" name="InteractCelebrations" value="@Model.StudentFamilyActivity.InteractCelebrations">
+                                    </div>
+                                </div>
+                                <div class="col-6">
+                                    <label class=" col-form-label" for="HandlingMoney">@(DataTypeExtention.GetDisplayName<StudentFamilyActivity>("HandlingMoney"))</label>
+                                    <div class="col-md-9">
+                                        <input type="text" required class="form-control" id="HandlingMoney" name="HandlingMoney" value="@Model.StudentFamilyActivity.HandlingMoney">
+                                    </div>
+                                </div>
+
+                                <div style="padding-top:20px">
+                                    <button type="submit" class="btn btn-primary">حفظ</button>
+                                </div>
+                            </div>
+                        </div> <!-- end col -->
+                    </div> <!-- end row -->
+                </div>
+            </div> <!-- end card-body -->
+        </div> <!-- end card-->
+    </div> <!-- end col -->
+</div>
+
+<div class="row">
+    <div class="col-xl-12">
+        <div class="card">
+            <div class="card-body">
+                <h4 class="header-title mb-3"> معلومات حول اهتمامات الطالب</h4>
+                <div method="post">
+                    <div class="row">
+                        <div class="col-12">
+                            <div class="row">
+
+                                <table class="table table-centered mb-0">
+                                    <thead class="table-dark">
+                                        <tr>
+                                            <th>الاهتمام</th>
+                                            <th>النوع</th>
+                                            <th></th>
+                                        </tr>
+                                    </thead>
+                                    <tr>
+                                        <td>
+                                            <select class="form-control" id="Interests">
+                                                @foreach (var item in Enum.GetValues<Interests>())
+                                                {
+                                                    <option value="@item">@InterestsManager.GetArabic(item)</option>
+                                                }
+                                            </select>
+                                        </td>
+                                        <td>
+                                            <input type="text" class="form-control" id="name" />
+                                        </td>
+                                        <td>
+                                            <a href="#" onclick="AddRecord()">إضافة</a>
+                                        </td>
+                                    </tr>
+                                    <tbody id="tblData">
+                                        @foreach (var item in Model.StudentInterests.OrderBy(x => x.Interests).ToList())
+                                        {
+                                            <tr>
+                                                <td>@InterestsManager.GetArabic(item.Interests)</td>
+                                                <td>@item.Value</td>
+                                                <td>
+                                                    <a href="#" onclick="RemoveRecord('@item.UId')" class="action-icon"> <i class="mdi mdi-delete"></i></a>
+                                                </td>
+                                            </tr>
+                                        }
+                                    </tbody>
+                                </table>
+
+                                <div style="padding-top:20px">
+                                    <button type="submit" class="btn btn-primary">حفظ</button>
+                                </div>
+
+                            </div>
+                        </div> <!-- end col -->
+                    </div> <!-- end row -->
+                </div>
+            </div> <!-- end card-body -->
+        </div> <!-- end card-->
+    </div> <!-- end col -->
+</div>
+
+<div class="row">
+    <div class="col-xl-12">
+        <div class="card">
+            <div class="card-body">
+                <h4 class="header-title mb-3"> السيرة الأكديمية والنفسية بشكل عام</h4>
+                <div method="post">
+                    <div class="row">
+                        <div class="col-12">
+                            <div class="row">
+                                <div class="col-6">
+                                    <label class="col-md-3 col-form-label" for="LoveSchool">@(DataTypeExtention.GetDisplayName<StudentAcademic>("LoveSchool"))</label>
+                                    <div class="col-md-9">
+                                        <select class="form-control" id="LoveSchool" name="LoveSchool">
+                                            @if (Model.StudentAcademic.LoveSchool)
+                                            {
+                                                <option selected value="True">نعم</option>
+                                                <option value="False">لا</option>
+                                            }
+                                            else
+                                            {
+                                                <option value="True">نعم</option>
+                                                <option selected value="False">لا</option>
+                                            }
+                                        </select>
+                                    </div>
+                                </div>
+                                <div class="col-6">
+                                    <label class=" col-form-label" for="TopStudyLevel">@(DataTypeExtention.GetDisplayName<StudentAcademic>("TopStudyLevel"))</label>
+                                    <div class="col-md-9">
+                                        <input type="text" required class="form-control" id="TopStudyLevel" name="TopStudyLevel" value="@Model.StudentAcademic.TopStudyLevel">
+                                    </div>
+                                </div>
+                                <div class="col-6">
+                                    <label class=" col-form-label" for="ReasonFailure">@(DataTypeExtention.GetDisplayName<StudentAcademic>("ReasonFailure"))</label>
+                                    <div class="col-md-9">
+                                        <input type="text" required class="form-control" id="ReasonFailure" name="ReasonFailure" value="@Model.StudentAcademic.ReasonFailure">
+                                    </div>
+                                </div>
+                                <div class="col-6">
+                                    <label class=" col-form-label" for="ReplayInformation">@(DataTypeExtention.GetDisplayName<StudentAcademic>("ReplayInformation"))</label>
+                                    <div class="col-md-9">
+                                        <input type="text" required class="form-control" id="ReplayInformation" name="ReplayInformation" value="@Model.StudentAcademic.ReplayInformation">
+                                    </div>
+                                </div>
+                                <div class="col-6">
+                                    <label class=" col-form-label" for="MovingSchoolInformation">@(DataTypeExtention.GetDisplayName<StudentAcademic>("MovingSchoolInformation"))</label>
+                                    <div class="col-md-9">
+                                        <input type="text" required class="form-control" id="MovingSchoolInformation" name="MovingSchoolInformation" value="@Model.StudentAcademic.MovingSchoolInformation">
+                                    </div>
+                                </div>
+
+                                <div style="padding-top:20px">
+                                    <button type="submit" class="btn btn-primary">حفظ</button>
+                                </div>
+                            </div>
+                        </div> <!-- end col -->
+                    </div> <!-- end row -->
+                </div>
+            </div> <!-- end card-body -->
+        </div> <!-- end card-->
+    </div> <!-- end col -->
+</div>
+
+<div class="row">
+    <div class="col-xl-12">
+        <div class="card">
+            <div class="card-body">
+                <h4 class="header-title mb-3"> معلومات حول دراجات الطالب</h4>
+                <div method="post">
+                    <div class="row">
+                        <div class="col-12">
+                            <div class="row">
+
+                                <table class="table table-centered mb-0">
+                                    <thead class="table-dark">
+                                        <tr>
+                                            <th>المادة</th>
+                                            <th>الصف الأول</th>
+                                            <th>الصف الثاني</th>
+                                            <th>الصف الثالث</th>
+                                            <th>الصف الرابع</th>
+                                            <th>الصف الخامس</th>
+                                            <th>الصف السادس</th>
+                                            <th>المستوى الفعلي</th>
+                                            <th></th>
+                                        </tr>
+                                    </thead>
+                                    <tr>
+                                        <td>
+                                            <input type="text" id="Subject" class="form-control" />
+                                        </td>
+                                        <td>
+                                            <input type="text" id="Level1" class="form-control" />
+                                        </td>
+                                        <td>
+                                            <input type="text" id="Level2" class="form-control" />
+                                        </td>
+                                        <td>
+                                            <input type="text" id="Level3" class="form-control" />
+                                        </td>
+                                        <td>
+                                            <input type="text" id="Level4" class="form-control" />
+                                        </td>
+                                        <td>
+                                            <input type="text" id="Level5" class="form-control" />
+                                        </td>
+                                        <td>
+                                            <input type="text" id="Level6" class="form-control" />
+                                        </td>
+                                        <td>
+                                            <input type="text" id="LevelResult" class="form-control" />
+                                        </td>
+                                        <td>
+                                            <a href="#" onclick="AddRecord()">إضافة</a>
+                                        </td>
+                                    </tr>
+                                    <tbody id="tblData">
+                                        @foreach (var item in Model.StudentLevelInfos)
+                                        {
+                                            <tr>
+                                                <td>@item.Subject</td>
+                                                <td>@item.Level1</td>
+                                                <td>@item.Level2</td>
+                                                <td>@item.Level3</td>
+                                                <td>@item.Level4</td>
+                                                <td>@item.Level5</td>
+                                                <td>@item.Level6</td>
+                                                <td>@item.LevelResult</td>
+                                                <td>
+                                                    <a href="#" onclick="RemoveRecord('@item.UId')" class="action-icon"> <i class="mdi mdi-delete"></i></a>
+                                                </td>
+                                            </tr>
+                                        }
+                                    </tbody>
+                                </table>
+
+                                <div style="padding-top:20px">
+                                    <button type="submit" class="btn btn-primary">حفظ</button>
+                                </div>
+
+                            </div>
+                        </div> <!-- end col -->
+                    </div> <!-- end row -->
+                </div>
+            </div> <!-- end card-body -->
+        </div> <!-- end card-->
+    </div> <!-- end col -->
+</div>
+
+<div class="row">
+    <div class="col-xl-12">
+        <div class="card">
+            <div class="card-body">
+                <h4 class="header-title mb-3"> قدرات الطالب</h4>
+                <div method="post">
+                    <div class="row">
+                        <div class="col-12">
+                            <div class="row">
+                                <div class="col-6">
+                                    <label class="col-md-3 col-form-label" for="Focus">@(DataTypeExtention.GetDisplayName<StudentAbility>("Focus"))</label>
+                                    <div class="col-md-9">
+                                        <select class="form-control" id="Focus" name="Focus">
+                                            @foreach (var item in Enum.GetValues<Focus>())
+                                            {
+                                                @if (item == Model.StudentAbility.Focus)
+                                                {
+                                                    <option selected value="@item">@FocusManager.GetArabic(item)</option>
+                                                }
+                                                else
+                                                {
+                                                    <option value="@item">@FocusManager.GetArabic(item)</option>
+                                                }
+                                            }
+                                        </select>
+                                    </div>
+                                </div>
+                                <div class="col-6">
+                                    <label class="col-md-3 col-form-label" for="RehabilitationSystem">@(DataTypeExtention.GetDisplayName<StudentAbility>("RehabilitationSystem"))</label>
+                                    <div class="col-md-9">
+                                        <select class="form-control" id="RehabilitationSystem" name="RehabilitationSystem">
+                                            @foreach (var item in Enum.GetValues<RehabilitationSystem>())
+                                            {
+                                                @if (item == Model.StudentAbility.RehabilitationSystem)
+                                                {
+                                                    <option selected value="@item">@RehabilitationSystemManager.GetArabic(item)</option>
+                                                }
+                                                else
+                                                {
+                                                    <option value="@item">@RehabilitationSystemManager.GetArabic(item)</option>
+                                                }
+                                            }
+                                        </select>
+                                    </div>
+                                </div>
+                                <div class="col-6">
+                                    <label class="col-md-3 col-form-label" for="ContinuousTraining">@(DataTypeExtention.GetDisplayName<StudentAbility>("ContinuousTraining"))</label>
+                                    <div class="col-md-9">
+                                        <select class="form-control" id="ContinuousTraining" name="ContinuousTraining">
+                                            @if (Model.StudentAbility.ContinuousTraining)
+                                            {
+                                                <option selected value="True">مستمر</option>
+                                                <option value="False">متوقف</option>
+                                            }
+                                            else
+                                            {
+                                                <option value="True">مستمر</option>
+                                                <option selected value="False">متوقف</option>
+                                            }
+                                        </select>
+                                    </div>
+                                </div>
+                                <div class="col-6">
+                                    <label class=" col-form-label" for="ReasonContinuousTraining">@(DataTypeExtention.GetDisplayName<StudentAbility>("ReasonContinuousTraining"))</label>
+                                    <div class="col-md-9">
+                                        <input type="text" required class="form-control" id="ReasonContinuousTraining" name="ReasonContinuousTraining" value="@Model.StudentAbility.ReasonContinuousTraining">
+                                    </div>
+                                </div>
+                                <div class="col-6">
+                                    <label class="col-md-3 col-form-label" for="WeaknessRead">@(DataTypeExtention.GetDisplayName<StudentAbility>("WeaknessRead"))</label>
+                                    <div class="col-md-9">
+                                        <select class="form-control" id="WeaknessRead" name="WeaknessRead">
+                                            @if (Model.StudentAbility.WeaknessRead)
+                                            {
+                                                <option selected value="True">نعم</option>
+                                                <option value="False">لا</option>
+                                            }
+                                            else
+                                            {
+                                                <option value="True">نعم</option>
+                                                <option selected value="False">لا</option>
+                                            }
+                                        </select>
+                                    </div>
+                                </div>
+                                <div class="col-6">
+                                    <label class="col-md-3 col-form-label" for="WeaknessWrite">@(DataTypeExtention.GetDisplayName<StudentAbility>("WeaknessWrite"))</label>
+                                    <div class="col-md-9">
+                                        <select class="form-control" id="WeaknessWrite" name="WeaknessWrite">
+                                            @if (Model.StudentAbility.WeaknessWrite)
+                                            {
+                                                <option selected value="True">نعم</option>
+                                                <option value="False">لا</option>
+                                            }
+                                            else
+                                            {
+                                                <option value="True">نعم</option>
+                                                <option selected value="False">لا</option>
+                                            }
+                                        </select>
+                                    </div>
+                                </div>
+                                <div class="col-6">
+                                    <label class="col-md-3 col-form-label" for="WeaknessCalc">@(DataTypeExtention.GetDisplayName<StudentAbility>("WeaknessCalc"))</label>
+                                    <div class="col-md-9">
+                                        <select class="form-control" id="WeaknessCalc" name="WeaknessCalc">
+                                            @if (Model.StudentAbility.WeaknessCalc)
+                                            {
+                                                <option selected value="True">نعم</option>
+                                                <option value="False">لا</option>
+                                            }
+                                            else
+                                            {
+                                                <option value="True">نعم</option>
+                                                <option selected value="False">لا</option>
+                                            }
+                                        </select>
+                                    </div>
+                                </div>
+                                <div class="col-6">
+                                    <label class="col-md-3 col-form-label" for="WeaknessSciences">@(DataTypeExtention.GetDisplayName<StudentAbility>("WeaknessSciences"))</label>
+                                    <div class="col-md-9">
+                                        <select class="form-control" id="WeaknessSciences" name="WeaknessSciences">
+                                            @if (Model.StudentAbility.WeaknessSciences)
+                                            {
+                                                <option selected value="True">نعم</option>
+                                                <option value="False">لا</option>
+                                            }
+                                            else
+                                            {
+                                                <option value="True">نعم</option>
+                                                <option selected value="False">لا</option>
+                                            }
+                                        </select>
+                                    </div>
+                                </div>
+
+                                <div style="padding-top:20px">
+                                    <button type="submit" class="btn btn-primary">حفظ</button>
+                                </div>
+                            </div>
+                        </div> <!-- end col -->
+                    </div> <!-- end row -->
+                </div>
+            </div> <!-- end card-body -->
+        </div> <!-- end card-->
+    </div> <!-- end col -->
+</div>
+
+<div class="row">
+    <div class="col-xl-12">
+        <div class="card">
+            <div class="card-body">
+                <h4 class="header-title mb-3"> معلومات معلومات المراكز التي زارها</h4>
+                <div method="post">
+                    <div class="row">
+                        <div class="col-12">
+                            <div class="row">
+
+                                <table class="table table-centered mb-0">
+                                    <thead class="table-dark">
+                                        <tr>
+                                            <th>اسم المركز</th>
+                                            <th>التشخيص</th>
+                                            <th>المدة</th>
+                                            <th>البرنامج الذي تم العمل عليه</th>
+                                            <th>العنوان</th>
+                                            <th></th>
+                                        </tr>
+                                    </thead>
+                                    <tr>
+                                        <td>
+                                            <input type="text" id="CenterName" class="form-control" />
+                                        </td>
+                                        <td>
+                                            <input type="text" id="Diagnosis" class="form-control" />
+                                        </td>
+                                        <td>
+                                            <input type="text" id="Duration" class="form-control" />
+                                        </td>
+                                        <td>
+                                            <input type="text" id="Program" class="form-control" />
+                                        </td>
+                                        <td>
+                                            <input type="text" id="Address" class="form-control" />
+                                        </td>
+                                        <td>
+                                            <a href="#" onclick="AddRecord()">إضافة</a>
+                                        </td>
+                                    </tr>
+                                    <tbody id="tblData">
+                                        @foreach (var item in Model.StudentVisitCenters)
+                                        {
+                                            <tr>
+                                                <td>@item.CenterName</td>
+                                                <td>@item.Diagnosis</td>
+                                                <td>@item.Duration</td>
+                                                <td>@item.Program</td>
+                                                <td>@item.Address</td>
+                                                <td>
+                                                    <a href="#" onclick="RemoveRecord('@item.UId')" class="action-icon"> <i class="mdi mdi-delete"></i></a>
+                                                </td>
+                                            </tr>
+                                        }
+                                    </tbody>
+                                </table>
+
+                                <div style="padding-top:20px">
+                                    <button type="submit" class="btn btn-primary">حفظ</button>
+                                </div>
+
+                            </div>
+                        </div> <!-- end col -->
+                    </div> <!-- end row -->
+                </div>
+            </div> <!-- end card-body -->
+        </div> <!-- end card-->
+    </div> <!-- end col -->
+</div>
+
+<div class="row">
+    <div class="col-xl-12">
+        <div class="card">
+            <div class="card-body">
+                <h4 class="header-title mb-3"> كمية الأخطاء ونوعها</h4>
+                <div method="post">
+                    <div class="row">
+                        <div class="col-12">
+                            <div class="row">
+                                <div class="col-6">
+                                    <label class=" col-form-label" for="CompareColleagues">@(DataTypeExtention.GetDisplayName<StudentMistake>("CompareColleagues"))</label>
+                                    <div class="col-md-9">
+                                        <input type="text" required class="form-control" id="CompareColleagues" name="CompareColleagues" value="@Model.StudentMistake.CompareColleagues">
+                                    </div>
+                                </div>
+                                <div class="col-6">
+                                    <label class=" col-form-label" for="AlotCompareColleagues">@(DataTypeExtention.GetDisplayName<StudentMistake>("AlotCompareColleagues"))</label>
+                                    <div class="col-md-9">
+                                        <input type="text" required class="form-control" id="AlotCompareColleagues" name="AlotCompareColleagues" value="@Model.StudentMistake.AlotCompareColleagues">
+                                    </div>
+                                </div>
+                                <div class="col-6">
+                                    <label class=" col-form-label" for="AFewCompareColleagues">@(DataTypeExtention.GetDisplayName<StudentMistake>("AFewCompareColleagues"))</label>
+                                    <div class="col-md-9">
+                                        <input type="text" required class="form-control" id="AFewCompareColleagues" name="AFewCompareColleagues" value="@Model.StudentMistake.AFewCompareColleagues">
+                                    </div>
+                                </div>
+                                <div class="col-6">
+                                    <label class=" col-form-label" for="BehavioralDescription">@(DataTypeExtention.GetDisplayName<StudentMistake>("BehavioralDescription"))</label>
+                                    <div class="col-md-9">
+                                        <input type="text" required class="form-control" id="BehavioralDescription" name="BehavioralDescription" value="@Model.StudentMistake.BehavioralDescription">
+                                    </div>
+                                </div>
+                                <div class="col-6">
+                                    <label class=" col-form-label" for="SchoolDealing">@(DataTypeExtention.GetDisplayName<StudentMistake>("SchoolDealing"))</label>
+                                    <div class="col-md-9">
+                                        <input type="text" required class="form-control" id="SchoolDealing" name="SchoolDealing" value="@Model.StudentMistake.SchoolDealing">
+                                    </div>
+                                </div>
+                                <div class="col-6">
+                                    <label class=" col-form-label" for="UnderstandingWellBehaved">@(DataTypeExtention.GetDisplayName<StudentMistake>("UnderstandingWellBehaved"))</label>
+                                    <div class="col-md-9">
+                                        <input type="text" required class="form-control" id="UnderstandingWellBehaved" name="UnderstandingWellBehaved" value="@Model.StudentMistake.UnderstandingWellBehaved">
+                                    </div>
+                                </div>
+                                <div class="col-6">
+                                    <label class=" col-form-label" for="AssaultsOthers">@(DataTypeExtention.GetDisplayName<StudentMistake>("AssaultsOthers"))</label>
+                                    <div class="col-md-9">
+                                        <input type="text" required class="form-control" id="AssaultsOthers" name="AssaultsOthers" value="@Model.StudentMistake.AssaultsOthers">
+                                    </div>
+                                </div>
+                                <div class="col-6">
+                                    <label class=" col-form-label" for="SelfReliant">@(DataTypeExtention.GetDisplayName<StudentMistake>("SelfReliant"))</label>
+                                    <div class="col-md-9">
+                                        <input type="text" required class="form-control" id="SelfReliant" name="SelfReliant" value="@Model.StudentMistake.SelfReliant">
+                                    </div>
+                                </div>
+                                <div class="col-6">
+                                    <label class=" col-form-label" for="ClearExpression">@(DataTypeExtention.GetDisplayName<StudentMistake>("ClearExpression"))</label>
+                                    <div class="col-md-9">
+                                        <input type="text" required class="form-control" id="ClearExpression" name="ClearExpression" value="@Model.StudentMistake.ClearExpression">
+                                    </div>
+                                </div>
+
+                                <div style="padding-top:20px">
+                                    <button type="submit" class="btn btn-primary">حفظ</button>
+                                </div>
+                            </div>
+                        </div> <!-- end col -->
+                    </div> <!-- end row -->
+                </div>
+            </div> <!-- end card-body -->
+        </div> <!-- end card-->
+    </div> <!-- end col -->
+</div>
+
+<div class="row">
+    <div class="col-xl-12">
+        <div class="card">
+            <div class="card-body">
+                <h4 class="header-title mb-3"> معلومات أخرى</h4>
+                <div method="post">
+                    <div class="row">
+                        <div class="col-12">
+                            <div class="row">
+                                <div class="col-6">
+                                    <label class=" col-form-label" for="FirstDiscoveryParents">@(DataTypeExtention.GetDisplayName<StudentNote>("FirstDiscoveryParents"))</label>
+                                    <div class="col-md-9">
+                                        <input type="text" required class="form-control" id="FirstDiscoveryParents" name="FirstDiscoveryParents" value="@Model.StudentNote.FirstDiscoveryParents">
+                                    </div>
+                                </div>
+                                <div class="col-6">
+                                    <label class=" col-form-label" for="OtherNote">@(DataTypeExtention.GetDisplayName<StudentNote>("OtherNote"))</label>
+                                    <div class="col-md-9">
+                                        <input type="text" required class="form-control" id="OtherNote" name="OtherNote" value="@Model.StudentNote.OtherNote">
+                                    </div>
+                                </div>
+                                <div class="col-6">
+                                    <label class=" col-form-label" for="SpeakingWay">@(DataTypeExtention.GetDisplayName<StudentNote>("SpeakingWay"))</label>
+                                    <div class="col-md-9">
+                                        <input type="text" required class="form-control" id="SpeakingWay" name="SpeakingWay" value="@Model.StudentNote.SpeakingWay">
+                                    </div>
+                                </div>
+                                <div class="col-6">
+                                    <label class=" col-form-label" for="FamilyProblemsWithChild">@(DataTypeExtention.GetDisplayName<StudentNote>("FamilyProblemsWithChild"))</label>
+                                    <div class="col-md-9">
+                                        <input type="text" required class="form-control" id="FamilyProblemsWithChild" name="FamilyProblemsWithChild" value="@Model.StudentNote.FamilyProblemsWithChild">
+                                    </div>
+                                </div>
+                                <div class="col-6">
+                                    <label class=" col-form-label" for="SkillsFamilyRequiredChild">@(DataTypeExtention.GetDisplayName<StudentNote>("SkillsFamilyRequiredChild"))</label>
+                                    <div class="col-md-9">
+                                        <input type="text" required class="form-control" id="SkillsFamilyRequiredChild" name="SkillsFamilyRequiredChild" value="@Model.StudentNote.SkillsFamilyRequiredChild">
+                                    </div>
+                                </div>
+                                <div class="col-6">
+                                    <label class=" col-form-label" for="SkillsRequiredChild">@(DataTypeExtention.GetDisplayName<StudentNote>("SkillsRequiredChild"))</label>
+                                    <div class="col-md-9">
+                                        <input type="text" required class="form-control" id="SkillsRequiredChild" name="SkillsRequiredChild" value="@Model.StudentNote.SkillsRequiredChild">
+                                    </div>
+                                </div>
+                                <div style="padding-top:20px">
+                                    <button type="submit" class="btn btn-primary">حفظ</button>
+                                </div>
+                            </div>
+                        </div> <!-- end col -->
+                    </div> <!-- end row -->
+                </div>
+            </div> <!-- end card-body -->
+        </div> <!-- end card-->
+    </div> <!-- end col -->
+</div>
+
+<script>
+
+    document.addEventListener('DOMContentLoaded', function () {
+        getAgeDateTime();
+    });
+
+    function getAgeDateTime() {
+
+        $("#btnNext").removeClass("d-none");
+
+        var birthDate = $("#BirthDate").val();
+        var studyStateDate = $("#StudyStateDate").val();
+        if (birthDate == '' || studyStateDate == '') {
+            $("#AgeTimeDate").val('');
+            return;
+        }
+
+        const birthdate = new Date(birthDate);
+        const currentDate = new Date(studyStateDate);
+
+        let ageYears = currentDate.getFullYear() - birthdate.getFullYear();
+        let ageMonths = currentDate.getMonth() - birthdate.getMonth();
+        let ageDays = currentDate.getDate() - birthdate.getDate();
+
+        if (ageDays < 0) {
+            ageMonths--;
+            ageDays += new Date(currentDate.getFullYear(), currentDate.getMonth(), 0).getDate();
+        }
+
+        if (ageMonths < 0) {
+            ageYears--;
+            ageMonths += 12;
+        }
+
+        var str = `السنة : ${ageYears} - الشهر : ${ageMonths} - اليوم ${ageDays}`;
+
+        $("#AgeTimeDate").val(str);
+
+        var EarlyMin = $("#EarlyMin").val();
+        var EarlyMax = $("#EarlyMax").val();
+        var LDMin = $("#LDMin").val();
+        var LDMax = $("#LDMax").val();
+        var EQMin = $("#EQMin").val();
+        var EQMax = $("#EQMax").val();
+
+        if (ageYears >= Number(LDMin) && ageYears <= Number(LDMax)) {
+            $("SchoolName").prop('required', false);
+            $("Class").prop('required', false);
+            $("#ldRow").removeClass("d-none");
+
+            var result = Number(ageYears) - Number(EarlyMax);
+
+            var state = "الحالة هي صعوبات تعلم";
+
+            $("#StateInfo").html(state);
+        }
+        else if (ageYears >= Number(EarlyMin) && ageYears <= Number(EarlyMax)) {
+            $("#ldRow").addClass("d-none");
+            $("SchoolName").prop('required', true);
+            $("Class").prop('required', true);
+            $("#SchoolName").val('');
+            $("#Class").val('');
+
+            var state = "الحالة هي تدخل مبكر";
+
+            $("#StateInfo").html(state);
+        }
+        else {
+            $("SchoolName").prop('required', false);
+            $("Class").prop('required', false);
+            $("#ldRow").removeClass("d-none");
+            $("#btnNext").addClass("d-none");
+
+            var result = Number(ageYears) - Number(LDMax);
+
+            var state = "الحالة هي تأهيل ";
+
+            $("#StateInfo").html(state);
+        }
+
+
+    }
+
+</script>
+
+<script>
+    function AddRecord() {
+        var order = $("#order").val();
+        var level = $("#level").val();
+        var name = $("#name").val();
+        var isMale = $("#isMale").val();
+        var age = $("#age").val();
+        var healthStatus = $("#healthStatus").val();
+
+        $.ajax({
+            type: 'POST',
+            url: '/AddSiblingRecord',
+            data: { order: order, name: name, isMale: isMale, age: age, level: level, healthStatus: healthStatus },
+            success: function (result) {
+                location.reload();
+            }
+        });
+
+    }
+
+    function RemoveRecord(id) {
+        $.ajax({
+            type: 'POST',
+            url: '/DeleteSiblingRecord',
+            data: { id: id },
+            success: function (result) {
+                location.reload();
+            }
+        });
+    }
+
+</script>
+
+<script>
+    function AddRecord() {
+        var Interests = $("#Interests").val();
+        var name = $("#name").val();
+
+        $.ajax({
+            type: 'POST',
+            url: '/AddInterestsRecord',
+            data: { Interests: Interests, name: name },
+            success: function (result) {
+                location.reload();
+            }
+        });
+
+    }
+
+    function RemoveRecord(id) {
+        $.ajax({
+            type: 'POST',
+            url: '/DeleteInterestsRecord',
+            data: { id: id },
+            success: function (result) {
+                location.reload();
+            }
+        });
+    }
+
+</script>
+
+<script>
+    function AddRecord() {
+        var Subject = $("#Subject").val();
+        var Level1 = $("#Level1").val();
+        var Level2 = $("#Level2").val();
+        var Level3 = $("#Level3").val();
+        var Level4 = $("#Level4").val();
+        var Level5 = $("#Level5").val();
+        var Level6 = $("#Level6").val();
+        var LevelResult = $("#LevelResult").val();
+
+        $.ajax({
+            type: 'POST',
+            url: '/AddStudentLevelInfo',
+            data: { Subject: Subject, Level1: Level1, Level2: Level2, Level3: Level3, Level4: Level4, Level5: Level5, Level6: Level6, LevelResult: LevelResult },
+            success: function (result) {
+                location.reload();
+            }
+        });
+
+    }
+
+    function RemoveRecord(id) {
+        $.ajax({
+            type: 'POST',
+            url: '/DeleteStudentLevelInfo',
+            data: { id: id },
+            success: function (result) {
+                location.reload();
+            }
+        });
+    }
+
+</script>
+
+<script>
+    function AddRecord() {
+        var CenterName = $("#CenterName").val();
+        var Diagnosis = $("#Diagnosis").val();
+        var Duration = $("#Duration").val();
+        var Program = $("#Program").val();
+        var Address = $("#Address").val();
+
+        $.ajax({
+            type: 'POST',
+            url: '/AddStudentVisitCenter',
+            data: { CenterName: CenterName, Diagnosis: Diagnosis, Duration: Duration, Program: Program, Address: Address },
+            success: function (result) {
+                location.reload();
+            }
+        });
+
+    }
+
+    function RemoveRecord(id) {
+        $.ajax({
+            type: 'POST',
+            url: '/DeleteStudentVisitCenter',
+            data: { id: id },
+            success: function (result) {
+                location.reload();
+            }
+        });
+    }
+
+</script>

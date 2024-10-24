@@ -241,13 +241,14 @@ namespace Alrazi.Controllers
             var studentLevelInfo = SessionManager.GetStudent<List<StudentLevelInfo>>(HttpContext, StudentStatus.LD_StudentLevelInfo);
             var studentAbility = SessionManager.GetStudent<StudentAbility>(HttpContext, StudentStatus.LD_StudentAbility);
             var studentVisitCenter = SessionManager.GetStudent<List<StudentVisitCenter>>(HttpContext, StudentStatus.LD_StudentVisitCenter);
-            //var studentMistake = SessionManager.GetStudent<StudentMistake>(HttpContext, StudentStatus.LD_StudentMistake);
+            var studentMistake = SessionManager.GetStudent<StudentMistake>(HttpContext, StudentStatus.LD_StudentMistake);
 
 
+            student.StudentStatus = StudentStatus.LearningDifficulties;
 
             await studentService.AddLDStudent(student, studentFamilyInfo, studentSiblings, studentMotherMedical, studentMedical,
                 studentMedicalTest, studentInterests, studentPsychologyDevelopment, studentSocialDevelopment, studentLevelInfo,
-                studentFamilyActivity, studentAcademic, studentAbility, studentNote , studentVisitCenter);
+                studentFamilyActivity, studentAcademic, studentAbility, studentNote , studentVisitCenter , studentMistake);
 
             var getAccount = await accountService.GetAccount(HttpContext.GetMyId());
             HttpContext.Session.Clear();
@@ -255,6 +256,34 @@ namespace Alrazi.Controllers
 
             return View();
         }
+
+        [HttpGet("Edit-LD-Student/{id}")]
+        public async Task<IActionResult> EditLDStudent(int id)
+        {
+            if (!HttpContext.HasSession())
+                return RedirectToAction("Index");
+            var getConfigs = await configService.GetConfigs();
+
+            var earlyRange = getConfigs.First(x => x.ConfigKey == ConfigKey.EarlyRange).Value.Split('-');
+            var lDRange = getConfigs.First(x => x.ConfigKey == ConfigKey.LDRange).Value.Split('-');
+            var eQRange = getConfigs.First(x => x.ConfigKey == ConfigKey.EQRange).Value.Split('-');
+
+            ViewBag.EarlyMin = earlyRange[0];
+            ViewBag.EarlyMax = earlyRange[1];
+
+            ViewBag.LDMin = lDRange[0];
+            ViewBag.LDMax = lDRange[1];
+
+            ViewBag.EQMin = eQRange[0];
+            ViewBag.EQMax = eQRange[1];
+
+            ViewData["Nationalities"] = await configService.GetNationalities();
+            ViewData["AccessChannels"] = await configService.GetAccessChannels();
+            ViewData["Diagnoses"] = await configService.GetDiagnoses();
+            ViewData["BehavioralProblems"] = await configService.GetBehavioralProblems();
+            return View(await studentService.EditLDStudent(id));
+        }
+
 
     }
 }

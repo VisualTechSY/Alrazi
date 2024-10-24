@@ -1,0 +1,105 @@
+﻿@using Alrazi.DTO
+@using Alrazi.Enums
+@model List<StudentInfo>
+@{
+    ViewData["Title"] = "استعراض الطلاب";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<!-- start page title -->
+<div class="row">
+    <div class="col-12">
+        <div class="page-title-box">
+            <div class="page-title-right">
+                <ol class="breadcrumb m-0">
+                    <li class="breadcrumb-item"><a href="~/Panel">الرئيسية</a></li>
+                    <li class="breadcrumb-item active">استعراض الطلاب</li>
+                </ol>
+            </div>
+            <h4 class="page-title">استعراض الطلاب</h4>
+        </div>
+    </div>
+</div>
+<!-- end page title -->
+
+<div class="row">
+    <div class="col-12">
+        <div class="card">
+            <div class="card-body">
+                <form method="get" class="row">
+                    <div class="col-md-3">
+                        <select required class="form-control" id="year" name="year">
+                            @for (int year = ViewBag.StartingYear; year <= DateTime.Now.Year; year++)
+                            {
+                                @if (year == ViewBag.Year)
+                                {
+                                    <option selected value="@year">@year</option>
+                                }
+                                else
+                                {
+                                    <option value="@year">@year</option>
+                                }
+                            }
+                        </select>
+                    </div>
+                    <div class="col-md-3">
+                        <select required class="form-control" id="studentStatus" name="studentStatus">
+                            @if (ViewBag.StudentStatus == StudentStatus.Early)
+                            {
+                                <option selected value="@StudentStatus.Early">تدخل مبكر</option>
+                                <option value="@StudentStatus.LearningDifficulties">صعوبات التعلم</option>
+                            }
+                            else
+                            {
+                                <option value="@StudentStatus.Early">تدخل مبكر</option>
+                                <option selected value="@StudentStatus.LearningDifficulties">صعوبات التعلم</option>
+                            }
+                        </select>
+                    </div>
+                    <div class="col-md-3">
+                        <button type="submit" class="btn btn-primary">بحث</button>
+                    </div>
+                </form>
+            </div>
+         </div>
+    </div>
+</div>
+
+<div class="row">
+    <div class="col-12">
+        <div class="card">
+            <div class="card-body">
+                <table class="table table-centered mb-0">
+                    <thead class="table-dark">
+                        <tr>
+                            <th>اسم الطالب</th>
+                            <th>اسم الأم</th>
+                            <th>رقم الهاتف</th>
+                            <th>خيارات</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @foreach (var item in Model)
+                        {
+                            <tr>
+                                <td>@item.FullName</td>
+                                <td>@item.MotherName</td>
+                                <td>@item.PhoneNumber</td>
+                                <td class="table-action">
+                                    @if (item.StudentStatus == StudentStatus.Early)
+                                    {
+                                        <a href="~/Edit-Early-Student/@item.Id" class="action-icon"> <i class="mdi mdi-pencil"></i></a>
+                                    }
+                                    else
+                                    {
+                                        <a href="~/Edit-LD-Student/@item.Id" class="action-icon"> <i class="mdi mdi-pencil"></i></a>
+                                    }
+                                </td>
+                            </tr>
+                        }
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>
