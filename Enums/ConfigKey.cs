@@ -11,17 +11,13 @@
     {
         public static string GetArabic(ConfigKey configKey)
         {
-            switch (configKey)
+            return configKey switch
             {
-                case ConfigKey.EarlyRange:
-                    return "نطاق عمر التدخل المبكر";
-                case ConfigKey.LDRange:
-                    return "نطاق عمر صعوبات التعلم";
-                case ConfigKey.EQRange:
-                    return "نطاق عمر التأهيل التربوي";
-                default:
-                    return "";
-            }
+                ConfigKey.EarlyRange => "نطاق عمر التدخل المبكر",
+                ConfigKey.LDRange => "نطاق عمر صعوبات التعلم",
+                ConfigKey.EQRange => "نطاق عمر التأهيل التربوي",
+                _ => "",
+            };
         }
     }
 }

@@ -22,6 +22,7 @@ builder.Services.AddDbContext<Context>(options =>
 builder.Services.AddTransient<AccountService>();
 builder.Services.AddTransient<ConfigService>();
 builder.Services.AddTransient<StudentService>();
+builder.Services.AddTransient<TestService>();
 
 builder.Services.AddHostedService<CheckIdel>();
 

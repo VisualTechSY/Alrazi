@@ -1,0 +1,78 @@
+﻿@model List<Test>
+
+@{
+    ViewData["Title"] = "إضافة اختبار";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h3>إضافة اختبار</h3>
+
+<!-- start page title -->
+<div class="row">
+    <div class="col-md-9">
+        <select required class="form-control" id="selecttest" name="selecttest" onchange="location = this.value;">
+            <option disabled selected>حدد اختبار</option>
+            @foreach (var item in Model)
+            {
+                var val = "?testId=" + item.Id;
+                @if (ViewBag.selectedTestId == item.Id)
+                {
+                    <option selected value="@val">@item.Title</option>
+                }
+                else
+                {
+                    <option value="@val">@item.Title</option>
+                }
+            }
+        </select>
+    </div>
+</div>
+<!-- end page title -->
+@if (ViewBag.selectedTestId != 0)
+{
+    <div class="row">
+        <div class="col-12">
+            <div class="card">
+                <form method="post" class="card-body" action="~/Add-Test-Student">
+                    <table class="table table-centered mb-0">
+                        <thead class="table-dark">
+                            <tr>
+                                <th>المجالات</th>
+                                <th>عدد الإجابات الصحيحة</th>
+                                <th>الدرجة</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @{
+                                int index = 0;
+                                <input type="hidden" class="form-control" name="StudentId" value="@ViewBag.stdId" />
+                                <input type="hidden" class="form-control" name="SerialNumber" value="0" />
+
+                                foreach (var item in Model.First(x => x.Id == ViewBag.selectedTestId).TestSubjects)
+                                {
+                                    <input type="hidden" class="form-control" name="TestSubjectId[@index]" value="@item.Id" />
+                                    <tr>
+                                        <td>
+                                            @item.Title
+                                        </td>
+                                        <td>
+                                            <input type="text" class="form-control" name="NumberCorrectAnswers[@index]" required />
+                                        </td>
+                                        <td>
+                                            <input type="text" class="form-control" name="Mark[@index]" required />
+                                        </td>
+                                    </tr>
+                                    index++;
+                                }
+                            }
+                        </tbody>
+                    </table>
+                    <div style="padding-top:20px">
+                        <button type="submit" class="btn btn-primary">حفظ التعديلات</button>
+                    </div>
+                </form>
+
+            </div>
+        </div>
+    </div>
+}

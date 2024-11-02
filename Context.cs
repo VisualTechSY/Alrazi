@@ -1,8 +1,8 @@
-﻿using Microsoft.EntityFrameworkCore;
+﻿using Alrazi.Models;
+using Alrazi.Tools;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Design;
 using Microsoft.EntityFrameworkCore.Metadata;
-using Alrazi.Models;
-using Alrazi.Tools;
 
 namespace Alrazi
 {
@@ -37,6 +37,11 @@ namespace Alrazi
         public DbSet<StudentSibling> StudentSiblings { get; set; }
         public DbSet<StudentSocialDevelopment> StudentSocialDevelopments { get; set; }
         public DbSet<StudentVisitCenter> StudentVisitCenters { get; set; }
+        public DbSet<Test> Tests { get; set; }
+        public DbSet<TestResult> TestResult { get; set; }
+        public DbSet<TestSubject> TestSubject { get; set; }
+        public DbSet<TestSubjectResult> TestSubjectResult { get; set; }
+        public DbSet<StudentTest> StudentTest { get; set; }
 
         public Context(DbContextOptions<Context> options)
             : base(options)
