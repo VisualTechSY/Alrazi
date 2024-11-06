@@ -30,7 +30,8 @@ namespace Alrazi.Services
                     StudentId = testStudentVM.StudentId,
                     SerialNumber = serialNumber,
                     TestSubjectId = testStudentVM.TestSubjectId[i],
-                    NumberCorrectAnswers = testStudentVM.NumberCorrectAnswers[i],
+                    TheBase = testStudentVM.TheBase[i],
+                    Additional = testStudentVM.Additional[i],
                     Mark = testStudentVM.Mark[i],
                 });
             }
@@ -45,66 +46,78 @@ namespace Alrazi.Services
         {
             List<StudentTestReportVM> studentTestReports = [];
 
-            var getStudentTest = await context.Students.Where(x => x.Id == studentId)
-                .Include(x => x.StudentTest).ToListAsync();
-            var stdInfo = getStudentTest.First();
-            //  var getAllStdTests = await context.StudentTest.Where(x => x.StudentId == studentId).ToListAsync();
-            //var x = context.Tests
-            //    .Include(x => x.TestSubjects).ThenInclude(x => x.TestSubjectResult)
-            //    .Include(x => x.TestResult)
-            //    .ToListAsync();
-            foreach (var stdTest in getStudentTest.First().StudentTest)
+            var student = await context.Students.FirstAsync(x => x.Id == studentId);
+
+            var studentTests = await context.StudentTest
+                .Where(x => x.StudentId == studentId)
+                .Include(x => x.Student)
+                .Include(x => x.TestSubject)
+                .Include(x => x.TestSubject.TestSubjectResults)
+                .Include(x => x.TestSubject.Test)
+                .Include(x => x.TestSubject.Test.TestResults)
+                .ToListAsync();
+
+            foreach (var studentTest in studentTests)
             {
-                var subjinfo = await context.TestSubject.FirstAsync(x => x.Id == stdTest.TestSubjectId);
-                var subjinfoRes = await context.TestSubjectResult.Where(x => x.TestSubjectId == subjinfo.Id).ToListAsync();
-                var testinfo = await context.Tests.FirstAsync(x => x.Id == subjinfo.TestId);
-                var testinfoRes = await context.TestResult.Where(x => x.TestId == testinfo.Id).ToListAsync();
 
                 StudentTestReportVM studentTestReport = new();
-                studentTestReport.StudentName = stdInfo.FirstName + stdInfo.LastName;
-                studentTestReport.BirthDate = stdInfo.BirthDate;
+                studentTestReport.StudentName = student.FirstName + student.LastName;
+                studentTestReport.BirthDate = student.BirthDate.ToShortDateString();
                 //رقم التقييم
-                studentTestReport.SerialNumber = stdTest.SerialNumber;
+                studentTestReport.SerialNumber = studentTest.SerialNumber;
                 //تاريخ التقييم
-                studentTestReport.TestDate = stdTest.TestDate;
+                studentTestReport.TestDate = studentTest.TestDate.ToShortDateString();
+
+                Birthday birthday = new(student.BirthDate, studentTest.TestDate);
+
                 //الزمني بالأشهر
-                //studentTestReport.AgeInMonths = ,
+                studentTestReport.AgeInMonths = birthday.TotalMonth;
                 //العمر الزمني
-                //studentTestReport.Age = ;
+                studentTestReport.ChronologicalAge = birthday.ChronologicalAge;
                 //المجالات
-                studentTestReport.Subject = subjinfo.Title;
+                studentTestReport.Subject = studentTest.TestSubject.Title;
                 //القاعدي
-                //studentTestReport.NumberCorrectAnswers = ;
+                studentTestReport.TheBase = studentTest.TheBase;
                 //الاضافي
-                //studentTestReport.Additional = ;
+                studentTestReport.Additional = studentTest.Additional;
+
+                var subjectResult = studentTest.TestSubject.TestSubjectResults.FirstOrDefault(x => studentTest.Mark >= x.MinValue && studentTest.Mark <= x.MaxValue) ?? new();
+
                 // النمائي بالأشهر
-                //  studentTestReport.DevelopmentalAgeOfMounth = ,
+                studentTestReport.DevelopmentalAgeOfMounth = subjectResult.AgeOfMounth;
                 //العمر النمائي
                 studentTestReport.DevelopmentalAge = studentTestReport.DevelopmentalAgeOfMounth / 12;
                 //نسبة الاداء%
-                studentTestReport.PerformancePercentage = stdTest.Mark;
+                studentTestReport.PerformancePercentage = studentTest.Mark;
                 //نسبة الاداء كتابة
-                studentTestReport.PerformanceDegree = subjinfoRes.FirstOrDefault(x => stdTest.Mark >= x.MinValue && stdTest.Mark <= x.MaxValue)?.Degree;
+                studentTestReport.PerformanceDegree = subjectResult.Degree;
                 //الفرق بالأشهر  بين ز - ن
                 studentTestReport.DifferenceInMonths = studentTestReport.AgeInMonths - studentTestReport.DevelopmentalAgeOfMounth;
                 //الفرق بالسنوات
-                studentTestReport.DifferenceInYear = studentTestReport.DifferenceInMonths / 12;
+                studentTestReport.DifferenceInYear = Math.Round(studentTestReport.DifferenceInMonths / 12, 2);
                 //التحقق
-                //  studentTestReport.Verification = ,
-                //المجموع
-                //  studentTestReport.studentTestReport.TotalMarks = ;
-                //التصنيف
-                // studentTestReport.studentTestReport.RatingPercentage = ,
-                //التصنيف درجة
-                studentTestReport.RatingDegree = testinfoRes.FirstOrDefault(x => studentTestReport.TotalMarks >= x.MinValue && studentTestReport.TotalMarks <= x.MaxValue)?.Degree;
+                studentTestReport.Verification = studentTestReport.DevelopmentalAge + studentTestReport.DifferenceInYear;
 
+                var subjectGroup = studentTests.Where(x => x.SerialNumber == studentTest.SerialNumber);
+
+                //المجموع
+                studentTestReport.TotalMarks = subjectGroup.Sum(x => x.Mark);
+                //التصنيف
+                studentTestReport.RatingPercentage = subjectGroup.Average(x => x.Mark);
+
+                var testResult = studentTest.TestSubject.Test.TestResults.FirstOrDefault(x => studentTestReport.TotalMarks >= x.MinValue && studentTestReport.TotalMarks <= x.MaxValue) ?? new();
+
+                //التصنيف درجة
+                studentTestReport.RatingDegree = testResult.Degree;
+
+                studentTestReport.CountOfRow = subjectGroup.Count();
 
 
                 studentTestReports.Add(studentTestReport);
             }
 
 
-            return studentTestReports;
+            return [.. studentTestReports.OrderBy(x => x.SerialNumber).ThenBy(x => x.Subject)];
         }
     }
 }

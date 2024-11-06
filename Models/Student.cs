@@ -1,5 +1,4 @@
 ﻿using Alrazi.Enums;
-using Microsoft.CodeAnalysis.CSharp.Syntax;
 
 namespace Alrazi.Models
 {
@@ -50,7 +49,7 @@ namespace Alrazi.Models
 		public List<StudentLevelInfo> StudentLevelInfos { get; set; }
 		public List<StudentVisitCenter> StudentVisitCenters { get; set; }
 		public List<StudentEducationalualification> StudentEducationalualifications { get; set; }
-		public List<StudentTest> StudentTest { get; set; }
+		public List<StudentTest> StudentTests { get; set; }
 
 		//public string GetAgeDateTime()
 		//{
@@ -68,5 +67,5 @@ namespace Alrazi.Models
 			return (currentdate - birthdate).Days / 365;
 		}
 
-	}
+    }
 }

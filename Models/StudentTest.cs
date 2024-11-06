@@ -12,7 +12,8 @@ namespace Alrazi.Models
         public int StudentId { get; set; }
         public Student Student { get; set; }
         public int SerialNumber { get; set; }
-        public int NumberCorrectAnswers { get; set; }
+        public double TheBase { get; set; }//القاعدي
+        public int Additional { get; set; }//الاضافي
         public double Mark { get; set; }
         public DateTime TestDate { get; set; } = DateTime.Now;
     }

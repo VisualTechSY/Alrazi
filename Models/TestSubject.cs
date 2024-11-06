@@ -12,8 +12,8 @@ namespace Alrazi.Models
 
         public string Title { get; set; }
         public double MaxValue { get; set; }
-        public List<TestSubjectResult> TestSubjectResult { get; set; }
-        public List<StudentTest> StudentTest { get; set; }
+        public List<TestSubjectResult> TestSubjectResults { get; set; }
+        public List<StudentTest> StudentTests { get; set; }
 
     }
 }

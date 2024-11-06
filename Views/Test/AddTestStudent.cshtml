@@ -5,9 +5,22 @@
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
-<h3>إضافة اختبار</h3>
-
 <!-- start page title -->
+<div class="row">
+    <div class="col-12">
+        <div class="page-title-box">
+            <div class="page-title-right">
+                <ol class="breadcrumb m-0">
+                    <li class="breadcrumb-item"><a href="~/Panel">الرئيسية</a></li>
+                    <li class="breadcrumb-item active">إضافة اختبار</li>
+                </ol>
+            </div>
+            <h4 class="page-title">إضافة اختبار</h4>
+        </div>
+    </div>
+</div>
+<!-- end page title -->
+
 <div class="row">
     <div class="col-md-9">
         <select required class="form-control" id="selecttest" name="selecttest" onchange="location = this.value;">
@@ -27,7 +40,8 @@
         </select>
     </div>
 </div>
-<!-- end page title -->
+
+
 @if (ViewBag.selectedTestId != 0)
 {
     <div class="row">
@@ -38,7 +52,8 @@
                         <thead class="table-dark">
                             <tr>
                                 <th>المجالات</th>
-                                <th>عدد الإجابات الصحيحة</th>
+                                <th>القاعدي</th>
+                                <th>الاضافي</th>
                                 <th>الدرجة</th>
                             </tr>
                         </thead>
@@ -56,7 +71,10 @@
                                             @item.Title
                                         </td>
                                         <td>
-                                            <input type="text" class="form-control" name="NumberCorrectAnswers[@index]" required />
+                                            <input type="text" class="form-control" name="TheBase[@index]" required />
+                                        </td>
+                                        <td>
+                                            <input type="text" class="form-control" name="Additional[@index]" required />
                                         </td>
                                         <td>
                                             <input type="text" class="form-control" name="Mark[@index]" required />

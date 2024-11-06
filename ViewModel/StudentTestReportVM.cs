@@ -5,19 +5,19 @@
         //اسم الطفل
         public string StudentName { get; set; }
         //المواليد
-        public DateTime BirthDate { get; set; }
+        public string BirthDate { get; set; }
         //رقم التقييم
         public int SerialNumber { get; set; }
         //تاريخ التقييم
-        public DateTime TestDate { get; set; }
+        public string TestDate { get; set; }
         //الزمني بالأشهر
         public int AgeInMonths { get; set; }
         //العمر الزمني
-        public double Age { get; set; }
+        public string ChronologicalAge { get; set; }
         //المجالات
         public string Subject { get; set; }
         //القاعدي
-        public double NumberCorrectAnswers { get; set; }
+        public double TheBase { get; set; }
         //الاضافي
         public int Additional { get; set; }
         // النمائي بالأشهر
@@ -38,9 +38,11 @@
         public double TotalMarks { get; set; }
         //التصنيف
         public double RatingPercentage { get; set; }
-        //التصنيف
+        //التصنيف درجة
         public string RatingDegree { get; set; }
-        //العمر الزمني
-        public double ChronologicalAge { get; set; }
+
+        
+        public int CountOfRow { get; set; }//خاصة بالتصميم فقط
+
     }
 }
