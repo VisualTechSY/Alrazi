@@ -27,7 +27,8 @@
             if (AgeDays < 0)
             {
                 AgeMonths--;
-                AgeDays += DateTime.DaysInMonth(currentDate.Year, currentDate.Month - 1);
+                int PrevMonth = new DateTime(currentDate.Year, currentDate.Month, 1).AddMonths(-1).Month;
+                AgeDays += DateTime.DaysInMonth(currentDate.Year, PrevMonth);
             }
 
             if (AgeMonths < 0)
