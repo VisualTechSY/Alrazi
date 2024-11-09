@@ -126,11 +126,12 @@ namespace Alrazi.Controllers
             return View(testResults);
         }
         [HttpGet("Manage-TestSubjectResault/{testSubjectId}")]
-        public async Task<IActionResult> TestSubjectResault(int testSubjectId)
+        public async Task<IActionResult> ManageTestSubjectResault(int testSubjectId)
         {
             if (!HttpContext.HasSession())
                 return RedirectToAction("Index");
 
+            ViewBag.TestSubjectId = testSubjectId;
             List<TestSubjectResult> testSubjectResult = await testService.GetTestSubjectResults(testSubjectId);
             return View(testSubjectResult);
         }
@@ -143,6 +144,7 @@ namespace Alrazi.Controllers
 
             await testService.AddTestSubjectResults(testSubjectResult);
 
+            ViewBag.TestSubjectId = testSubjectId;
             List<TestSubjectResult> GetTestSubjectResult = await testService.GetTestSubjectResults(testSubjectId);
             return View(GetTestSubjectResult);
         }

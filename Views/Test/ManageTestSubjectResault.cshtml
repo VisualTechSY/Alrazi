@@ -1,7 +1,107 @@
-﻿
+﻿@model List<TestSubjectResult>
 @{
-    ViewData["Title"] = "ManageTestSubjectResault";
+    ViewData["Title"] = "نتائج الإختبار للمجالات";
+    Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
-<h1>ManageTestSubjectResault</h1>
+<!-- start page title -->
+<div class="row">
+    <div class="col-12">
+        <div class="page-title-box">
+            <div class="page-title-right">
+                <ol class="breadcrumb m-0">
+                    <li class="breadcrumb-item"><a href="~/Panel">الرئيسية</a></li>
+                    <li class="breadcrumb-item active">نتائج الإختبار للمجالات</li>
+                </ol>
+            </div>
+            <h4 class="page-title">نتائج الإختبار للمجالات</h4>
+        </div>
+    </div>
+</div>
+<!-- end page title -->
+
+<div class="row">
+    <div class="col-12">
+        <div class="card">
+            <div class="card-body">
+                <form method="post">
+
+                    @*  //todo
+                    @if (!string.IsNullOrWhiteSpace(ViewBag.Message))
+                    {
+                    @if (ViewBag.Done)
+                    {
+                    <p style="color:green">@ViewBag.Message</p>
+                    }
+                    else
+                    {
+                    <p style="color:red">@ViewBag.Message</p>
+                    }
+                    } *@
+
+                    <input type="hidden" name="TestSubjectId" value="@ViewBag.TestSubjectId" />
+
+                    <div class="row">
+                        <div class="col-3">
+                            <label for="MinValue" class="form-label">العلامة الدنيا</label>
+                            <input type="number" id="MinValue" required name="MinValue" class="form-control" placeholder="العلامة الدنيا">
+                        </div>
+
+                        <div class="col-3">
+                            <label for="MaxValue" class="form-label">العلامة العظمى</label>
+                            <input type="number" id="MaxValue" required name="MaxValue" class="form-control" placeholder="العلامة العظمى">
+                        </div>
+
+                        <div class="col-3">
+                            <label for="Degree" class="form-label">التقدير</label>
+                            <input type="text" id="Degree" required name="Degree" class="form-control" placeholder="التقدير">
+                        </div>
+
+                        <div class="col-3">
+                            <label for="AgeOfMounth" class="form-label">العمر النمائي بالأشهر</label>
+                            <input type="number" id="AgeOfMounth" required name="AgeOfMounth" class="form-control" placeholder="عدد الأشهر">
+                        </div>
+
+                    </div>
+
+                    <div style="padding-top:20px">
+                        <button type="submit" class="btn btn-primary">إضافة</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
+<div class="row">
+    <div class="col-12">
+        <div class="card">
+            <div class="card-body">
+                <table class="table table-centered mb-0">
+                    <thead class="table-dark">
+                        <tr>
+                            <th>العلامة الدنيا</th>
+                            <th>العلامة العظمى</th>
+                            <th>التقدير</th>
+                            <th>العمر النمائي بالأشهر</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @foreach (var item in Model)
+                        {
+                            <tr>
+                                <td>@item.MinValue</td>
+                                <td>@item.MaxValue</td>
+                                <td>@item.Degree</td>
+                                <td>@item.AgeOfMounth</td>
+                            </tr>
+                        }
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>
 

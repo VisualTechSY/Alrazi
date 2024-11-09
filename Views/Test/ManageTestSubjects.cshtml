@@ -67,6 +67,7 @@
                     <thead class="table-dark">
                         <tr>
                             <th>اسم المجال</th>
+                            <th>خيارات</th>
                         </tr>
                     </thead>
                     <tbody>
@@ -74,6 +75,9 @@
                         {
                             <tr>
                                 <td>@item.Title</td>
+                                <td>
+                                    <a href="~/Manage-TestSubjectResault/@item.Id" class="action-icon"> إدارة النتائج <i class="mdi mdi-pencil"></i></a>
+                                </td>
                             </tr>
                         }
                     </tbody>
