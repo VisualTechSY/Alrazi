@@ -26,7 +26,7 @@
     <div class="col-12">
         <div class="card">
             <div class="card-body">
-                <form method="post">
+                <form method="post" class="row">
 
                     @*  //todo
                     @if (!string.IsNullOrWhiteSpace(ViewBag.Message))
@@ -40,19 +40,27 @@
                     <p style="color:red">@ViewBag.Message</p>
                     }
                     } *@
-                    <div class="mb-3">
+                    <div class="col-4">
+                        <div class="mb-3">
                         <label for="name" class="form-label">اسم الاختبار</label>
                         <input type="text" id="name" required name="Title" class="form-control" placeholder="اسم الاختبار">
                     </div>
+                    </div>
 
-                    <select required class="form-control" id="StudentType" name="StudentType">
+                    <div class="col-4">
+                        <label for="StudentType" class="form-label">موجه إلى</label>
+                        <select required class="form-control" id="StudentType" name="StudentType">
                         <option value="@StudentStatus.Early">تدخل مبكر</option>
                         <option value="@StudentStatus.LearningDifficulties">صعوبات التعلم</option>
                     </select>
-
-                    <div style="padding-top:20px">
-                        <button type="submit" class="btn btn-primary">إضافة</button>
                     </div>
+
+                    <div class="col-3">
+                        <div style="padding-top:30px">
+                            <button type="submit" class="btn btn-primary">إضافة</button>
+                        </div>
+                    </div>
+
                 </form>
             </div>
         </div>
