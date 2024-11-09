@@ -1,0 +1,81 @@
+﻿@model List<TestSubject>
+@{
+    ViewData["Title"] = "الاختبارات";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<!-- start page title -->
+<div class="row">
+    <div class="col-12">
+        <div class="page-title-box">
+            <div class="page-title-right">
+                <ol class="breadcrumb m-0">
+                    <li class="breadcrumb-item"><a href="~/Panel">الرئيسية</a></li>
+                    <li class="breadcrumb-item active">إدارة المجالات</li>
+                </ol>
+            </div>
+            <h4 class="page-title">إدارة المجالات</h4>
+        </div>
+    </div>
+</div>
+<!-- end page title -->
+
+<div class="row">
+    <div class="col-12">
+        <div class="card">
+            <div class="card-body">
+                <form method="post">
+
+                    @*  //todo
+                    @if (!string.IsNullOrWhiteSpace(ViewBag.Message))
+                    {
+                    @if (ViewBag.Done)
+                    {
+                    <p style="color:green">@ViewBag.Message</p>
+                    }
+                    else
+                    {
+                    <p style="color:red">@ViewBag.Message</p>
+                    }
+                    } *@
+                    <div class="mb-3">
+                        <label for="name" class="form-label">اسم المجال</label>
+                        <input type="hidden" name="TestId" value="@ViewBag.testid" />
+                        <input type="text" id="name" required name="Title" class="form-control" placeholder="اسم المجال">
+                    </div>
+
+                    <div style="padding-top:20px">
+                        <button type="submit" class="btn btn-primary">إضافة</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
+<div class="row">
+    <div class="col-12">
+        <div class="card">
+            <div class="card-body">
+                <table class="table table-centered mb-0">
+                    <thead class="table-dark">
+                        <tr>
+                            <th>اسم المجال</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @foreach (var item in Model)
+                        {
+                            <tr>
+                                <td>@item.Title</td>
+                            </tr>
+                        }
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>
+

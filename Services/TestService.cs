@@ -119,5 +119,39 @@ namespace Alrazi.Services
 
             return [.. studentTestReports.OrderBy(x => x.SerialNumber).ThenBy(x => x.Subject)];
         }
+
+
+
+        public async Task AddTest(Test test)
+        {
+            context.Tests.Add(test);
+            await context.SaveChangesAsync();
+        }
+        public async Task<List<Test>> GetTests()
+        {
+            return await context.Tests.ToListAsync();
+        }
+        public async Task AddTestResults(List<TestResult> testResults)
+        {
+            context.TestResult.AddRange(testResults);
+            await context.SaveChangesAsync();
+        }
+
+
+        public async Task AddTestSubject(TestSubject testSubject)
+        {
+            context.TestSubject.Add(testSubject);
+            await context.SaveChangesAsync();
+        }
+        public async Task<List<TestSubject>> GetTestSubjects(int testId)
+        {
+            return await context.TestSubject.Where(x => x.TestId == testId).ToListAsync();
+        }
+        public async Task AddTestSubjectResults(List<TestSubjectResult> testSubjectResults)
+        {
+            context.TestSubjectResult.AddRange(testSubjectResults);
+            await context.SaveChangesAsync();
+        }
+
     }
 }

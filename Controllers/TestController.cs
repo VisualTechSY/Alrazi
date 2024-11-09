@@ -54,5 +54,50 @@ namespace Alrazi.Controllers
             return View(studentTestReportVMs);
         }
 
+        [HttpGet("Manage-Test")]
+        public async Task<IActionResult> ManageTests()
+        {
+            if (!HttpContext.HasSession())
+                return RedirectToAction("Index");
+
+            List<Test> tests = await testService.GetTests();
+            return View(tests);
+        }
+
+        [HttpPost("Manage-Test")]
+        public async Task<IActionResult> ManageTests(Test test)
+        {
+            if (!HttpContext.HasSession())
+                return RedirectToAction("Index");
+
+            await testService.AddTest(test);
+
+            List<Test> tests = await testService.GetTests();
+            return View(tests);
+        }
+
+        [HttpGet("Manage-SubjectTest/{testId}")]
+        public async Task<IActionResult> ManageTestSubjects(int testId)
+        {
+            if (!HttpContext.HasSession())
+                return RedirectToAction("Index");
+
+            ViewBag.testid = testId;
+            List<TestSubject> testSubjects = await testService.GetTestSubjects(testId);
+            return View(testSubjects);
+        }
+
+        [HttpPost("Manage-SubjectTest/{testId}")]
+        public async Task<IActionResult> ManageTestSubjects(TestSubject testSubject)
+        {
+            if (!HttpContext.HasSession())
+                return RedirectToAction("Index");
+
+            await testService.AddTestSubject(testSubject);
+
+            ViewBag.testid = testSubject.TestId;
+            List<TestSubject> getTestSubjects = await testService.GetTestSubjects(testSubject.TestId);
+            return View(getTestSubjects);
+        }
     }
 }
