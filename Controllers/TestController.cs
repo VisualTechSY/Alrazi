@@ -99,5 +99,52 @@ namespace Alrazi.Controllers
             List<TestSubject> getTestSubjects = await testService.GetTestSubjects(testSubject.TestId);
             return View(getTestSubjects);
         }
+
+
+        [HttpGet("Manage-TestResault/{testId}")]
+        public async Task<IActionResult> ManageTestResault(int testId)
+        {
+            if (!HttpContext.HasSession())
+                return RedirectToAction("Index");
+
+            ViewBag.testid = testId;
+
+            List<TestResult> testResults = await testService.GetTestResults(testId);
+            return View(testResults);
+        }
+
+        [HttpPost("Manage-TestResault/{testId}")]
+        public async Task<IActionResult> ManageTestResault(int testId, TestResult testResult)
+        {
+            if (!HttpContext.HasSession())
+                return RedirectToAction("Index");
+
+            await testService.AddTestResults(testResult);
+            ViewBag.testid = testId;
+
+            List<TestResult> testResults = await testService.GetTestResults(testId);
+            return View(testResults);
+        }
+        [HttpGet("Manage-TestSubjectResault/{testSubjectId}")]
+        public async Task<IActionResult> TestSubjectResault(int testSubjectId)
+        {
+            if (!HttpContext.HasSession())
+                return RedirectToAction("Index");
+
+            List<TestSubjectResult> testSubjectResult = await testService.GetTestSubjectResults(testSubjectId);
+            return View(testSubjectResult);
+        }
+
+        [HttpPost("Manage-TestSubjectResault/{testSubjectId}")]
+        public async Task<IActionResult> ManageTestSubjectResault(int testSubjectId, TestSubjectResult testSubjectResult)
+        {
+            if (!HttpContext.HasSession())
+                return RedirectToAction("Index");
+
+            await testService.AddTestSubjectResults(testSubjectResult);
+
+            List<TestSubjectResult> GetTestSubjectResult = await testService.GetTestSubjectResults(testSubjectId);
+            return View(GetTestSubjectResult);
+        }
     }
 }

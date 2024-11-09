@@ -131,12 +131,15 @@ namespace Alrazi.Services
         {
             return await context.Tests.ToListAsync();
         }
-        public async Task AddTestResults(List<TestResult> testResults)
+        public async Task<List<TestResult>> GetTestResults(int testId)
         {
-            context.TestResult.AddRange(testResults);
+            return await context.TestResult.Where(x => x.TestId == testId).OrderBy(x => x.MinValue).ToListAsync();
+        }
+        public async Task AddTestResults(TestResult testResults)
+        {
+            context.TestResult.Add(testResults);
             await context.SaveChangesAsync();
         }
-
 
         public async Task AddTestSubject(TestSubject testSubject)
         {
@@ -147,9 +150,13 @@ namespace Alrazi.Services
         {
             return await context.TestSubject.Where(x => x.TestId == testId).ToListAsync();
         }
-        public async Task AddTestSubjectResults(List<TestSubjectResult> testSubjectResults)
+        public async Task<List<TestSubjectResult>> GetTestSubjectResults(int testSubjectId)
         {
-            context.TestSubjectResult.AddRange(testSubjectResults);
+            return await context.TestSubjectResult.Where(x => x.TestSubjectId == testSubjectId).OrderBy(x => x.MinValue).ToListAsync();
+        }
+        public async Task AddTestSubjectResults(TestSubjectResult testSubjectResult)
+        {
+            context.TestSubjectResult.Add(testSubjectResult);
             await context.SaveChangesAsync();
         }
 
