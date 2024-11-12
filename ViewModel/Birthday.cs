@@ -4,37 +4,41 @@
     {
         public Birthday(DateTime birthdate, DateTime currentDate) => GetAgeDateTime(birthdate, currentDate);
 
-        public int AgeYears { get; set; }
-        public int AgeMonths { get; set; }
-        public int AgeDays { get; set; }
+        public int Years { get; set; }
+        public int Months { get; set; }
+        public int Days { get; set; }
 
-        public int TotalMonth => (AgeYears * 12 + AgeMonths);
+        public int TotalMonth => (Years * 12 + Months);
         //العمر الزمني  مثل 7.3
-        public string ChronologicalAge => (AgeYears + "," + AgeMonths);
+        public string ChronologicalAge
+        {
+            //todo round Days>25
+            get { return (Years + "," + Months); }
+        }
         public override string ToString()
         {
-            return "السنة: " + AgeYears + "- الشهر : " + AgeMonths + "-اليوم " + AgeDays;
+            return "السنة: " + Years + "- الشهر : " + Months + "-اليوم " + Days;
         }
 
 
-        //تعيد العمر بالسنوات والأشهر والأيام
+        //تحسب العمر بالسنوات والأشهر والأيام
         public void GetAgeDateTime(DateTime birthdate, DateTime currentDate)
         {
-            AgeYears = currentDate.Year - birthdate.Year;
-            AgeMonths = currentDate.Month - birthdate.Month;
-            AgeDays = currentDate.Day - birthdate.Day;
+            Years = currentDate.Year - birthdate.Year;
+            Months = currentDate.Month - birthdate.Month;
+            Days = currentDate.Day - birthdate.Day;
 
-            if (AgeDays < 0)
+            if (Days < 0)
             {
-                AgeMonths--;
+                Months--;
                 int PrevMonth = new DateTime(currentDate.Year, currentDate.Month, 1).AddMonths(-1).Month;
-                AgeDays += DateTime.DaysInMonth(currentDate.Year, PrevMonth);
+                Days += DateTime.DaysInMonth(currentDate.Year, PrevMonth);
             }
 
-            if (AgeMonths < 0)
+            if (Months < 0)
             {
-                AgeYears--;
-                AgeMonths += 12;
+                Years--;
+                Months += 12;
             }
 
         }

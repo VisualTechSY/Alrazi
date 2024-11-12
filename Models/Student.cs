@@ -49,7 +49,8 @@ namespace Alrazi.Models
 		public List<StudentLevelInfo> StudentLevelInfos { get; set; }
 		public List<StudentVisitCenter> StudentVisitCenters { get; set; }
 		public List<StudentEducationalualification> StudentEducationalualifications { get; set; }
-		public List<StudentTest> StudentTests { get; set; }
+		public List<TestPortage> TestPortages { get; set; }
+		public List<TestStanfordBinet> TestStanfordBinets { get; set; }
 
 		//public string GetAgeDateTime()
 		//{
