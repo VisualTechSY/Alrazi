@@ -17,7 +17,7 @@
         }
         public override string ToString()
         {
-            return "السنة: " + Years + "- الشهر : " + Months + "-اليوم " + Days;
+            return Years + " سنوات ," + Months + " أشهر ," + Days + " أيام";
         }
 
 

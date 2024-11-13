@@ -27,6 +27,7 @@
 
 
     <div class="row">
+        <div class="col-3"></div>
         <div class="col-6">
             <div class="card">
                 <div class="card-body">
@@ -43,7 +44,7 @@
                                 var stdInfo = Model.First().Student;
                                 <tr>
                                     <td>@stdInfo.FirstName @stdInfo.LastName</td>
-                                    <td>@stdInfo.BirthDate</td>
+                                    <td>@stdInfo.BirthDate.ToShortDateString()</td>
                                     <td>@(new Birthday(stdInfo.BirthDate, DateTime.Now))</td>
                                 </tr>
                             }
@@ -76,20 +77,20 @@
                         <tbody>
                             @foreach (var item in Model)
                             {
-                                <tr>
-                                    <td>@item.SerialNumber</td>
-                                    <td>@item.TestDate</td>
                                     @foreach (var itemDetails in item.TestPortageDetails)
                                     {
+                                <tr>
 
+                                    <td>@item.SerialNumber</td>
+                                    <td>@item.TestDate.ToShortDateString()</td>
                                         <td>@TestManager.GetTestPortageSubjectArabic(itemDetails.TestPortageSubject)</td>
                                         <td>@itemDetails.AgeTheBase</td>
                                         <td>@itemDetails.AgeAddonal</td>
                                         <td>@itemDetails.AgeGrowth</td>
                                         <td>@itemDetails.Mark</td>
                                         <td>@itemDetails.Grade</td>
-                                    }
                                 </tr>
+                                    }
                             }
                         </tbody>
                     </table>
