@@ -11,6 +11,7 @@ namespace Alrazi.Models.Test
         public int TestPortageId { get; set; }
         public TestPortage TestPortage { get; set; }
 
+        [DisplayName("المجالات")]
         public TestPortageSubject TestPortageSubject { get; set; }
 
         [DisplayName("القاعدي")]

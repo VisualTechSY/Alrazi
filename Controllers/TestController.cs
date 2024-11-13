@@ -25,19 +25,7 @@ namespace Alrazi.Controllers
             Student student = await studentService.GetStudent(studentId);
             return View(student);
         }
-        //      public async Task<IActionResult> GetTest(int studentId, TestType testType)
-        //      {
-        //          if (!HttpContext.HasSession())
-        //              return RedirectToAction("Index", "Home");
 
-        //	return testType switch
-        //	{
-        //		TestType.Portage => RedirectToAction("GetTestPortage", new { studentId = studentId }),
-        //		TestType.StanfordBinet => RedirectToAction("GetTestStanfordBinet", new { studentId = studentId }),
-        //		_ => RedirectToAction("Index", "Home"),
-        //	};
-
-        //}
         public IActionResult AddTest(int studentId, TestType testType)
         {
             if (!HttpContext.HasSession())
@@ -85,5 +73,37 @@ namespace Alrazi.Controllers
             await testService.AddTestStanfordBinet(testStanfordBinet);
             return View();//todo تحويل لنافذة طباعة التقرير
         }
+
+
+
+        public async Task<IActionResult> GetTest(int studentId, TestType testType)
+        {
+            if (!HttpContext.HasSession())
+                return RedirectToAction("Index", "Home");
+
+            return testType switch
+            {
+                TestType.Portage => RedirectToAction("GetTestPortage", new { studentId = studentId }),
+                TestType.StanfordBinet => RedirectToAction("GetTestStanfordBinet", new { studentId = studentId }),
+                _ => RedirectToAction("Index", "Home"),
+            };
+        }
+        public async Task<IActionResult> GetTestPortage(int studentId)
+        {
+            if (!HttpContext.HasSession())
+                return RedirectToAction("Index", "Home");
+
+            List<TestPortage> getTest = await testService.GetTestPortage(studentId);
+            return View(getTest);
+        }
+        public async Task<IActionResult> GetTestStanfordBinet(int studentId)
+        {
+            if (!HttpContext.HasSession())
+                return RedirectToAction("Index", "Home");
+
+            List<TestStanfordBinet> getTest = await testService.GetTestStanfordBinet(studentId);
+            return View(getTest);
+        }
+
     }
 }

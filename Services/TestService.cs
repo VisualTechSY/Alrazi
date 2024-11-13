@@ -11,6 +11,7 @@ namespace Alrazi.Services
             var getTest = await context.TestPortages
                                         .Where(x => x.StudentId == studentId)
                                         .Include(x => x.TestPortageDetails)
+                                        .Include(x=>x.Student)
                                         .OrderBy(x => x.SerialNumber)
                                         .ToListAsync();
             return getTest;
@@ -26,13 +27,12 @@ namespace Alrazi.Services
             await context.SaveChangesAsync();
         }
 
-
-
-        public async Task<List<TestStanfordBinet>> GetStanfordBinet(int studentId)
+        public async Task<List<TestStanfordBinet>> GetTestStanfordBinet(int studentId)
         {
             var getTest = await context.TestStanfordBinets
                                         .Where(x => x.StudentId == studentId)
                                         .Include(x => x.TestStanfordBinetDetails)
+                                        .Include(x => x.Student)
                                         .OrderBy(x => x.SerialNumber)
                                         .ToListAsync();
             return getTest;
@@ -49,35 +49,6 @@ namespace Alrazi.Services
         }
 
 
-
-        /*
-        public async Task AddTestStudent(AddTestStudentVM testStudentVM)
-        {
-            List<StudentTest> StudentTest = [];
-            var serialNumber = testStudentVM.SerialNumber;
-
-            var x = context.StudentTest.Where(x => x.StudentId == testStudentVM.StudentId);
-            if (x.Any())
-                serialNumber = x.Max(x => x.SerialNumber);
-
-            serialNumber++;
-            for (int i = 0; i < testStudentVM.TestSubjectId.Length; i++)
-            {
-                StudentTest.Add(new StudentTest()
-                {
-                    StudentId = testStudentVM.StudentId,
-                    SerialNumber = serialNumber,
-                    TestSubjectId = testStudentVM.TestSubjectId[i],
-                    TheBase = testStudentVM.TheBase[i],
-                    Additional = testStudentVM.Additional[i],
-                    Mark = testStudentVM.Mark[i],
-                });
-            }
-
-
-            context.StudentTest.AddRange(StudentTest);
-            await context.SaveChangesAsync();
-        }*/
 
         /*
          //todo Excel compare between TestResault
