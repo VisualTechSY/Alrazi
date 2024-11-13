@@ -52,9 +52,17 @@ namespace Alrazi.Controllers
         {
             if (!HttpContext.HasSession())
                 return RedirectToAction("Index", "Home");
-            await testService.AddTestPortage(testPortage);
-            return View();//todo تحويل لنافذة طباعة التقرير
+            int testId = await testService.AddTestPortage(testPortage);
+            return RedirectToAction("GetTestPortgeReport", new { testId = testId });
         }
+        public async Task<IActionResult> GetTestPortgeReport(int testId)
+        {
+            if (!HttpContext.HasSession())
+                return RedirectToAction("Index", "Home");
+            TestPortage getTest = await testService.GetTestPortageById(testId);
+            return View(getTest);
+        }
+
 
         public IActionResult AddTestStanfordBinet(int studentId)
         {
@@ -70,13 +78,20 @@ namespace Alrazi.Controllers
         {
             if (!HttpContext.HasSession())
                 return RedirectToAction("Index", "Home");
-            await testService.AddTestStanfordBinet(testStanfordBinet);
-            return View();//todo تحويل لنافذة طباعة التقرير
+           int testId= await testService.AddTestStanfordBinet(testStanfordBinet);
+            return RedirectToAction("GetTestStanfordBinetReport", new { testId= testId });
+        }
+
+        public async Task<IActionResult> GetTestStanfordBinetReport(int testId)
+        {
+            if (!HttpContext.HasSession())
+                return RedirectToAction("Index", "Home");
+            TestStanfordBinet getTest = await testService.GetTestStanfordBinetById(testId);
+            return View(getTest);
         }
 
 
-
-        public async Task<IActionResult> GetTest(int studentId, TestType testType)
+        public IActionResult GetTest(int studentId, TestType testType)
         {
             if (!HttpContext.HasSession())
                 return RedirectToAction("Index", "Home");
@@ -93,7 +108,7 @@ namespace Alrazi.Controllers
             if (!HttpContext.HasSession())
                 return RedirectToAction("Index", "Home");
 
-            List<TestPortage> getTest = await testService.GetTestPortage(studentId);
+            List<TestPortage> getTest = await testService.GetStudentTestPortage(studentId);
             return View(getTest);
         }
         public async Task<IActionResult> GetTestStanfordBinet(int studentId)
@@ -101,7 +116,7 @@ namespace Alrazi.Controllers
             if (!HttpContext.HasSession())
                 return RedirectToAction("Index", "Home");
 
-            List<TestStanfordBinet> getTest = await testService.GetTestStanfordBinet(studentId);
+            List<TestStanfordBinet> getTest = await testService.GetStudentTestStanfordBinet(studentId);
             return View(getTest);
         }
 

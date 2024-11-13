@@ -27,6 +27,7 @@
 
 
     <div class="row">
+        <div class="col-3"></div>
         <div class="col-6">
             <div class="card">
                 <div class="card-body">
@@ -43,7 +44,7 @@
                                 var stdInfo = Model.First().Student;
                                 <tr>
                                     <td>@stdInfo.FirstName @stdInfo.LastName</td>
-                                    <td>@stdInfo.BirthDate</td>
+                                    <td>@stdInfo.BirthDate.ToShortDateString()</td>
                                     <td>@(new Birthday(stdInfo.BirthDate, DateTime.Now))</td>
                                 </tr>
                             }
@@ -74,17 +75,17 @@
                         <tbody>
                             @foreach (var item in Model)
                             {
-                                <tr>
-                                    <td>@item.SerialNumber</td>
-                                    <td>@item.TestDate</td>
-                                    @foreach (var itemDetails in item.TestStanfordBinetDetails)
-                                    {
+                                @foreach (var itemDetails in item.TestStanfordBinetDetails)
+                                {
+                                    <tr>
+                                        <td>@item.SerialNumber</td>
+                                        <td>@item.TestDate</td>
                                         <td>@TestManager.GetTestStanfordBinetSubjectArabic(itemDetails.TestStanfordBinetSubject)</td>
                                         <td>@itemDetails.Mark</td>
                                         <td>@itemDetails.Grade</td>
                                         <td>@itemDetails.PercentileRank </td>
-                                    }
-                                </tr>
+                                    </tr>
+                                }
                             }
                         </tbody>
                     </table>
