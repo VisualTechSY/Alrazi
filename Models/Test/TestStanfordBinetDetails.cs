@@ -15,7 +15,7 @@ namespace Alrazi.Models.Test
         [DisplayName("الدرجة المعيارية")]
         public int Mark { get; set; }
         [DisplayName("الفئة التصنيفية")]
-        public string Grade => TestManager.GeTestStanfordBinetResault(Mark);
+        public string Grade => TestManager.GetTestStanfordBinetResault(Mark);
         [DisplayName("الرتبة المئينية")]
         public int PercentileRank { get; set; }
 

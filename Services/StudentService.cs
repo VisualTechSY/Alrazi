@@ -1,8 +1,6 @@
 ﻿using Alrazi.DTO;
 using Alrazi.Enums;
-using Alrazi.HttpParameters;
 using Alrazi.Models;
-using Alrazi.Tools;
 using Microsoft.EntityFrameworkCore;
 
 namespace Alrazi.Services
@@ -10,10 +8,10 @@ namespace Alrazi.Services
     public class StudentService(Context context)
     {
         public async Task AddEarlyStudent(Student student, StudentFamilyInfo studentFamilyInfo, List<StudentSibling> studentSiblings,
-            StudentMotherMedical studentMotherMedical, StudentMedical studentMedical, StudentMedicalTest studentMedicalTest, 
+            StudentMotherMedical studentMotherMedical, StudentMedical studentMedical, StudentMedicalTest studentMedicalTest,
             StudentDevelopment studentDevelopment, StudentPsychologyDevelopment studentPsychologyDevelopment,
-            StudentSocialDevelopment studentSocialDevelopment, StudentAutonomy studentAutonomy, 
-            StudentFamilyActivity studentFamilyActivity, StudentPotentialEnhancer studentPotentialEnhancer, 
+            StudentSocialDevelopment studentSocialDevelopment, StudentAutonomy studentAutonomy,
+            StudentFamilyActivity studentFamilyActivity, StudentPotentialEnhancer studentPotentialEnhancer,
             List<StudentEducationalualification> studentEducationalualifications, StudentNote studentNote)
         {
             student.StudentFamilyInfo = studentFamilyInfo;
@@ -31,7 +29,7 @@ namespace Alrazi.Services
             student.StudentNote = studentNote;
 
             student.StateNumber = 1;
-            if (await context.Students.AnyAsync(x=> x.StudyStateDate.Year == student.StudyStateDate.Year))
+            if (await context.Students.AnyAsync(x => x.StudyStateDate.Year == student.StudyStateDate.Year))
                 student.StateNumber = await context.Students.Where(x => x.StudyStateDate.Year == student.StudyStateDate.Year)
                     .MaxAsync(x => x.StateNumber) + 1;
 
@@ -41,10 +39,10 @@ namespace Alrazi.Services
 
         internal async Task AddLDStudent(Student student, StudentFamilyInfo studentFamilyInfo, List<StudentSibling> studentSiblings,
             StudentMotherMedical studentMotherMedical, StudentMedical studentMedical, StudentMedicalTest studentMedicalTest,
-            List<StudentInterests> studentInterests, StudentPsychologyDevelopment studentPsychologyDevelopment, 
+            List<StudentInterests> studentInterests, StudentPsychologyDevelopment studentPsychologyDevelopment,
             StudentSocialDevelopment studentSocialDevelopment, List<StudentLevelInfo> studentLevelInfos,
             StudentFamilyActivity studentFamilyActivity, StudentAcademic studentAcademic, StudentAbility studentAbility,
-            StudentNote studentNote, List<StudentVisitCenter> studentVisitCenters , StudentMistake studentMistake)
+            StudentNote studentNote, List<StudentVisitCenter> studentVisitCenters, StudentMistake studentMistake)
         {
             student.StudentFamilyInfo = studentFamilyInfo;
             student.StudentSiblings = studentSiblings;
@@ -70,13 +68,16 @@ namespace Alrazi.Services
             await context.Students.AddAsync(student);
             await context.SaveChangesAsync();
         }
-
+        public async Task<Student> GetStudent(int studentId)
+        {
+            return await context.Students.FirstAsync(x => x.Id == studentId);
+        }
         public async Task<List<StudentInfo>> GetStudentsInfo(int year, StudentStatus studentStatus)
         {
             return await context.Students.Where(x => x.AccessDate.Date.Year == year
             && x.StudentStatus == studentStatus)
-                .Include(x=> x.StudentFamilyInfo)
-                .Select(x=> new StudentInfo
+                .Include(x => x.StudentFamilyInfo)
+                .Select(x => new StudentInfo
                 {
                     Id = x.Id,
                     FullName = x.FirstName + " " + x.LastName,
@@ -88,44 +89,44 @@ namespace Alrazi.Services
             .ToListAsync();
         }
 
-		public async Task<Student> EditEarlyStudent(int id)
-		{
+        public async Task<Student> EditEarlyStudent(int id)
+        {
             return await context.Students
-                .Include(x=> x.StudentFamilyInfo)
-                .Include(x=> x.StudentSiblings)
-                .Include(x=> x.StudentMotherMedical)
-                .Include(x=> x.StudentMedical)
-                .Include(x=> x.StudentMedicalTest)
-                .Include(x=> x.StudentDevelopment)
-                .Include(x=> x.StudentSocialDevelopment)
-                .Include(x=> x.StudentAutonomy)
-                .Include(x=> x.StudentFamilyActivity)
-                .Include(x=> x.StudentPotentialEnhancer)
-                .Include(x=> x.StudentEducationalualifications)
-                .Include(x=> x.StudentNote)
+                .Include(x => x.StudentFamilyInfo)
+                .Include(x => x.StudentSiblings)
+                .Include(x => x.StudentMotherMedical)
+                .Include(x => x.StudentMedical)
+                .Include(x => x.StudentMedicalTest)
+                .Include(x => x.StudentDevelopment)
+                .Include(x => x.StudentSocialDevelopment)
+                .Include(x => x.StudentAutonomy)
+                .Include(x => x.StudentFamilyActivity)
+                .Include(x => x.StudentPotentialEnhancer)
+                .Include(x => x.StudentEducationalualifications)
+                .Include(x => x.StudentNote)
                 .Include(x => x.StudentPsychologyDevelopment)
                 .Include(x => x.StudentPsychologyDevelopment.StudentPsychologyDevelopmentBehavioralProblems)
                 .FirstAsync(x => x.Id == id);
-		}
+        }
 
         public async Task<Student> EditLDStudent(int id)
         {
             return await context.Students
-                .Include(x=> x.StudentFamilyInfo)
-                .Include(x=> x.StudentSiblings)
-                .Include(x=> x.StudentMotherMedical)
-                .Include(x=> x.StudentMedical)
-                .Include(x=> x.StudentMedicalTest)
-                .Include(x=> x.StudentPsychologyDevelopment)
-                .Include(x=> x.StudentSocialDevelopment)
-                .Include(x=> x.StudentFamilyActivity)
-                .Include(x=> x.StudentInterests)
-                .Include(x=> x.StudentAcademic)
-                .Include(x=> x.StudentLevelInfos)
-                .Include(x=> x.StudentAbility)
-                .Include(x=> x.StudentVisitCenters)
-                .Include(x=> x.StudentMistake)
-                .Include(x=> x.StudentNote)
+                .Include(x => x.StudentFamilyInfo)
+                .Include(x => x.StudentSiblings)
+                .Include(x => x.StudentMotherMedical)
+                .Include(x => x.StudentMedical)
+                .Include(x => x.StudentMedicalTest)
+                .Include(x => x.StudentPsychologyDevelopment)
+                .Include(x => x.StudentSocialDevelopment)
+                .Include(x => x.StudentFamilyActivity)
+                .Include(x => x.StudentInterests)
+                .Include(x => x.StudentAcademic)
+                .Include(x => x.StudentLevelInfos)
+                .Include(x => x.StudentAbility)
+                .Include(x => x.StudentVisitCenters)
+                .Include(x => x.StudentMistake)
+                .Include(x => x.StudentNote)
                 .FirstAsync(x => x.Id == id);
         }
 

@@ -1,0 +1,72 @@
+﻿@using Alrazi.Enums.Test
+@using Alrazi.Tools
+@using Alrazi.ViewModel
+@model Student
+@{
+	ViewData["Title"] = "اختبارات الطالب";
+	Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<!-- start page title -->
+<div class="row">
+	<div class="col-12">
+		<div class="page-title-box">
+			<div class="page-title-right">
+				<ol class="breadcrumb m-0">
+					<li class="breadcrumb-item"><a href="~/Panel">الرئيسية</a></li>
+					<li class="breadcrumb-item active">اختبارات الطالب</li>
+				</ol>
+			</div>
+			<h4 class="page-title">اختبارات الطالب</h4>
+		</div>
+	</div>
+</div>
+<!-- end page title -->
+
+
+
+<div class="row">
+	<div class="col-6">
+		<div class="card">
+			<div class="card-body">
+				<table class="table table-centered mb-0">
+					<thead class="table-dark">
+						<tr>
+							<th>اسم الطفل</th>
+							<th>العمر</th>
+						</tr>
+					</thead>
+					<tbody>
+						<tr>
+							<td>@Model.FirstName @Model.LastName</td>
+							<td>@(new Birthday(Model.BirthDate, DateTime.Now).ToString())</td>
+						</tr>
+					</tbody>
+				</table>
+			</div>
+		</div>
+	</div>
+</div>
+
+<div class="row">
+
+	@foreach (var item in Enum.GetValues<TestType>())
+	{
+		<div class="col-md-4 grid-margin stretch-card notdone">
+			<div class="card">
+				<div class="card-body">
+					<div class="d-flex flex-row">
+						<img src="~/assets/images/Logo.png" class="img-lg rounded" alt="profile image" width="75" height="75" />
+						<div class="mr-3">
+							<h4>@TestManager.GetTestTypeArabic(item)</h4>
+							<a href="~/Test/AddTest?studentId=@Model.Id&testType=@item" class="mt-2 text-success font-weight-bold">إضافة اختبار </a>
+							<a href="~/Test/GetTest?studentId=@Model.Id&testType=@item" class="mt-2 text-success font-weight-bold">عرض الاختبارات</a>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+
+	}
+</div>
+

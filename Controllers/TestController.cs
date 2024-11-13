@@ -1,8 +1,8 @@
-﻿using Alrazi.HttpParameters;
+﻿using Alrazi.Enums.Test;
 using Alrazi.Models;
+using Alrazi.Models.Test;
 using Alrazi.Services;
 using Alrazi.Tools;
-using Alrazi.ViewModel;
 using Microsoft.AspNetCore.Mvc;
 
 namespace Alrazi.Controllers
@@ -10,143 +10,80 @@ namespace Alrazi.Controllers
     public class TestController : Controller
     {
         private readonly TestService testService;
+        private readonly StudentService studentService;
 
-        public TestController(TestService testService)
+        public TestController(TestService testService, StudentService studentService)
         {
             this.testService = testService;
+            this.studentService = studentService;
         }
 
-
-        [HttpGet("Add-Test-Student/{studentId}")]
-        public async Task<IActionResult> AddTestStudent(int studentId, int testId)
+        public async Task<IActionResult> ShowTest(int studentId)
         {
             if (!HttpContext.HasSession())
-                return RedirectToAction("Index");
+                return RedirectToAction("Index", "Home");
+            Student student = await studentService.GetStudent(studentId);
+            return View(student);
+        }
+        //      public async Task<IActionResult> GetTest(int studentId, TestType testType)
+        //      {
+        //          if (!HttpContext.HasSession())
+        //              return RedirectToAction("Index", "Home");
 
-            List<Test> avalableTest = await testService.GetAvalableTestForStudent(studentId);
+        //	return testType switch
+        //	{
+        //		TestType.Portage => RedirectToAction("GetTestPortage", new { studentId = studentId }),
+        //		TestType.StanfordBinet => RedirectToAction("GetTestStanfordBinet", new { studentId = studentId }),
+        //		_ => RedirectToAction("Index", "Home"),
+        //	};
 
+        //}
+        public IActionResult AddTest(int studentId, TestType testType)
+        {
+            if (!HttpContext.HasSession())
+                return RedirectToAction("Index", "Home");
+            return testType switch
+            {
+                TestType.Portage => RedirectToAction("AddTestPortage", new { studentId = studentId }),
+                TestType.StanfordBinet => RedirectToAction("AddTestStanfordBinet", new { studentId = studentId }),
+                _ => RedirectToAction("Index", "Home"),
+            };
+        }
+
+        public IActionResult AddTestPortage(int studentId)
+        {
+            if (!HttpContext.HasSession())
+                return RedirectToAction("Index", "Home");
             ViewBag.stdId = studentId;
-            ViewBag.selectedTestId = testId;
-            return View(avalableTest);
+
+            return View();
         }
 
-        [HttpPost("Add-Test-Student")]
-        public async Task<IActionResult> AddTestStudent(AddTestStudentVM testStudentVM)
+        [HttpPost]
+        public async Task<IActionResult> AddTestPortage(TestPortage testPortage)
         {
             if (!HttpContext.HasSession())
-                return RedirectToAction("Index");
-
-            await testService.AddTestStudent(testStudentVM);
-
-            ViewBag.stdId = testStudentVM.StudentId;
-            ViewBag.selectedTestId = 0;
-            return Redirect("~/Add-Test-Student/" + testStudentVM.StudentId);
+                return RedirectToAction("Index", "Home");
+            await testService.AddTestPortage(testPortage);
+            return View();//todo تحويل لنافذة طباعة التقرير
         }
 
-
-        [HttpGet("Get-Test-Student-Report/{studentId}")]
-        public async Task<IActionResult> GetTestStudentReport(int studentId)
+        public IActionResult AddTestStanfordBinet(int studentId)
         {
             if (!HttpContext.HasSession())
-                return RedirectToAction("Index");
+                return RedirectToAction("Index", "Home");
+            ViewBag.stdId = studentId;
 
-            List<StudentTestReportVM> studentTestReportVMs = await testService.GetTestStudentReport(studentId);
-            return View(studentTestReportVMs);
+            return View();
         }
 
-        [HttpGet("Manage-Test")]
-        public async Task<IActionResult> ManageTests()
+        [HttpPost]
+        public async Task<IActionResult> AddTestStanfordBinet(TestStanfordBinet testStanfordBinet)
         {
             if (!HttpContext.HasSession())
-                return RedirectToAction("Index");
-
-            List<Test> tests = await testService.GetTests();
-            return View(tests);
-        }
-
-        [HttpPost("Manage-Test")]
-        public async Task<IActionResult> ManageTests(Test test)
-        {
-            if (!HttpContext.HasSession())
-                return RedirectToAction("Index");
-
-            await testService.AddTest(test);
-
-            List<Test> tests = await testService.GetTests();
-            return View(tests);
-        }
-
-        [HttpGet("Manage-SubjectTest/{testId}")]
-        public async Task<IActionResult> ManageTestSubjects(int testId)
-        {
-            if (!HttpContext.HasSession())
-                return RedirectToAction("Index");
-
-            ViewBag.testid = testId;
-            List<TestSubject> testSubjects = await testService.GetTestSubjects(testId);
-            return View(testSubjects);
-        }
-
-        [HttpPost("Manage-SubjectTest/{testId}")]
-        public async Task<IActionResult> ManageTestSubjects(TestSubject testSubject)
-        {
-            if (!HttpContext.HasSession())
-                return RedirectToAction("Index");
-
-            await testService.AddTestSubject(testSubject);
-
-            ViewBag.testid = testSubject.TestId;
-            List<TestSubject> getTestSubjects = await testService.GetTestSubjects(testSubject.TestId);
-            return View(getTestSubjects);
-        }
-
-
-        [HttpGet("Manage-TestResault/{testId}")]
-        public async Task<IActionResult> ManageTestResault(int testId)
-        {
-            if (!HttpContext.HasSession())
-                return RedirectToAction("Index");
-
-            ViewBag.testid = testId;
-
-            List<TestResult> testResults = await testService.GetTestResults(testId);
-            return View(testResults);
-        }
-
-        [HttpPost("Manage-TestResault/{testId}")]
-        public async Task<IActionResult> ManageTestResault(int testId, TestResult testResult)
-        {
-            if (!HttpContext.HasSession())
-                return RedirectToAction("Index");
-
-            await testService.AddTestResults(testResult);
-            ViewBag.testid = testId;
-
-            List<TestResult> testResults = await testService.GetTestResults(testId);
-            return View(testResults);
-        }
-        [HttpGet("Manage-TestSubjectResault/{testSubjectId}")]
-        public async Task<IActionResult> ManageTestSubjectResault(int testSubjectId)
-        {
-            if (!HttpContext.HasSession())
-                return RedirectToAction("Index");
-
-            ViewBag.TestSubjectId = testSubjectId;
-            List<TestSubjectResult> testSubjectResult = await testService.GetTestSubjectResults(testSubjectId);
-            return View(testSubjectResult);
-        }
-
-        [HttpPost("Manage-TestSubjectResault/{testSubjectId}")]
-        public async Task<IActionResult> ManageTestSubjectResault(int testSubjectId, TestSubjectResult testSubjectResult)
-        {
-            if (!HttpContext.HasSession())
-                return RedirectToAction("Index");
-
-            await testService.AddTestSubjectResults(testSubjectResult);
-
-            ViewBag.TestSubjectId = testSubjectId;
-            List<TestSubjectResult> GetTestSubjectResult = await testService.GetTestSubjectResults(testSubjectId);
-            return View(GetTestSubjectResult);
+                return RedirectToAction("Index", "Home");
+            await testService.AddTestStanfordBinet(testStanfordBinet);
+            return View();//todo تحويل لنافذة طباعة التقرير
         }
     }
 }

@@ -9,6 +9,8 @@ namespace Alrazi.Models.Test
         public int StudentId { get; set; }
         public Student Student { get; set; }
 
+        [DisplayName("الرقم التسلسلي")]
+        public int SerialNumber { get; set; }
         [DisplayName("الفاحص")]
         public string Examiner { get; set; }
         [DisplayName("تاريخ التقرير")]
