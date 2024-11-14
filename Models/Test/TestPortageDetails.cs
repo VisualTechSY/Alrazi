@@ -25,5 +25,22 @@ namespace Alrazi.Models.Test
 
         [DisplayName("التصنيف")]
         public string Grade => TestManager.GetTestPortageResault(Mark);
+
+        //العمر النمائي بالسنوات والأشهر
+        public string AgeGrowthYear => AgeGrowthCalcYear();
+        public string AgeGrowthMonth => AgeGrowthCalcMonth();
+
+
+        string AgeGrowthCalcYear()
+        {
+            var age= AgeGrowth.Split('.');
+            return age[0];
+        } 
+         string AgeGrowthCalcMonth()
+        {
+            var age= AgeGrowth.Split('.');
+            return (age.Length>1)? age[1]:"0";
+        }
+
     }
 }

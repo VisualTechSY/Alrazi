@@ -27,7 +27,7 @@ namespace Alrazi.Tools
                 _ => "",
             };
         }
-        public static string GetTestPortageResault(int mark)
+        public static string GetTestPortageResault(double mark)
         {
                  if (mark <= 25) return "شديد جداً";
             else if (mark <= 39) return "شديد";
@@ -53,7 +53,7 @@ namespace Alrazi.Tools
                 _ => "",
             };
         }
-        public static string GetTestStanfordBinetResault(int mark)
+        public static string GetTestStanfordBinetResault(double mark)
         {
                  if (mark <= 39) return "تخلف شديد";
             else if (mark <= 54) return "تخلف متوسط";

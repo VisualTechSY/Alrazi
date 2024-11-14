@@ -80,7 +80,7 @@ namespace Alrazi.Services
                 .Select(x => new StudentInfo
                 {
                     Id = x.Id,
-                    FullName = x.FirstName + " " + x.LastName,
+                    FullName = x.FullName,
                     MotherName = string.IsNullOrWhiteSpace(x.StudentFamilyInfo.MotherName)
                     ? "" : x.StudentFamilyInfo.MotherName,
                     PhoneNumber = x.PhoneNumber,

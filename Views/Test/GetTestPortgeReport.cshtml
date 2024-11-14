@@ -1,36 +1,88 @@
 ﻿@using Alrazi.Models.Test
+@using Alrazi.Tools
 @model TestPortage
 @{
-    ViewData["Title"] = "GetTestPortgeReport";
+    ViewData["Title"] = "تقرير البورتج";
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
-<script>if (confirm("هل ترغب في طباعة الصفحة ؟")) {print();}</script>
+<script>if (confirm("هل ترغب في طباعة الصفحة ؟")) {  print() ; }</script>
 
-<p>
+<center><h4>تقرير البورتج</h4> </center>
 
-    العمر الاجتماعي
-    يحدد مستوى أداء الطفل على المهارات الاجتماعية كالتفاعل مع الآخرين من أقارب وأصدقاء، وكذلك حسن التصرف في المواقف الاجتماعية التي يواجهها الطفل.
-    العمر الاجتماعي للطفل: 6سنين   و 6 شهور.          نسبة الأداء: (56%)        مستوى الأداء: تأخر بسيط.
-    أي يوجد لدى الطفل تأخر بسيط في البعد الاجتماعي مقارنةً بأداء الأطفال الذين هم في نفس العمر الزمني.
-    العمر المعرفي
-    يحدد مستوى أداء الطفل على المهارات المعرفية الخاصة بمرحلة ما قبل المدرسة وفي المرحلة الأساسية الأولى مثل الإشارة إلى الألوان وتسمية الصور ومطابقة الأشكال الهندسية.
-    العمر المعرفي للطفل: 5سنين   و  شهرين.       نسبة الأداء: (44%)         مستوى الأداء: تأخر متوسط.
-    أي يوجد لدى الطفل تأخر متوسط في البعد المعرفي مقارنةً بأداء الأطفال الذين هم في نفس العمر الزمني.
-    العمر الاتصالي
-    يحدد مستوى أداء الطفل في المهارات التواصلية من لغة استقبالية وتعبيرية.
-    العمر الاتصالي للطفل: 4سنين   و 4 شهور.          نسبة الأداء: (37%)           مستوى الأداء: تأخر شديد .
-    أي لدى الطفل  تأخر شديد  في البعد الاتصالي مقارنةً بأداء الأطفال الذين هم في نفس العمر الزمني.
-    العمر في العناية بالذات
-    يحدد مستوى أداء الطفل على مهارات العناية الذاتية مثل تحمل الطفل للمسؤولية واعتماده على نفسه في المأكل، الملبس، وقضاء حاجاته الخاصة.
-    العمر في العناية بالذات للطفل: 6سنين   و 6 شهور.       نسبة الأداء: (56%)        مستوى الأداء: تأخر بسيط.
-    أي يوجد لدى الطفل تأخر بسيط في بُعد العناية الذاتية مقارنةً بأداء الأطفال الذين هم في نفس العمر الزمني.
-    العمر الحركي
-    يحدد مستوى أداء الطفل على المهارات الحركية الكبيرة مثل المشي والقفز، والمهارات الحركية الدقيقة كاستعمال المقص أو العمل بالمعجون.
-    العمر الحركي للطفل: 5سنين   و 4 شهور.         نسبة الأداء: (46%)           مستوى الأداء: تأخر متوسط.
-    أي يوجد لدى الطفل تأخر متوسط في البُعد الحركي مقارنةً بأداء الأطفال الذين هم في نفس العمر الزمني.
+<div class="row">
+    <div class="col-12">
+        <div class="card">
+            <div class="card-body">
+                <table class="table table-centered mb-0">
+                    <thead class="table-dark">
+                        <tr>
+                            <th colspan="2" style="text-align:center">العمر النمائي</th>
+                            <th rowspan="2">نسبة الأداء</th>
+                            <th rowspan="2">مستوى الأداء</th>
+                            <th rowspan="2">المجالات</th>
+                        </tr>
+                        <tr>
+                            <th>الأشهر</th>
+                            <th>السنوات</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @foreach (var item in Model.TestPortageDetails)
+                        {
+                            <tr>
+                                <td>@item.AgeGrowthMonth</td>
+                                <td>@item.AgeGrowthYear</td>
+                                <td>@item.Mark</td>
+                                <td>@item.Grade</td>
+                                <td>@TestManager.GetTestPortageSubjectArabic(item.TestPortageSubject)</td>
+                            </tr>
+                        }
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>
 
 
+<div class="row">
+    <div class="col-12">
+        <div class="card">
+            <div class="card-body">
+                @{
+                    var Social = @Model.TestPortageDetails.First(x => x.TestPortageSubject == Alrazi.Enums.Test.TestPortageSubject.Social);
+                    var Knowledge = @Model.TestPortageDetails.First(x => x.TestPortageSubject == Alrazi.Enums.Test.TestPortageSubject.Knowledge);
+                    var Communication = @Model.TestPortageDetails.First(x => x.TestPortageSubject == Alrazi.Enums.Test.TestPortageSubject.Communication);
+                    var Care = @Model.TestPortageDetails.First(x => x.TestPortageSubject == Alrazi.Enums.Test.TestPortageSubject.Care);
+                    var Movement = @Model.TestPortageDetails.First(x => x.TestPortageSubject == Alrazi.Enums.Test.TestPortageSubject.Movement);
+                    <p>
+                        <b>العمر الاجتماعي</b><br />
+                        يحدد مستوى أداء الطفل على المهارات الاجتماعية كالتفاعل مع الآخرين من أقارب وأصدقاء، وكذلك حسن التصرف في المواقف الاجتماعية التي يواجهها الطفل.
+                        العمر الاجتماعي للطفل: @Social.AgeGrowthYear سنوات   و @Social.AgeGrowthMonth شهر.          نسبة الأداء: (@Social.Mark%)        مستوى الأداء: @Social.Grade
+                        أي يوجد لدى الطفل @Social.Grade في البعد الاجتماعي مقارنةً بأداء الأطفال الذين هم في نفس العمر الزمني.
+                        <br /><b>العمر المعرفي</b><br />
+                        يحدد مستوى أداء الطفل على المهارات المعرفية الخاصة بمرحلة ما قبل المدرسة وفي المرحلة الأساسية الأولى مثل الإشارة إلى الألوان وتسمية الصور ومطابقة الأشكال الهندسية.
+                        العمر المعرفي للطفل: @Knowledge.AgeGrowthYear سنوات   و @Knowledge.AgeGrowthMonth شهر.       نسبة الأداء: (@Knowledge.Mark%)         مستوى الأداء: @Knowledge.Grade
+                        أي يوجد لدى الطفل @Knowledge.Grade في البعد المعرفي مقارنةً بأداء الأطفال الذين هم في نفس العمر الزمني.
+                        <br /><b>العمر الاتصالي</b><br />
+                        يحدد مستوى أداء الطفل في المهارات التواصلية من لغة استقبالية وتعبيرية.
+                        العمر الاتصالي للطفل: @Communication.AgeGrowthYear سنوات   و @Communication.AgeGrowthMonth شهر.          نسبة الأداء: (@Communication.Mark%)           مستوى الأداء: @Communication.Grade .
+                        أي لدى الطفل  @Communication.Grade  في البعد الاتصالي مقارنةً بأداء الأطفال الذين هم في نفس العمر الزمني.
+                        <br /><b>العمر في العناية بالذات</b><br />
+                        يحدد مستوى أداء الطفل على مهارات العناية الذاتية مثل تحمل الطفل للمسؤولية واعتماده على نفسه في المأكل، الملبس، وقضاء حاجاته الخاصة.
+                        العمر في العناية بالذات للطفل: @Care.AgeGrowthYear سنوات   و @Care.AgeGrowthMonth شهر.       نسبة الأداء: (@Care.Mark%)        مستوى الأداء: @Care.Grade
+                        أي يوجد لدى الطفل @Care.Grade في بُعد العناية الذاتية مقارنةً بأداء الأطفال الذين هم في نفس العمر الزمني.
+                        <br /><b>العمر الحركي</b><br />
+                        يحدد مستوى أداء الطفل على المهارات الحركية الكبيرة مثل المشي والقفز، والمهارات الحركية الدقيقة كاستعمال المقص أو العمل بالمعجون.
+                        العمر الحركي للطفل: @Movement.AgeGrowthYear سنوات   و @Movement.AgeGrowthMonth شهر.         نسبة الأداء: (@Movement.Mark%)           مستوى الأداء: @Movement.Grade
+                        أي يوجد لدى الطفل @Movement.Grade في البُعد الحركي مقارنةً بأداء الأطفال الذين هم في نفس العمر الزمني.
 
-</p>
-
+                    </p>
+                }
+            </div>
+            </<div>
+            </div>
+        </div>
+    </div>
+</div>

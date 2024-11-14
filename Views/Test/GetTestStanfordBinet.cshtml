@@ -1,7 +1,7 @@
 ﻿@using Alrazi.Models.Test
 @using Alrazi.Tools
 @using Alrazi.ViewModel
-@model List<TestStanfordBinet>
+@model List<TestStanfordBinetDetails>
 @{
     ViewData["Title"] = "عرض تقرير اختبارات ستانفورد بينيه للطالب";
     Layout = "~/Views/Shared/_Layout.cshtml";
@@ -41,9 +41,9 @@
                         </thead>
                         <tbody>
                             @{
-                                var stdInfo = Model.First().Student;
+                                var stdInfo = Model.First().TestStanfordBinet.Student;
                                 <tr>
-                                    <td>@stdInfo.FirstName @stdInfo.LastName</td>
+                                    <td>@stdInfo.FullName</td>
                                     <td>@stdInfo.BirthDate.ToShortDateString()</td>
                                     <td>@(new Birthday(stdInfo.BirthDate, DateTime.Now))</td>
                                 </tr>
@@ -73,20 +73,20 @@
                             </tr>
                         </thead>
                         <tbody>
-                            @foreach (var item in Model)
+                  @*           @foreach (var item in Model)
                             {
-                                @foreach (var itemDetails in item.TestStanfordBinetDetails)
+                                @foreach (var itemDetails in item)
                                 {
                                     <tr>
                                         <td>@item.SerialNumber</td>
                                         <td>@item.TestDate</td>
                                         <td>@TestManager.GetTestStanfordBinetSubjectArabic(itemDetails.TestStanfordBinetSubject)</td>
-                                        <td>@itemDetails.Mark</td>
-                                        <td>@itemDetails.Grade</td>
-                                        <td>@itemDetails.PercentileRank </td>
+                                        <td>@item.Mark</td>
+                                        <td>@itemDeitemtails.Grade</td>
+                                        <td>@item.PercentileRank </td>
                                     </tr>
                                 }
-                            }
+                            } *@
                         </tbody>
                     </table>
                 </div>

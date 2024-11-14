@@ -1,5 +1,7 @@
 ﻿@using Alrazi.Enums.Test
 @using Alrazi.Tools
+@using Alrazi.ViewModel
+@model Student
 @{
     ViewData["Title"] = "إضافة اختبار بورتج";
     Layout = "~/Views/Shared/_Layout.cshtml";
@@ -26,6 +28,12 @@
     <div class="row">
         <div class="col-4">
             <div class="mb-3">
+                <label for="name" class="form-label">اسم الطفل</label>
+                <input type="text" class="form-control" value="@Model.FullName"  readonly>
+            </div>
+        </div>
+        <div class="col-4">
+            <div class="mb-3">
                 <label for="name" class="form-label">الفاحص</label>
                 <input type="text" required name="Examiner" class="form-control" placeholder="الفاحص">
             </div>
@@ -38,8 +46,20 @@
         </div>
         <div class="col-4">
             <div class="mb-3">
+                <label for="name" class="form-label">تاريخ الميلاد</label>
+                <input type="date" id="BirthDate" class="form-control" value="@Model.BirthDate.ToString("yyyy-MM-dd")" readonly>
+            </div>
+        </div>
+        <div class="col-4">
+            <div class="mb-3">
                 <label for="name" class="form-label">تاريخ المقابلة</label>
-                <input type="date" required name="TestDate" class="form-control" placeholder="تاريخ المقابلة" value="@DateTime.Now.ToString("yyyy-MM-dd")">
+                <input type="date" id="StudyStateDate" required name="TestDate" class="form-control" onchange="getAgeDateTime()" value="@DateTime.Now.ToString("yyyy-MM-dd")">
+            </div>
+        </div>
+        <div class="col-4">
+            <div class="mb-3">
+                <label for="name" class="form-label">العمر الزمني</label>
+                <input type="text" id="AgeTimeDate" class="form-control" readonly>
             </div>
         </div>
     </div>
@@ -62,31 +82,31 @@
                     <tbody>
                         @{
                             int index = 0;
-                                        <input type="hidden" class="form-control" name="StudentId" value="@ViewBag.stdId" />
+                                <input type="hidden" name="StudentId" value="@Model.Id" />
 
                             foreach (var item in Enum.GetValues<TestPortageSubject>())
                             {
-                                            <input type="hidden" class="form-control" name="TestPortageDetails[@index].TestPortageSubject" value="@item" />
-                                            <tr>
-                                                <td>
-                                                    @TestManager.GetTestPortageSubjectArabic(item)
-                                                </td>
-                                                <td>
-                                                    <input type="text" class="form-control" name="TestPortageDetails[@index].AgeTheBase" required />
-                                                </td>
-                                                <td>
-                                                    <input type="text" class="form-control" name="TestPortageDetails[@index].AgeAddonal" required />
-                                                </td>
-                                                <td>
-                                                    <input type="text" class="form-control" name="TestPortageDetails[@index].AgeGrowth" required />
-                                                </td>
-                                                <td>
-                                        <input type="number" class="form-control" id="@("Mark"+index)" name="TestPortageDetails[@index].Mark" onchange="fillResult(@index)" required />
-                                                </td>
-                                                <td>
-                                                    <input type="text" class="form-control" id="@("Result"+index)" disapled readonly/>
-                                                </td>
-                                            </tr>
+                                    <input type="hidden" class="form-control" name="TestPortageDetails[@index].TestPortageSubject" value="@item" />
+                                    <tr>
+                                        <td>
+                                            @TestManager.GetTestPortageSubjectArabic(item)
+                                        </td>
+                                        <td>
+                                            <input type="text" class="form-control" name="TestPortageDetails[@index].AgeTheBase" required />
+                                        </td>
+                                        <td>
+                                            <input type="text" class="form-control" name="TestPortageDetails[@index].AgeAddonal" required />
+                                        </td>
+                                        <td>
+                                            <input type="text" class="form-control" name="TestPortageDetails[@index].AgeGrowth" required />
+                                        </td>
+                                        <td>
+                                            <input type="number" class="form-control" id="@("Mark"+index)" name="TestPortageDetails[@index].Mark" onchange="fillResult(@index)" required />
+                                        </td>
+                                        <td>
+                                            <input type="text" class="form-control" id="@("Result"+index)" disapled readonly />
+                                        </td>
+                                    </tr>
                                 index++;
                             }
                         }
@@ -104,19 +124,52 @@
 
 
 <script>
+
+   window.onload= getAgeDateTime;
+
     function fillResult(index) {
 
         var mark = document.getElementById('Mark' + index).value;
 
         var res;
-        if (mark <= 25) res= "شديد جداً";
-        else if (mark <= 39) res= "شديد";
-        else if (mark <= 54) res= "متوسط";
-        else if (mark <= 69) res= "بسيط";
-        else if (mark <= 84) res= "بسيط جداً";
-        else res= "طبيعي";
+        if (mark <= 25) res = "شديد جداً";
+        else if (mark <= 39) res = "شديد";
+        else if (mark <= 54) res = "متوسط";
+        else if (mark <= 69) res = "بسيط";
+        else if (mark <= 84) res = "بسيط جداً";
+        else res = "طبيعي";
 
         document.getElementById('Result' + index).value = res;
     }
 
-</script>
+
+        function getAgeDateTime() {
+        var birthDate = $("#BirthDate").val();
+        var studyStateDate = $("#StudyStateDate").val();
+        if (birthDate == '' || studyStateDate == '')
+        {
+            $("#AgeTimeDate").val('');
+            return;
+        }
+
+        const birthdate = new Date(birthDate);
+        const currentDate = new Date(studyStateDate);
+
+        let ageYears = currentDate.getFullYear() - birthdate.getFullYear();
+        let ageMonths = currentDate.getMonth() - birthdate.getMonth();
+        let ageDays = currentDate.getDate() - birthdate.getDate();
+
+        if (ageDays < 0) {
+            ageMonths--;
+            ageDays += new Date(currentDate.getFullYear(), currentDate.getMonth(), 0).getDate();
+        }
+
+        if (ageMonths < 0) {
+            ageYears--;
+            ageMonths += 12;
+        }
+
+        var str = `السنة : ${ageYears} - الشهر : ${ageMonths} - اليوم ${ageDays}`;
+           $("#AgeTimeDate").val(str);
+        }
+    </script>

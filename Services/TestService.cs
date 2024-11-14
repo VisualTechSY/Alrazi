@@ -12,22 +12,20 @@ namespace Alrazi.Services
                                         .Include(x => x.Student)
                                         .FirstAsync(x => x.Id == testId);
         }
-        public async Task<List<TestPortage>> GetStudentTestPortage(int studentId)
+        public async Task<List<TestPortageDetails>> GetStudentTestPortage(int studentId)
         {
-            var getTest = await context.TestPortages
-                                        .Where(x => x.StudentId == studentId)
-                                        .Include(x => x.TestPortageDetails)
-                                        .Include(x => x.Student)
-                                        .OrderBy(x => x.SerialNumber)
-                                        .ToListAsync();
+            var getTest = await context.TestPortageDetails
+                                                    .Where(x => x.TestPortage.StudentId == studentId)
+                                                    .Include(x => x.TestPortage)
+                                                    .ThenInclude(x => x.Student)
+                                                    .OrderBy(x=>x.TestPortage.SerialNumber)
+                                                    .ToListAsync();
             return getTest;
         }
         public async Task<int> AddTestPortage(TestPortage testPortage)
         {
-            int serialNumber = 0;
             var stdTest = context.TestPortages.Where(x => x.StudentId == testPortage.StudentId);
-            if (stdTest.Any())
-                serialNumber = stdTest.Any() ? stdTest.Max(x => x.SerialNumber) + 1 : 1;
+            testPortage.SerialNumber = stdTest.Any() ? stdTest.Max(x => x.SerialNumber) + 1 : 1;
 
             context.TestPortages.Add(testPortage);
             await context.SaveChangesAsync();
@@ -41,22 +39,20 @@ namespace Alrazi.Services
                                         .Include(x => x.Student)
                                         .FirstAsync(x => x.Id == testId);
         }
-        public async Task<List<TestStanfordBinet>> GetStudentTestStanfordBinet(int studentId)
+        public async Task<List<TestStanfordBinetDetails>> GetStudentTestStanfordBinet(int studentId)
         {
-            var getTest = await context.TestStanfordBinets
-                                        .Where(x => x.StudentId == studentId)
-                                        .Include(x => x.TestStanfordBinetDetails)
-                                        .Include(x => x.Student)
-                                        .OrderBy(x => x.SerialNumber)
-                                        .ToListAsync();
+            var getTest = await context.TestStanfordBinetDetails
+                                                    .Where(x => x.TestStanfordBinet.StudentId == studentId)
+                                                    .Include(x => x.TestStanfordBinet)
+                                                    .ThenInclude(x => x.Student)
+                                                    .OrderBy(x => x.TestStanfordBinet.SerialNumber)
+                                                    .ToListAsync();
             return getTest;
         }
         public async Task<int> AddTestStanfordBinet(TestStanfordBinet testStanfordBinet)
         {
-            int serialNumber = 0;
             var stdTest = context.TestStanfordBinets.Where(x => x.StudentId == testStanfordBinet.StudentId);
-            if (stdTest.Any())
-                serialNumber = stdTest.Any() ? stdTest.Max(x => x.SerialNumber) + 1 : 1;
+            testStanfordBinet.SerialNumber = stdTest.Any() ? stdTest.Max(x => x.SerialNumber) + 1 : 1;
 
             context.TestStanfordBinets.Add(testStanfordBinet);
             await context.SaveChangesAsync();

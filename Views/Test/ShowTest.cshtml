@@ -39,8 +39,8 @@
 					</thead>
 					<tbody>
 						<tr>
-							<td>@Model.FirstName @Model.LastName</td>
-							<td>@(new Birthday(Model.BirthDate, DateTime.Now).ToString())</td>
+							<td>@Model.FullName</td>
+							<td>@(new Birthday(Model.BirthDate, DateTime.Now))</td>
 						</tr>
 					</tbody>
 				</table>

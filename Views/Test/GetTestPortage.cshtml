@@ -1,7 +1,7 @@
 ﻿@using Alrazi.Models.Test
 @using Alrazi.Tools
 @using Alrazi.ViewModel
-@model List<TestPortage>
+@model List<TestPortageDetails>
 @{
     ViewData["Title"] = "عرض تقرير اختبارات البورتج للطالب";
     Layout = "~/Views/Shared/_Layout.cshtml";
@@ -25,7 +25,6 @@
 @if (Model.Any())
 {
 
-
     <div class="row">
         <div class="col-3"></div>
         <div class="col-6">
@@ -41,13 +40,12 @@
                         </thead>
                         <tbody>
                             @{
-                                var stdInfo = Model.First().Student;
+                                var stdInfo = Model.First().TestPortage.Student;
                                 <tr>
-                                    <td>@stdInfo.FirstName @stdInfo.LastName</td>
+                                    <td>@stdInfo.FullName</td>
                                     <td>@stdInfo.BirthDate.ToShortDateString()</td>
                                     <td>@(new Birthday(stdInfo.BirthDate, DateTime.Now))</td>
                                 </tr>
-                            }
                             }
                         </tbody>
                     </table>
@@ -72,25 +70,41 @@
                                 <th>النمائي</th>
                                 <th>الدرجة</th>
                                 <th>التصنيف</th>
+                                <th colspan="2" style="text-align:center">المحصلة</th>
+                                <th> خيارات</th>
                             </tr>
                         </thead>
                         <tbody>
-                            @foreach (var item in Model)
-                            {
-                                    @foreach (var itemDetails in item.TestPortageDetails)
-                                    {
-                                <tr>
 
-                                    <td>@item.SerialNumber</td>
-                                    <td>@item.TestDate.ToShortDateString()</td>
-                                        <td>@TestManager.GetTestPortageSubjectArabic(itemDetails.TestPortageSubject)</td>
-                                        <td>@itemDetails.AgeTheBase</td>
-                                        <td>@itemDetails.AgeAddonal</td>
-                                        <td>@itemDetails.AgeGrowth</td>
-                                        <td>@itemDetails.Mark</td>
-                                        <td>@itemDetails.Grade</td>
-                                </tr>
-                                    }
+                            @{
+                                int serialNum = 0;
+                                int countOfRow = 1;
+
+                                foreach (var item in Model)
+                                {
+                                    <tr>
+                                        @if (serialNum != item.TestPortage.SerialNumber)
+                                        {
+                                            countOfRow = item.TestPortage.TestPortageDetails.Count;
+                                            <td rowspan="@countOfRow">@item.TestPortage.SerialNumber</td>
+                                            <td rowspan="@countOfRow">@item.TestPortage.TestDate.ToShortDateString()</td>
+                                        }
+                                        <td>@TestManager.GetTestPortageSubjectArabic(item.TestPortageSubject)</td>
+                                        <td>@item.AgeTheBase</td>
+                                        <td>@item.AgeAddonal</td>
+                                        <td>@item.AgeGrowth</td>
+                                        <td>@item.Mark</td>
+                                        <td>@item.Grade</td>
+                                        @if (serialNum != item.TestPortage.SerialNumber)
+                                        {
+                                            serialNum = item.TestPortage.SerialNumber;
+                                            double sumMark = item.TestPortage.TestPortageDetails.Average(x => x.Mark);
+                                            <td rowspan="@countOfRow">@sumMark</td>
+                                            <td rowspan="@countOfRow">@TestManager.GetTestPortageResault(sumMark)</td>
+                                            <td rowspan="@countOfRow"><a href="~/Test/GetTestPortgeReport?testId=@item.TestPortageId" class="action-icon"> <i class="mdi mdi-printer"></i></a></td>
+                                        }
+                                    </tr>
+                                }
                             }
                         </tbody>
                     </table>
