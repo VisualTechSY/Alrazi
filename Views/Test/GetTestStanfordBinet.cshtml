@@ -73,20 +73,33 @@
                             </tr>
                         </thead>
                         <tbody>
-                  @*           @foreach (var item in Model)
-                            {
-                                @foreach (var itemDetails in item)
+
+
+                            @{
+                                int serialNum = 0;
+                                int countOfRow = 1;
+
+                                foreach (var item in Model)
                                 {
                                     <tr>
-                                        <td>@item.SerialNumber</td>
-                                        <td>@item.TestDate</td>
-                                        <td>@TestManager.GetTestStanfordBinetSubjectArabic(itemDetails.TestStanfordBinetSubject)</td>
+                                        @if (serialNum != item.TestStanfordBinet.SerialNumber)
+                                        {
+                                            countOfRow = item.TestStanfordBinet.TestStanfordBinetDetails.Count;
+                                            <td rowspan="@countOfRow">@item.TestStanfordBinet.SerialNumber</td>
+                                            <td rowspan="@countOfRow">@item.TestStanfordBinet.TestDate.ToShortDateString()</td>
+                                        }
+                                        <td>@TestManager.GetTestStanfordBinetSubjectArabic(item.TestStanfordBinetSubject)</td>
                                         <td>@item.Mark</td>
-                                        <td>@itemDeitemtails.Grade</td>
+                                        <td>@item.Grade</td>
                                         <td>@item.PercentileRank </td>
+                                        @if (serialNum != item.TestStanfordBinet.SerialNumber)
+                                        {
+                                            serialNum = item.TestStanfordBinet.SerialNumber;
+                                            <td rowspan="@countOfRow"><a href="~/Test/GetTestStanfordBinetReport?testId=@item.TestStanfordBinetId" class="action-icon"> <i class="mdi mdi-printer"></i></a></td>
+                                        }
                                     </tr>
                                 }
-                            } *@
+                            }
                         </tbody>
                     </table>
                 </div>

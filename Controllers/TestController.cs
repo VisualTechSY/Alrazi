@@ -96,13 +96,14 @@ namespace Alrazi.Controllers
         #endregion
 
         #region StanfordBinet
-        public IActionResult AddTestStanfordBinet(int studentId)
+        public async Task<IActionResult> AddTestStanfordBinet(int studentId)
         {
             if (!HttpContext.HasSession())
                 return RedirectToAction("Index", "Home");
-            ViewBag.stdId = studentId;
 
-            return View();
+            Student student = await studentService.GetStudent(studentId);
+
+            return View(student);
         }
 
         [HttpPost]
