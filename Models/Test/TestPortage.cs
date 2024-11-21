@@ -17,8 +17,11 @@ namespace Alrazi.Models.Test
         [DisplayName("تاريخ المقابلة")]
         public DateTime TestDate { get; set; }
 
+        [DisplayName("تاريخ قائمة الشطب")]
+        public DateTime TestDateSkill { get; set; }
 
         public List<TestPortageDetails> TestPortageDetails { get; set; }
+        public List<TestPortageSkill> TestPortageSkills { get; set; }
     }
 
 

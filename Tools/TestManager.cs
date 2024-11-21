@@ -27,9 +27,32 @@ namespace Alrazi.Tools
                 _ => "",
             };
         }
+
+        public static string GetTestPortageSubjectArabic(TestPortage_Skill testPortage_Skill)
+        {
+            return testPortage_Skill switch
+            {
+                TestPortage_Skill.Social_InteractWithOthers => "التفاعل مع الآخرين",
+                TestPortage_Skill.Social_Emotionalskills => "المهارات الإنفعالية",
+                TestPortage_Skill.Social_InteractWithGames => "التفاعل مع الألعاب",
+                TestPortage_Skill.Knowledge_SensorySkills => "المهارات الحسية",
+                TestPortage_Skill.Knowledge_ExploreAndThink => "الاستكشاف والتفكير",
+                TestPortage_Skill.Communication_CommunicationAndLanguage => "التواصل واللغة",
+                TestPortage_Skill.Communication_EarlyReading => "القراءة المبكرة",
+                TestPortage_Skill.Care_Nutrition => "التغذية",
+                TestPortage_Skill.Care_Cleanliness => "النظافة",
+                TestPortage_Skill.Care_GettingDressed => "ارتداء الملابس",
+                TestPortage_Skill.Movement_MajourSkills => "المهارات الكبرى",
+                TestPortage_Skill.Movement_MicroSkills => "المهارات الدقيقة",
+                TestPortage_Skill.Movement_PreWriting => "ماقبل الكتابة",
+                _ => "",
+            };
+        }
+
+
         public static string GetTestPortageResault(double mark)
         {
-                 if (mark <= 25) return "شديد جداً";
+            if (mark <= 25) return "شديد جداً";
             else if (mark <= 39) return "شديد";
             else if (mark <= 54) return "متوسط";
             else if (mark <= 69) return "بسيط";
@@ -55,7 +78,7 @@ namespace Alrazi.Tools
         }
         public static string GetTestStanfordBinetResault(double mark)
         {
-                 if (mark <= 39) return "تخلف شديد";
+            if (mark <= 39) return "تخلف شديد";
             else if (mark <= 54) return "تخلف متوسط";
             else if (mark <= 69) return "تخلف بسيط";
             else if (mark <= 79) return "على حدود التخلف";

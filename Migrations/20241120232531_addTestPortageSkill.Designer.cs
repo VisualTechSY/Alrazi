@@ -4,6 +4,7 @@ using Alrazi;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -11,9 +12,11 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace Alrazi.Migrations
 {
     [DbContext(typeof(Context))]
-    partial class ContextModelSnapshot : ModelSnapshot
+    [Migration("20241120232531_addTestPortageSkill")]
+    partial class addTestPortageSkill
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -1130,7 +1133,7 @@ namespace Alrazi.Migrations
 
                     b.HasIndex("TestPortageId");
 
-                    b.ToTable("TestPortageSkills");
+                    b.ToTable("TestPortageSkill");
                 });
 
             modelBuilder.Entity("Alrazi.Models.Test.TestStanfordBinet", b =>

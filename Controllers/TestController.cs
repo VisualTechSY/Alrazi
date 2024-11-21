@@ -35,6 +35,7 @@ namespace Alrazi.Controllers
             {
                 TestType.Portage => RedirectToAction("AddTestPortage", new { studentId = studentId }),
                 TestType.StanfordBinet => RedirectToAction("AddTestStanfordBinet", new { studentId = studentId }),
+                TestType.PortageSkill => RedirectToAction("AddTestPortageSkill", new { studentId = studentId }),
                 _ => RedirectToAction("Index", "Home"),
             };
         }
@@ -75,6 +76,29 @@ namespace Alrazi.Controllers
             int testId = await testService.AddTestPortage(testPortage);
             return RedirectToAction("GetTestPortgeReport", new { testId = testId });
         }
+
+        public async Task<IActionResult> AddTestPortageSkill(int studentId, int testId)
+        {
+            if (!HttpContext.HasSession())
+                return RedirectToAction("Index", "Home");
+            ViewBag.selectedTestId=testId;
+            Student testPortages = await testService.GetTestPortageWithOutSkill(studentId);
+            return View(testPortages);
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> AddTestPortageSkill(TestPortage testPortage)
+        {
+            if (!HttpContext.HasSession())
+                return RedirectToAction("Index", "Home");
+
+            int stdId= await testService.AddTestPortageSkill(testPortage);
+            ViewBag.selectedTestId = testPortage.Id;
+            Student testPortages = await testService.GetTestPortageWithOutSkill(stdId);
+            return View(testPortages);
+            // return RedirectToAction("GetTestPortageSecond", new { testId = 0 });
+        }
+
         //جلب تقرير الاختبار الواحد
         public async Task<IActionResult> GetTestPortgeReport(int testId)
         {

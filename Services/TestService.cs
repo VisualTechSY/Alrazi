@@ -1,4 +1,5 @@
-﻿using Alrazi.Models.Test;
+﻿using Alrazi.Models;
+using Alrazi.Models.Test;
 using Microsoft.EntityFrameworkCore;
 
 namespace Alrazi.Services
@@ -18,7 +19,7 @@ namespace Alrazi.Services
                                                     .Where(x => x.TestPortage.StudentId == studentId)
                                                     .Include(x => x.TestPortage)
                                                     .ThenInclude(x => x.Student)
-                                                    .OrderBy(x=>x.TestPortage.SerialNumber)
+                                                    .OrderBy(x => x.TestPortage.SerialNumber)
                                                     .ToListAsync();
             return getTest;
         }
@@ -31,6 +32,27 @@ namespace Alrazi.Services
             await context.SaveChangesAsync();
             return testPortage.Id;
         }
+
+        public async Task<Student> GetTestPortageWithOutSkill(int studentId)
+        {
+            return await context.Students
+                .Include(x => x.TestPortages.Where(c => c.TestDateSkill == default))
+                .FirstAsync(x => x.Id == studentId);
+        }
+        public async Task<int> AddTestPortageSkill(TestPortage testPortage)
+        {
+            var getTestPortageSkill = await context.TestPortages.FirstAsync(x => x.Id == testPortage.Id);
+            getTestPortageSkill.TestDateSkill = testPortage.TestDateSkill;
+
+            testPortage.TestPortageSkills.ForEach(x => x.TestPortageId = testPortage.Id);
+
+            await context.TestPortageSkills.AddRangeAsync(testPortage.TestPortageSkills);
+            await context.SaveChangesAsync();
+            return getTestPortageSkill.StudentId;
+        }
+
+
+
 
         public async Task<TestStanfordBinet> GetTestStanfordBinetById(int testId)
         {

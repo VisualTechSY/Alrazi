@@ -51,23 +51,39 @@
 
 <div class="row">
 
-	@foreach (var item in Enum.GetValues<TestType>())
-	{
 		<div class="col-md-4 grid-margin stretch-card notdone">
 			<div class="card">
 				<div class="card-body">
 					<div class="d-flex flex-row">
 						<img src="~/assets/images/Logo.png" class="img-lg rounded" alt="profile image" width="75" height="75" />
 						<div class="mr-3">
-							<h4>@TestManager.GetTestTypeArabic(item)</h4>
-							<a href="~/Test/AddTest?studentId=@Model.Id&testType=@item" class="mt-2 text-success font-weight-bold p-2">إضافة اختبار </a>
-							<a href="~/Test/GetTest?studentId=@Model.Id&testType=@item" class="mt-2 text-success font-weight-bold p-2">عرض الاختبارات</a>
+							<h4>@TestManager.GetTestTypeArabic(TestType.Portage)</h4>
+						<a href="~/Test/AddTest?studentId=@Model.Id&testType=@TestType.Portage" class="mt-2 text-success font-weight-bold p-2">إضافة الصورة الجانبية </a>
+							<br />
+						<a href="~/Test/AddTest?studentId=@Model.Id&testType=@TestType.PortageSkill" class="mt-2 text-success font-weight-bold p-2">إضافة قائمة الشطب </a>
+							<br />
+						<a href="~/Test/GetTest?studentId=@Model.Id&testType=@TestType.Portage" class="mt-2 text-success font-weight-bold p-2">عرض الاختبارات</a>
 						</div>
 					</div>
 				</div>
 			</div>
 		</div>
 
-	}
+		<div class="col-md-4 grid-margin stretch-card notdone">
+			<div class="card">
+				<div class="card-body">
+					<div class="d-flex flex-row">
+						<img src="~/assets/images/Logo.png" class="img-lg rounded" alt="profile image" width="75" height="75" />
+						<div class="mr-3">
+							<h4>@TestManager.GetTestTypeArabic(TestType.StanfordBinet)</h4>
+							<a href="~/Test/AddTest?studentId=@Model.Id&testType=@TestType.StanfordBinet" class="mt-2 text-success font-weight-bold p-2">إضافة إختبار</a>
+							<br />
+							<a href="~/Test/GetTest?studentId=@Model.Id&testType=@TestType.StanfordBinet" class="mt-2 text-success font-weight-bold p-2">عرض الاختبارات</a>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+
 </div>
 

@@ -3,6 +3,7 @@
     public enum TestType
     {
         Portage,
-        StanfordBinet
+        StanfordBinet,
+        PortageSkill
     }
 }
