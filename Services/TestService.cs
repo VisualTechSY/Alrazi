@@ -23,6 +23,16 @@ namespace Alrazi.Services
                                                     .ToListAsync();
             return getTest;
         }
+        public async Task<List<TestPortage>> GetStudentTestPortageSkill(int studentId)
+        {
+            var getTest = await context.TestPortages
+                                                    .Where(x => x.StudentId == studentId &&x.TestDateSkill != default)
+                                                    .Include(x => x.Student)
+                                                    .Include(x => x.TestPortageSkills)
+                                                    .OrderBy(x => x.SerialNumber)
+                                                    .ToListAsync();
+            return getTest;
+        }
         public async Task<int> AddTestPortage(TestPortage testPortage)
         {
             var stdTest = context.TestPortages.Where(x => x.StudentId == testPortage.StudentId);

@@ -49,6 +49,7 @@ namespace Alrazi.Controllers
             {
                 TestType.Portage => RedirectToAction("GetTestPortage", new { studentId = studentId }),
                 TestType.StanfordBinet => RedirectToAction("GetTestStanfordBinet", new { studentId = studentId }),
+                TestType.PortageSkill => RedirectToAction("GetTestPortageSkill", new { studentId = studentId }),
                 _ => RedirectToAction("Index", "Home"),
             };
         }
@@ -99,7 +100,7 @@ namespace Alrazi.Controllers
             // return RedirectToAction("GetTestPortageSecond", new { testId = 0 });
         }
 
-        //جلب تقرير الاختبار الواحد
+        //طباعة تقرير الاختبار الواحد
         public async Task<IActionResult> GetTestPortgeReport(int testId)
         {
             if (!HttpContext.HasSession())
@@ -114,6 +115,14 @@ namespace Alrazi.Controllers
                 return RedirectToAction("Index", "Home");
 
             List<TestPortageDetails> getTest = await testService.GetStudentTestPortage(studentId);
+            return View(getTest);
+        }
+        public async Task<IActionResult> GetTestPortageSkill(int studentId)
+        {
+            if (!HttpContext.HasSession())
+                return RedirectToAction("Index", "Home");
+
+            List<TestPortage> getTest = await testService.GetStudentTestPortageSkill(studentId);
             return View(getTest);
         }
 
