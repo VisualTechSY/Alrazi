@@ -4,7 +4,7 @@
 @using Alrazi.ViewModel
 @model List<TestPortage>
 @{
-    ViewData["Title"] = "[عرض اختبار بورتج قائمة الشطب";
+    ViewData["Title"] = "عرض اختبار بورتج قائمة الشطب";
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
@@ -25,180 +25,262 @@
 <!-- end page title -->
 
 
-        <div class="row">
-            <div class="col-4"></div>
-            <div class="col-4">
-                <div class="mb-3">
-                    <label for="name" class="form-label">اسم الطفل</label>
-                    <input type="text" class="form-control" value="@Model.FullName" readonly>
-                </div>
-            </div>
-            <div class="col-4"></div>
-            <div class="col-4">
-                <div class="mb-3">
-                    <label for="name" class="form-label">تاريخ الميلاد</label>
-                    <input type="date" id="BirthDate" class="form-control" value="@Model.BirthDate.ToString("yyyy-MM-dd")" readonly>
-                </div>
-            </div>
-            <div class="col-4">
-                <div class="mb-3">
-                    <label for="name" class="form-label">تاريخ المقابلة</label>
-                    <input type="date" id="TestDateSkill" required name="TestDateSkill" class="form-control" onchange="getAgeDateTime()" value="@DateTime.Now.ToString("yyyy-MM-dd")">
-                </div>
-            </div>
-            <div class="col-4">
-                <div class="mb-3">
-                    <label for="name" class="form-label">العمر الزمني</label>
-                    <input type="text" id="AgeTimeDate" class="form-control" readonly>
-                </div>
-            </div>
+<div class="row">
+    <div class="col-4"></div>
+    <div class="col-4">
+        <div class="mb-3">
+            <label for="name" class="form-label">اسم الطفل</label>
+            <input type="text" class="form-control" value="@Model.FirstOrDefault()?.Student.FullName" readonly>
         </div>
+    </div>
+    <div class="col-4"></div>
+    <div class="col-4">
+        <div class="mb-3">
+            <label for="name" class="form-label">تاريخ الميلاد</label>
+            <input id="BirthDate" class="form-control" value="@Model.FirstOrDefault()?.Student.BirthDate.ToString("yyyy-MM-dd")" readonly>
+        </div>
+    </div>
+    <div class="col-4">
+        <div class="mb-3">
+            <label for="name" class="form-label">تاريخ المقابلة</label>
+            <input id="TestDateSkill" class="form-control" value="@DateTime.Now.ToString("yyyy-MM-dd")" readonly>
+        </div>
+    </div>
+    <div class="col-4">
+        <div class="mb-3">
+            <label for="name" class="form-label">العمر الزمني</label>
+            <input id="AgeTimeDate" class="form-control" readonly>
+        </div>
+    </div>
 
-        <div class="row">
-            <div class="col-12">
-                <div class="card">
+    <div class="col-4">
+        <div class="mb-3">
+            <label for="name" class="form-label">اختر رقم الاختبار</label>
+            <select class="form-control" id="SelectedSerialNumber" onchange="ChangeSelectedSerialNumber()">
+                <option value="0" selected disabled> - </option>
+                @foreach (var item in Model)
+                {
+                <option value="@item.SerialNumber">الاختبار @item.SerialNumber </option>
+                }
+            </select>
+        </div>
+    </div>
+</div>
 
-                    @foreach(var item in Model)   
-                    {
+<div class="row">
+    <div class="col-12">
+        <div class="card">
+
+                        @foreach (var item in Model)
+                        {
+                <div class="allTest test_@item.SerialNumber">
                     <table class="table table-centered mb-0">
                         <thead class="table-dark">
                             <tr>
                                 <th colspan="2">المجالات</th>
                                 <th>العلامة</th>
+                                <th>المجموع</th>
                             </tr>
                         </thead>
                         <tbody>
                             <tr>
                                 <td rowspan="3">
-                                    @TestManager.GetTestPortageSubjectArabic(TestPortageSubject.Social)
+                                                @TestManager.GetTestPortageSubjectArabic(TestPortageSubject.Social)
                                 </td>
                                 <td>
-                                    @TestManager.GetTestPortageSubjectArabic(TestPortage_Skill.Social_InteractWithOthers)
+                                                @TestManager.GetTestPortageSubjectArabic(TestPortage_Skill.Social_InteractWithOthers)
                                 </td>
                                 <td>
-                                    @item.TestPortageSkills.FirstOrDefault(x=>x.TestPortage_Skill==TestPortage_Skill.Social_InteractWithOthers)?.Mark
+                                                @item.TestPortageSkills.FirstOrDefault(x => x.TestPortage_Skill == TestPortage_Skill.Social_InteractWithOthers)?.Mark
                                 </td>
-                            </tr>
-                            <tr>
-                                <td>
-                                    @TestManager.GetTestPortageSubjectArabic(TestPortage_Skill.Social_Emotionalskills)
-                                </td>
-                                <td>
-                                    @item.TestPortageSkills.FirstOrDefault(x=>x.TestPortage_Skill==TestPortage_Skill.Social_Emotionalskills)?.Mark
+                                <td rowspan="3">
+                                                @item.TestPortageSkills.Where(x => x.TestPortage_Skill >= TestPortage_Skill.Social_InteractWithOthers && x.TestPortage_Skill <= TestPortage_Skill.Social_InteractWithGames).Sum(x => x.Mark)
                                 </td>
                             </tr>
                             <tr>
                                 <td>
-                                    @TestManager.GetTestPortageSubjectArabic(TestPortage_Skill.Social_InteractWithGames)
+                                                @TestManager.GetTestPortageSubjectArabic(TestPortage_Skill.Social_Emotionalskills)
                                 </td>
                                 <td>
-                                     @item.TestPortageSkills.FirstOrDefault(x=>x.TestPortage_Skill==TestPortage_Skill.Social_InteractWithGames)?.Mark
+                                                @item.TestPortageSkills.FirstOrDefault(x => x.TestPortage_Skill == TestPortage_Skill.Social_Emotionalskills)?.Mark
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>
+                                                @TestManager.GetTestPortageSubjectArabic(TestPortage_Skill.Social_InteractWithGames)
+                                </td>
+                                <td>
+                                                @item.TestPortageSkills.FirstOrDefault(x => x.TestPortage_Skill == TestPortage_Skill.Social_InteractWithGames)?.Mark
                                 </td>
                             </tr>
 
 
                             <tr>
                                 <td rowspan="2">
-                                    @TestManager.GetTestPortageSubjectArabic(TestPortageSubject.Knowledge)
+                                                @TestManager.GetTestPortageSubjectArabic(TestPortageSubject.Knowledge)
                                 </td>
                                 <td>
-                                    @TestManager.GetTestPortageSubjectArabic(TestPortage_Skill.Knowledge_SensorySkills)
+                                                @TestManager.GetTestPortageSubjectArabic(TestPortage_Skill.Knowledge_SensorySkills)
                                 </td>
                                 <td>
-                                     @item.TestPortageSkills.FirstOrDefault(x=>x.TestPortage_Skill==TestPortage_Skill.Knowledge_SensorySkills)?.Mark
+                                                @item.TestPortageSkills.FirstOrDefault(x => x.TestPortage_Skill == TestPortage_Skill.Knowledge_SensorySkills)?.Mark
+                                </td>
+                                <td rowspan="2">
+                                                @item.TestPortageSkills.Where(x => x.TestPortage_Skill >= TestPortage_Skill.Knowledge_SensorySkills && x.TestPortage_Skill <= TestPortage_Skill.Knowledge_ExploreAndThink).Sum(x => x.Mark)
                                 </td>
                             </tr>
                             <tr>
                                 <td>
-                                    @TestManager.GetTestPortageSubjectArabic(TestPortage_Skill.Knowledge_ExploreAndThink)
+                                                @TestManager.GetTestPortageSubjectArabic(TestPortage_Skill.Knowledge_ExploreAndThink)
                                 </td>
                                 <td>
-                                   @item.TestPortageSkills.FirstOrDefault(x=>x.TestPortage_Skill==TestPortage_Skill.Knowledge_ExploreAndThink)?.Mark
+                                                @item.TestPortageSkills.FirstOrDefault(x => x.TestPortage_Skill == TestPortage_Skill.Knowledge_ExploreAndThink)?.Mark
                                 </td>
                             </tr>
 
                             <tr>
                                 <td rowspan="2">
-                                    @TestManager.GetTestPortageSubjectArabic(TestPortageSubject.Communication)
+                                                @TestManager.GetTestPortageSubjectArabic(TestPortageSubject.Communication)
                                 </td>
                                 <td>
-                                    @TestManager.GetTestPortageSubjectArabic(TestPortage_Skill.Communication_CommunicationAndLanguage)
+                                                @TestManager.GetTestPortageSubjectArabic(TestPortage_Skill.Communication_CommunicationAndLanguage)
                                 </td>
                                 <td>
-                                 @item.TestPortageSkills.FirstOrDefault(x=>x.TestPortage_Skill==TestPortage_Skill.Communication_CommunicationAndLanguage)?.Mark
+                                                @item.TestPortageSkills.FirstOrDefault(x => x.TestPortage_Skill == TestPortage_Skill.Communication_CommunicationAndLanguage)?.Mark
+                                </td>
+                                <td rowspan="2">
+                                                @item.TestPortageSkills.Where(x => x.TestPortage_Skill >= TestPortage_Skill.Communication_CommunicationAndLanguage && x.TestPortage_Skill <= TestPortage_Skill.Communication_EarlyReading).Sum(x => x.Mark)
                                 </td>
                             </tr>
                             <tr>
                                 <td>
-                                    @TestManager.GetTestPortageSubjectArabic(TestPortage_Skill.Communication_EarlyReading)
+                                                @TestManager.GetTestPortageSubjectArabic(TestPortage_Skill.Communication_EarlyReading)
                                 </td>
                                 <td>
-                                    @item.TestPortageSkills.FirstOrDefault(x=>x.TestPortage_Skill==TestPortage_Skill.Communication_EarlyReading)?.Mark
-                                </td>
-                            </tr>
-
-                            <tr>
-                                <td rowspan="3">
-                                    @TestManager.GetTestPortageSubjectArabic(TestPortageSubject.Care)
-                                </td>
-                                <td>
-                                    @TestManager.GetTestPortageSubjectArabic(TestPortage_Skill.Care_Nutrition)
-                                </td>
-                                <td>
-                                     @item.TestPortageSkills.FirstOrDefault(x=>x.TestPortage_Skill==TestPortage_Skill.Care_Nutrition)?.Mark
-                                </td>
-                            </tr>
-                            <tr>
-                                <td>
-                                    @TestManager.GetTestPortageSubjectArabic(TestPortage_Skill.Care_Cleanliness)
-                                </td>
-                                <td>
-                                   @item.TestPortageSkills.FirstOrDefault(x=>x.TestPortage_Skill==TestPortage_Skill.Care_Cleanliness)?.Mark
-                                </td>
-                            </tr>
-                            <tr>
-                                <td>
-                                    @TestManager.GetTestPortageSubjectArabic(TestPortage_Skill.Care_GettingDressed)
-                                </td>
-                                <td>
-                                     @item.TestPortageSkills.FirstOrDefault(x=>x.TestPortage_Skill==TestPortage_Skill.Care_GettingDressed)?.Mark
+                                                @item.TestPortageSkills.FirstOrDefault(x => x.TestPortage_Skill == TestPortage_Skill.Communication_EarlyReading)?.Mark
                                 </td>
                             </tr>
 
                             <tr>
                                 <td rowspan="3">
-                                    @TestManager.GetTestPortageSubjectArabic(TestPortageSubject.Movement)
+                                                @TestManager.GetTestPortageSubjectArabic(TestPortageSubject.Care)
                                 </td>
                                 <td>
-                                    @TestManager.GetTestPortageSubjectArabic(TestPortage_Skill.Movement_MajourSkills)
+                                                @TestManager.GetTestPortageSubjectArabic(TestPortage_Skill.Care_Nutrition)
                                 </td>
                                 <td>
-                                    @item.TestPortageSkills.FirstOrDefault(x=>x.TestPortage_Skill==TestPortage_Skill.Movement_MajourSkills)
+                                                @item.TestPortageSkills.FirstOrDefault(x => x.TestPortage_Skill == TestPortage_Skill.Care_Nutrition)?.Mark
+                                </td>
+                                <td rowspan="3">
+                                                @item.TestPortageSkills.Where(x => x.TestPortage_Skill >= TestPortage_Skill.Care_Nutrition && x.TestPortage_Skill <= TestPortage_Skill.Care_GettingDressed).Sum(x => x.Mark)
                                 </td>
                             </tr>
                             <tr>
                                 <td>
-                                    @TestManager.GetTestPortageSubjectArabic(TestPortage_Skill.Movement_MicroSkills)
+                                                @TestManager.GetTestPortageSubjectArabic(TestPortage_Skill.Care_Cleanliness)
                                 </td>
                                 <td>
-                                    @item.TestPortageSkills.FirstOrDefault(x=>x.TestPortage_Skill==TestPortage_Skill.Movement_MicroSkills)?.Mark
+                                                @item.TestPortageSkills.FirstOrDefault(x => x.TestPortage_Skill == TestPortage_Skill.Care_Cleanliness)?.Mark
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>
+                                                @TestManager.GetTestPortageSubjectArabic(TestPortage_Skill.Care_GettingDressed)
+                                </td>
+                                <td>
+                                                @item.TestPortageSkills.FirstOrDefault(x => x.TestPortage_Skill == TestPortage_Skill.Care_GettingDressed)?.Mark
+                                </td>
+                            </tr>
+
+                            <tr>
+                                <td rowspan="3">
+                                                @TestManager.GetTestPortageSubjectArabic(TestPortageSubject.Movement)
+                                </td>
+                                <td>
+                                                @TestManager.GetTestPortageSubjectArabic(TestPortage_Skill.Movement_MajourSkills)
+                                </td>
+                                <td>
+                                                @item.TestPortageSkills.FirstOrDefault(x => x.TestPortage_Skill == TestPortage_Skill.Movement_MajourSkills)?.Mark
+                                </td>
+                                <td rowspan="3">
+                                                @item.TestPortageSkills.Where(x => x.TestPortage_Skill >= TestPortage_Skill.Movement_MajourSkills && x.TestPortage_Skill <= TestPortage_Skill.Movement_PreWriting).Sum(x => x.Mark)
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>
+                                                @TestManager.GetTestPortageSubjectArabic(TestPortage_Skill.Movement_MicroSkills)
+                                </td>
+                                <td>
+                                                @item.TestPortageSkills.FirstOrDefault(x => x.TestPortage_Skill == TestPortage_Skill.Movement_MicroSkills)?.Mark
                                 </td>
                             </tr>
 
                             <tr>
                                 <td>
-                                    @TestManager.GetTestPortageSubjectArabic(TestPortage_Skill.Movement_PreWriting)
+                                                @TestManager.GetTestPortageSubjectArabic(TestPortage_Skill.Movement_PreWriting)
                                 </td>
                                 <td>
-                                    @item.TestPortageSkills.FirstOrDefault(x=>x.TestPortage_Skill==TestPortage_Skill.Movement_PreWriting)?.Mark
+                                                @item.TestPortageSkills.FirstOrDefault(x => x.TestPortage_Skill == TestPortage_Skill.Movement_PreWriting)?.Mark
                                 </td>
                             </tr>
 
                         </tbody>
                     </table>
+                </div>
+                        }
+
+
+        </div>
+    </div>
+</div>
+
+<script>
+
+    window.onload = onloadpage;
+
+    function onloadpage() {
+        var birthDate = $("#BirthDate").val();
+        var studyStateDate = $("#TestDateSkill").val();
+        if (birthDate == '' || studyStateDate == '') {
+            $("#AgeTimeDate").val('');
+            return;
+        }
+
+        const birthdate = new Date(birthDate);
+        const currentDate = new Date(studyStateDate);
+
+        let ageYears = currentDate.getFullYear() - birthdate.getFullYear();
+        let ageMonths = currentDate.getMonth() - birthdate.getMonth();
+        let ageDays = currentDate.getDate() - birthdate.getDate();
+
+        if (ageDays < 0) {
+            ageMonths--;
+            ageDays += new Date(currentDate.getFullYear(), currentDate.getMonth(), 0).getDate();
+        }
+
+        if (ageMonths < 0) {
+            ageYears--;
+            ageMonths += 12;
+        }
+
+        var str = `السنة : ${ageYears} - الشهر : ${ageMonths} - اليوم ${ageDays}`;
+        $("#AgeTimeDate").val(str);
+
+        ChangeSelectedSerialNumber();
     }
 
+    function ChangeSelectedSerialNumber() {
 
-                </div>
-            </div>
-        </div>
+        var allTst = document.getElementsByClassName('allTest');
+        for (var i = 0; i < allTst.length; i++) {
+            allTst[i].style.display = 'none';
+        }
+
+        var className = 'test_' + document.getElementById("SelectedSerialNumber").value;
+        var tst = document.getElementsByClassName(className);
+        for (var i = 0; i < tst.length; i++) {
+            tst[i].style.display = '';
+        }
+    }
+
+</script>

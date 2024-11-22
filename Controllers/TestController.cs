@@ -95,9 +95,7 @@ namespace Alrazi.Controllers
 
             int stdId= await testService.AddTestPortageSkill(testPortage);
             ViewBag.selectedTestId = testPortage.Id;
-            Student testPortages = await testService.GetTestPortageWithOutSkill(stdId);
-            return View(testPortages);
-            // return RedirectToAction("GetTestPortageSecond", new { testId = 0 });
+             return RedirectToAction("GetTestPortageSkill", new { studentId = stdId });
         }
 
         //طباعة تقرير الاختبار الواحد
