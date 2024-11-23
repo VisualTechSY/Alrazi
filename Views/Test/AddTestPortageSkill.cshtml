@@ -24,228 +24,268 @@
 </div>
 <!-- end page title -->
 
-    <div class="row">
-        <div class="col-4">
-            <div class="mb-3">
+<div class="row">
+    <div class="col-4">
+        <div class="mb-3">
             <label for="name" class="form-label">حدد رقم اختبار لإضافة قائمة الشطب</label>
 
             <select class="form-control" id="selecttest" onchange="location = this.value;">
                 <option selected value="" disabled>غير محدد</option>
                 @foreach (var item in Model.TestPortages)
                 {
-                    var val = "?studentId="+item.StudentId+"&"+"testId=" + item.Id;
+                    var val = "?studentId=" + item.StudentId + "&" + "testId=" + item.Id;
                     @if (ViewBag.selectedTestId == item.Id)
                     {
-                         <option selected value="@val">@item.SerialNumber</option>
+                        <option selected value="@val">@item.SerialNumber</option>
                     }
                     else
                     {
-                       <option value="@val">@item.SerialNumber</option>
+                        <option value="@val">@item.SerialNumber</option>
                     }
                 }
             </select>
-            </div>
-            </div>
-            </div>
-   
-@if(ViewBag.selectedTestId !=0)
-{
-
-<form method="post" class="card-body">
-
-    <div class="row">
-            <div class="col-4"></div>
-          <div class="col-4">
-            <div class="mb-3">
-                <label for="name" class="form-label">اسم الطفل</label>
-                <input type="text" class="form-control" value="@Model.FullName" readonly>
-            </div>
-        </div>
-        <div class="col-4"></div>
-        <div class="col-4">
-            <div class="mb-3">
-                <label for="name" class="form-label">تاريخ الميلاد</label>
-                <input type="date" id="BirthDate" class="form-control" value="@Model.BirthDate.ToString("yyyy-MM-dd")" readonly>
-            </div>
-        </div>
-        <div class="col-4">
-            <div class="mb-3">
-                <label for="name" class="form-label">تاريخ المقابلة</label>
-                    <input type="date" id="TestDateSkill" required name="TestDateSkill" class="form-control" onchange="getAgeDateTime()" value="@DateTime.Now.ToString("yyyy-MM-dd")">
-            </div>
-        </div>
-        <div class="col-4">
-            <div class="mb-3">
-                <label for="name" class="form-label">العمر الزمني</label>
-                <input type="text" id="AgeTimeDate" class="form-control" readonly>
-            </div>
         </div>
     </div>
+</div>
 
-    <div class="row">
-        <div class="col-12">
-            <div class="card">
+@if (ViewBag.selectedTestId != 0)
+{
 
-                <table class="table table-centered mb-0">
-                    <thead class="table-dark">
-                        <tr>
-                            <th colspan="2">المجالات</th>
-                            <th>العلامة</th>
-                        </tr>
-                    </thead>
-                    <tbody>
+    <form method="post" class="card-body">
+
+        <div class="row">
+            <div class="col-4"></div>
+            <div class="col-4">
+                <div class="mb-3">
+                    <label for="name" class="form-label">اسم الطفل</label>
+                    <input type="text" class="form-control" value="@Model.FullName" readonly>
+                </div>
+            </div>
+            <div class="col-4"></div>
+            <div class="col-4">
+                <div class="mb-3">
+                    <label for="name" class="form-label">تاريخ الميلاد</label>
+                    <input type="date" id="BirthDate" class="form-control" value="@Model.BirthDate.ToString("yyyy-MM-dd")" readonly>
+                </div>
+            </div>
+            <div class="col-4">
+                <div class="mb-3">
+                    <label for="name" class="form-label">تاريخ المقابلة</label>
+                    <input type="date" id="TestDateSkill" required name="TestDateSkill" class="form-control" onchange="getAgeDateTime()" value="@DateTime.Now.ToString("yyyy-MM-dd")">
+                </div>
+            </div>
+            <div class="col-4">
+                <div class="mb-3">
+                    <label for="name" class="form-label">العمر الزمني</label>
+                    <input type="text" id="AgeTimeDate" class="form-control" readonly>
+                </div>
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="col-12">
+                <div class="card">
+
+                    <table class="table table-centered mb-0">
+                        <thead class="table-dark">
+                            <tr>
+                                <th colspan="2">المجالات</th>
+                                <th>الخام</th>
+                                <th>العلامة</th>
+                            </tr>
+                        </thead>
+                        <tbody>
 
                             <input type="hidden" name="Id" value="@ViewBag.selectedTestId" />
 
-                        <tr>
-                            <td rowspan="3">
-                                @TestManager.GetTestPortageSubjectArabic(TestPortageSubject.Social)
-                            </td>
-                            <td>
-                                @TestManager.GetTestPortageSubjectArabic(TestPortage_Skill.Social_InteractWithOthers)
-                            </td>
-                            <td>
-                                <input type="hidden" name="TestPortageSkills[0].TestPortage_Skill" value="@TestPortage_Skill.Social_InteractWithOthers" />
-                                <input type="text" class="form-control" name="TestPortageSkills[0].Mark" required />
-                            </td>
-                        </tr>
-                        <tr>
-                            <td>
-                                @TestManager.GetTestPortageSubjectArabic(TestPortage_Skill.Social_Emotionalskills)
-                            </td>
-                            <td>
-                                <input type="hidden" name="TestPortageSkills[1].TestPortage_Skill" value="@TestPortage_Skill.Social_Emotionalskills" />
-                                <input type="text" class="form-control" name="TestPortageSkills[1].Mark" required />
-                            </td>
-                        </tr>
-                        <tr>
-                            <td>
-                                @TestManager.GetTestPortageSubjectArabic(TestPortage_Skill.Social_InteractWithGames)
-                            </td>
-                            <td>
-                                <input type="hidden" name="TestPortageSkills[2].TestPortage_Skill" value="@TestPortage_Skill.Social_InteractWithGames" />
-                                <input type="text" class="form-control" name="TestPortageSkills[2].Mark" required />
-                            </td>
-                        </tr>
+                            <tr>
+                                <td rowspan="3">
+                                    @TestManager.GetTestPortageSubjectArabic(TestPortageSubject.Social)
+                                </td>
+                                <td>
+                                    @TestManager.GetTestPortageSubjectArabic(TestPortage_Skill.Social_InteractWithOthers)
+                                </td>
+                                <td>
+                                    100
+                                </td>
+                                <td>
+                                    <input type="hidden" name="TestPortageSkills[0].TestPortage_Skill" value="@TestPortage_Skill.Social_InteractWithOthers" />
+                                    <input type="text" class="form-control" name="TestPortageSkills[0].Mark" required />
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>
+                                    @TestManager.GetTestPortageSubjectArabic(TestPortage_Skill.Social_Emotionalskills)
+                                </td>
+                                <td>
+                                    100
+                                </td>
+                                <td>
+                                    <input type="hidden" name="TestPortageSkills[1].TestPortage_Skill" value="@TestPortage_Skill.Social_Emotionalskills" />
+                                    <input type="text" class="form-control" name="TestPortageSkills[1].Mark" required />
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>
+                                    @TestManager.GetTestPortageSubjectArabic(TestPortage_Skill.Social_InteractWithGames)
+                                </td>
+                                <td>
+                                    100
+                                </td>
+                                <td>
+                                    <input type="hidden" name="TestPortageSkills[2].TestPortage_Skill" value="@TestPortage_Skill.Social_InteractWithGames" />
+                                    <input type="text" class="form-control" name="TestPortageSkills[2].Mark" required />
+                                </td>
+                            </tr>
 
 
-                        <tr>
-                            <td rowspan="2">
-                                @TestManager.GetTestPortageSubjectArabic(TestPortageSubject.Knowledge)
-                            </td>
-                            <td>
-                                @TestManager.GetTestPortageSubjectArabic(TestPortage_Skill.Knowledge_SensorySkills)
-                            </td>
-                            <td>
-                                <input type="hidden" name="TestPortageSkills[3].TestPortage_Skill" value="@TestPortage_Skill.Knowledge_SensorySkills" />
-                                <input type="text" class="form-control" name="TestPortageSkills[3].Mark" required />
-                            </td>
-                        </tr>
-                        <tr>
-                            <td>
-                                @TestManager.GetTestPortageSubjectArabic(TestPortage_Skill.Knowledge_ExploreAndThink)
-                            </td>
-                            <td>
-                                <input type="hidden" name="TestPortageSkills[4].TestPortage_Skill" value="@TestPortage_Skill.Knowledge_ExploreAndThink" />
-                                <input type="text" class="form-control" name="TestPortageSkills[4].Mark" required />
-                            </td>
-                        </tr>
+                            <tr>
+                                <td rowspan="2">
+                                    @TestManager.GetTestPortageSubjectArabic(TestPortageSubject.Knowledge)
+                                </td>
+                                <td>
+                                    @TestManager.GetTestPortageSubjectArabic(TestPortage_Skill.Knowledge_SensorySkills)
+                                </td>
+                                <td>
+                                    100
+                                </td>
+                                <td>
+                                    <input type="hidden" name="TestPortageSkills[3].TestPortage_Skill" value="@TestPortage_Skill.Knowledge_SensorySkills" />
+                                    <input type="text" class="form-control" name="TestPortageSkills[3].Mark" required />
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>
+                                    @TestManager.GetTestPortageSubjectArabic(TestPortage_Skill.Knowledge_ExploreAndThink)
+                                </td>
+                                <td>
+                                    100
+                                </td>
+                                <td>
+                                    <input type="hidden" name="TestPortageSkills[4].TestPortage_Skill" value="@TestPortage_Skill.Knowledge_ExploreAndThink" />
+                                    <input type="text" class="form-control" name="TestPortageSkills[4].Mark" required />
+                                </td>
+                            </tr>
 
-                        <tr>
-                            <td rowspan="2">
-                                @TestManager.GetTestPortageSubjectArabic(TestPortageSubject.Communication)
-                            </td>
-                            <td>
-                                @TestManager.GetTestPortageSubjectArabic(TestPortage_Skill.Communication_CommunicationAndLanguage)
-                            </td>
-                            <td>
-                                <input type="hidden" name="TestPortageSkills[5].TestPortage_Skill" value="@TestPortage_Skill.Communication_CommunicationAndLanguage" />
-                                <input type="text" class="form-control" name="TestPortageSkills[5].Mark" required />
-                            </td>
-                        </tr>
-                        <tr>
-                            <td>
-                                @TestManager.GetTestPortageSubjectArabic(TestPortage_Skill.Communication_EarlyReading)
-                            </td>
-                            <td>
-                                <input type="hidden" name="TestPortageSkills[6].TestPortage_Skill" value="@TestPortage_Skill.Communication_EarlyReading" />
-                                <input type="text" class="form-control" name="TestPortageSkills[6].Mark" required />
-                            </td>
-                        </tr>
+                            <tr>
+                                <td rowspan="2">
+                                    @TestManager.GetTestPortageSubjectArabic(TestPortageSubject.Communication)
+                                </td>
+                                <td>
+                                    @TestManager.GetTestPortageSubjectArabic(TestPortage_Skill.Communication_CommunicationAndLanguage)
+                                </td>
+                                <td>
+                                    100
+                                </td>
+                                <td>
+                                    <input type="hidden" name="TestPortageSkills[5].TestPortage_Skill" value="@TestPortage_Skill.Communication_CommunicationAndLanguage" />
+                                    <input type="text" class="form-control" name="TestPortageSkills[5].Mark" required />
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>
+                                    @TestManager.GetTestPortageSubjectArabic(TestPortage_Skill.Communication_EarlyReading)
+                                </td>
+                                <td>
+                                    100
+                                </td>
+                                <td>
+                                    <input type="hidden" name="TestPortageSkills[6].TestPortage_Skill" value="@TestPortage_Skill.Communication_EarlyReading" />
+                                    <input type="text" class="form-control" name="TestPortageSkills[6].Mark" required />
+                                </td>
+                            </tr>
 
-                        <tr>
-                            <td rowspan="3">
-                                @TestManager.GetTestPortageSubjectArabic(TestPortageSubject.Care)
-                            </td>
-                            <td>
-                                @TestManager.GetTestPortageSubjectArabic(TestPortage_Skill.Care_Nutrition)
-                            </td>
-                            <td>
-                                <input type="hidden" name="TestPortageSkills[7].TestPortage_Skill" value="@TestPortage_Skill.Care_Nutrition" />
-                                <input type="text" class="form-control" name="TestPortageSkills[7].Mark" required />
-                            </td>
-                        </tr>
-                        <tr>
-                            <td>
-                                @TestManager.GetTestPortageSubjectArabic(TestPortage_Skill.Care_Cleanliness)
-                            </td>
-                            <td>
-                                <input type="hidden" name="TestPortageSkills[8].TestPortage_Skill" value="@TestPortage_Skill.Care_Cleanliness" />
-                                <input type="text" class="form-control" name="TestPortageSkills[8].Mark" required />
-                            </td>
-                        </tr>
-                        <tr>
-                            <td>
-                                @TestManager.GetTestPortageSubjectArabic(TestPortage_Skill.Care_GettingDressed)
-                            </td>
-                            <td>
-                                <input type="hidden" name="TestPortageSkills[9].TestPortage_Skill" value="@TestPortage_Skill.Care_GettingDressed" />
-                                <input type="text" class="form-control" name="TestPortageSkills[9].Mark" required />
-                            </td>
-                        </tr>
+                            <tr>
+                                <td rowspan="3">
+                                    @TestManager.GetTestPortageSubjectArabic(TestPortageSubject.Care)
+                                </td>
+                                <td>
+                                    @TestManager.GetTestPortageSubjectArabic(TestPortage_Skill.Care_Nutrition)
+                                </td>
+                                <td>
+                                    100
+                                </td>
+                                <td>
+                                    <input type="hidden" name="TestPortageSkills[7].TestPortage_Skill" value="@TestPortage_Skill.Care_Nutrition" />
+                                    <input type="text" class="form-control" name="TestPortageSkills[7].Mark" required />
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>
+                                    @TestManager.GetTestPortageSubjectArabic(TestPortage_Skill.Care_Cleanliness)
+                                </td>
+                                <td>
+                                    100
+                                </td>
+                                <td>
+                                    <input type="hidden" name="TestPortageSkills[8].TestPortage_Skill" value="@TestPortage_Skill.Care_Cleanliness" />
+                                    <input type="text" class="form-control" name="TestPortageSkills[8].Mark" required />
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>
+                                    @TestManager.GetTestPortageSubjectArabic(TestPortage_Skill.Care_GettingDressed)
+                                </td>
+                                <td>
+                                    100
+                                </td>
+                                <td>
+                                    <input type="hidden" name="TestPortageSkills[9].TestPortage_Skill" value="@TestPortage_Skill.Care_GettingDressed" />
+                                    <input type="text" class="form-control" name="TestPortageSkills[9].Mark" required />
+                                </td>
+                            </tr>
 
-                    <tr>
-                    <td rowspan="3">
-                            @TestManager.GetTestPortageSubjectArabic(TestPortageSubject.Movement)
-                    </td>
-                    <td>
-                            @TestManager.GetTestPortageSubjectArabic(TestPortage_Skill.Movement_MajourSkills)
-                    </td>
-                    <td>
-                        <input type="hidden" name="TestPortageSkills[10].TestPortage_Skill" value="@TestPortage_Skill.Movement_MajourSkills" />
-                        <input type="text" class="form-control" name="TestPortageSkills[10].Mark" required />
-                    </td>
-                    </tr>
-                    <tr>
-                        <td>
-                                @TestManager.GetTestPortageSubjectArabic(TestPortage_Skill.Movement_MicroSkills)
-                        </td>
-                        <td>
-                            <input type="hidden" name="TestPortageSkills[11].TestPortage_Skill" value="@TestPortage_Skill.Movement_MicroSkills" />
-                            <input type="text" class="form-control" name="TestPortageSkills[11].Mark" required />
-                        </td>
-                    </tr>
-  
-                                        <tr>
-                        <td>
-                                @TestManager.GetTestPortageSubjectArabic(TestPortage_Skill.Movement_PreWriting)
-                        </td>
-                        <td>
-                            <input type="hidden" name="TestPortageSkills[12].TestPortage_Skill" value="@TestPortage_Skill.Movement_PreWriting" />
-                            <input type="text" class="form-control" name="TestPortageSkills[12].Mark" required />
-                        </td>
-                    </tr>
+                            <tr>
+                                <td rowspan="3">
+                                    @TestManager.GetTestPortageSubjectArabic(TestPortageSubject.Movement)
+                                </td>
+                                <td>
+                                    @TestManager.GetTestPortageSubjectArabic(TestPortage_Skill.Movement_MajourSkills)
+                                </td>
+                                <td>
+                                    100
+                                </td>
+                                <td>
+                                    <input type="hidden" name="TestPortageSkills[10].TestPortage_Skill" value="@TestPortage_Skill.Movement_MajourSkills" />
+                                    <input type="text" class="form-control" name="TestPortageSkills[10].Mark" required />
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>
+                                    @TestManager.GetTestPortageSubjectArabic(TestPortage_Skill.Movement_MicroSkills)
+                                </td>
+                                <td>
+                                    100
+                                </td>
+                                <td>
+                                    <input type="hidden" name="TestPortageSkills[11].TestPortage_Skill" value="@TestPortage_Skill.Movement_MicroSkills" />
+                                    <input type="text" class="form-control" name="TestPortageSkills[11].Mark" required />
+                                </td>
+                            </tr>
 
-                    </tbody>
-                </table>
-                <div style="padding-top:20px">
-                    <button type="submit" class="btn btn-primary">حفظ التعديلات</button>
+                            <tr>
+                                <td>
+                                    @TestManager.GetTestPortageSubjectArabic(TestPortage_Skill.Movement_PreWriting)
+                                </td>
+                                <td>
+                                    100
+                                </td>
+                                <td>
+                                    <input type="hidden" name="TestPortageSkills[12].TestPortage_Skill" value="@TestPortage_Skill.Movement_PreWriting" />
+                                    <input type="text" class="form-control" name="TestPortageSkills[12].Mark" required />
+                                </td>
+                            </tr>
+
+                        </tbody>
+                    </table>
+                    <div style="padding-top:20px">
+                        <button type="submit" class="btn btn-primary">حفظ التعديلات</button>
+                    </div>
+
                 </div>
-
             </div>
         </div>
-    </div>
-</form>
+    </form>
 
 }
 
