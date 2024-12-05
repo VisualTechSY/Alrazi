@@ -15,6 +15,7 @@ namespace Alrazi.Models
         public DateTime BirthDate { get; set; }
         public DateTime StudyStateDate { get; set; }
         public bool IsMale { get; set; }
+        public string Gender => IsMale ? "ذكر" : "انثى";
         public string PhoneNumber { get; set; }
         public string Address { get; set; }
         public int NationalityId { get; set; }
