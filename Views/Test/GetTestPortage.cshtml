@@ -64,12 +64,7 @@
                             <tr>
                                 <th>رقم التقييم</th>
                                 <th>تاريخ التقييم</th>
-                                <th>المجالات</th>
-                                <th>القاعدي</th>
-                                <th>الاضافي</th>
-                                <th>النمائي</th>
-                                <th>الدرجة</th>
-                                <th>التصنيف</th>
+                                <th colspan="6"></th>
                                 <th colspan="2" style="text-align:center">المحصلة</th>
                                 <th> خيارات</th>
                             </tr>
@@ -77,32 +72,47 @@
                         <tbody>
 
                             @{
-                                int serialNum = 0;
-                                int countOfRow = 1;
+                                int serialNum = -1;
 
                                 foreach (var item in Model)
                                 {
-                                    <tr>
-                                        @if (serialNum != item.TestPortage.SerialNumber)
-                                        {
-                                            countOfRow = item.TestPortage.TestPortageDetails.Count;
-                                            <td rowspan="@countOfRow">@item.TestPortage.SerialNumber</td>
-                                            <td rowspan="@countOfRow">@item.TestPortage.TestDate.ToShortDateString()</td>
-                                        }
+                                    if (serialNum != item.TestPortage.SerialNumber)
+                                    {
+                                        serialNum = item.TestPortage.SerialNumber;
+
+                                        <tr class="expand-header" data-group="@serialNum">
+
+                                            <td>@item.TestPortage.SerialNumber</td>
+                                            <td>@item.TestPortage.TestDate.ToShortDateString()</td>
+                                            <td colspan="6"></td>
+                                            @{
+                                                double sumMark = item.TestPortage.TestPortageDetails.Average(x => x.Mark);
+                                                <td>@sumMark</td>
+                                                <td>@TestManager.GetTestPortageResault(sumMark)</td>
+                                                <td><a href="~/Test/GetTestPortgeReport?testId=@item.TestPortageId" class="action-icon"> <i class="mdi mdi-printer"></i></a></td>
+                                            }
+                                        </tr>
+
+                                        <tr class="hidden-row" data-group="@serialNum">
+                                            <th colspan="2"></th>
+                                            <th>المجالات</th>
+                                            <th>القاعدي</th>
+                                            <th>الاضافي</th>
+                                            <th>النمائي</th>
+                                            <th>الدرجة</th>
+                                            <th>التصنيف</th>
+                                            <th colspan="3"></th>
+                                        </tr>
+                                    }
+                                    <tr class="hidden-row" data-group="@serialNum">
+                                        <td colspan="2"></td>
                                         <td>@TestManager.GetTestPortageSubjectArabic(item.TestPortageSubject)</td>
                                         <td>@item.AgeTheBase</td>
                                         <td>@item.AgeAddonal</td>
                                         <td>@item.AgeGrowth</td>
                                         <td>@item.Mark</td>
                                         <td>@item.Grade</td>
-                                        @if (serialNum != item.TestPortage.SerialNumber)
-                                        {
-                                            serialNum = item.TestPortage.SerialNumber;
-                                            double sumMark = item.TestPortage.TestPortageDetails.Average(x => x.Mark);
-                                            <td rowspan="@countOfRow">@sumMark</td>
-                                            <td rowspan="@countOfRow">@TestManager.GetTestPortageResault(sumMark)</td>
-                                            <td rowspan="@countOfRow"><a href="~/Test/GetTestPortgeReport?testId=@item.TestPortageId" class="action-icon"> <i class="mdi mdi-printer"></i></a></td>
-                                        }
+                                        <td colspan="3"></td>
                                     </tr>
                                 }
                             }
@@ -113,3 +123,40 @@
         </div>
     </div>
 }
+
+
+
+<style>
+    .hidden-row {
+        display: none;
+    }
+
+    .expand-header {
+        border-top: 2px solid #333;
+        background-color: #f9f9f9; /* لون خلفية مميز */
+    }
+    .expanded {
+        display: table-row;
+    }
+
+    tr:hover {
+        cursor: pointer;
+        background-color: #f0f0f0;
+    }
+
+
+</style>
+
+
+<script>
+    // استهداف الترويسات
+    document.querySelectorAll('.expand-header').forEach(headerRow => {
+        headerRow.addEventListener('click', function () {
+            const group = this.dataset.group; // تحديد المجموعة المرتبطة
+            const detailRows = document.querySelectorAll(`.hidden-row[data-group="${group}"]`);
+            detailRows.forEach(row => {
+                row.classList.toggle('expanded'); // إظهار أو إخفاء الصفوف
+            });
+        });
+    });
+</script>
