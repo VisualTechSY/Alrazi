@@ -1,0 +1,38 @@
+﻿@model List<string>
+@{
+    ViewData["Title"] = "عرض اختبار بورتج قائمة الشطب";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+
+<div class="row">
+    <div class="col-12">
+        <div class="card">
+                <table class="table table-centered mb-0" id="table1">
+                        <thead class="table-dark">
+                    <tr>
+                        <th colspan="2">
+                            التفاعل مع الآخرين
+                        </th>
+                    </tr>
+                            <tr>
+                                <th>اختيار</th>
+                                <th>السلوك</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+
+            @foreach (var item in Model)
+            {
+                            <tr>
+                                <td><input type="checkbox" class="row-checkbox" data-name="@item"/></td>
+                                <td>@item</td>
+                            </tr>
+            }
+                        </tbody>
+                    </table>
+
+        </div>
+    </div>
+<button onclick="printSelectedData()">طباعة البيانات المحددة</button>
+</div>

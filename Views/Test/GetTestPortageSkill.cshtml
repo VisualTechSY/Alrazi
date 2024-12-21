@@ -27,14 +27,18 @@
 {
 
     <div class="row">
-        <div class="col-4"></div>
         <div class="col-4">
             <div class="mb-3">
                 <label for="name" class="form-label">اسم الطفل</label>
                 <input type="text" class="form-control" value="@Model.FirstOrDefault()?.Student.FullName" readonly>
             </div>
         </div>
-        <div class="col-4"></div>
+        <div class="col-4">
+            <div class="mb-3">
+                <label for="name" class="form-label">تاريخ المقابلة</label>
+                <input id="TestDateSkill" class="form-control" value="@DateTime.Now.ToString("yyyy-MM-dd")" readonly>
+            </div>
+        </div>
         <div class="col-4">
             <div class="mb-3">
                 <label for="name" class="form-label">تاريخ الميلاد</label>
@@ -43,8 +47,14 @@
         </div>
         <div class="col-4">
             <div class="mb-3">
-                <label for="name" class="form-label">تاريخ المقابلة</label>
-                <input id="TestDateSkill" class="form-control" value="@DateTime.Now.ToString("yyyy-MM-dd")" readonly>
+                <label for="name" class="form-label">الجنس</label>
+                 <input type="text" class="form-control" value="@Model.FirstOrDefault()?.Student.Gender" readonly>
+            </div>
+        </div>
+        <div class="col-4">
+            <div class="mb-3">
+                <label for="name" class="form-label">القائم بالاختبار</label>
+                <input type="text" class="form-control" value="@Model.FirstOrDefault()?.Examiner" readonly>
             </div>
         </div>
         <div class="col-4">
@@ -98,7 +108,7 @@ else
                                 <th>الخام</th>
                                 <th>العلامة</th>
                                 <th>المجموع</th>
-                                <th>المحصلة</th>
+                                <th>نسبة الأداء</th>
                             </tr>
                         </thead>
                         <tbody>
@@ -294,6 +304,7 @@ else
         </div>
     </div>
 </div>
+
 
 <script>
 

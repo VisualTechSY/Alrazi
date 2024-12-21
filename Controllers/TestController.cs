@@ -82,7 +82,7 @@ namespace Alrazi.Controllers
         {
             if (!HttpContext.HasSession())
                 return RedirectToAction("Index", "Home");
-            ViewBag.selectedTestId=testId;
+            ViewBag.selectedTestId = testId;
             Student testPortages = await testService.GetTestPortageWithOutSkill(studentId);
             return View(testPortages);
         }
@@ -93,9 +93,9 @@ namespace Alrazi.Controllers
             if (!HttpContext.HasSession())
                 return RedirectToAction("Index", "Home");
 
-            int stdId= await testService.AddTestPortageSkill(testPortage);
+            int stdId = await testService.AddTestPortageSkill(testPortage);
             ViewBag.selectedTestId = testPortage.Id;
-             return RedirectToAction("GetTestPortageSkill", new { studentId = stdId });
+            return RedirectToAction("GetTestPortageSkill", new { studentId = stdId });
         }
 
         //طباعة تقرير الاختبار الواحد
@@ -122,6 +122,36 @@ namespace Alrazi.Controllers
 
             List<TestPortage> getTest = await testService.GetStudentTestPortageSkill(studentId);
             return View(getTest);
+        }
+        public async Task<IActionResult> GetTestPortageIndividualPlan()
+        {
+            if (!HttpContext.HasSession())
+                return RedirectToAction("Index", "Home");
+
+            List<string> plans = new()
+            {
+             "ينظر لشخص يحاول أن يشد انتباهه بالحديث إليه أو الحركة أمامه",
+             "يبتسم، أو يصدر أصوات أو يكف عن البكاء استجابة لوجوده في محيط العائلة.",
+             "يربت ويشد على ملامح وجه شخص كبير(الشعر، الأنف ، النظارات..الخ)",
+             "يتواصل بصرياً لمدة من 2 - 3 دقائق عندما يكون برعاية شخص",
+             "يلعب لعبة الاستغماية باليد(أوبي ، دي عيني ، بيكابو) مقلداً",
+             "يصفق باليدين مقلداً الكبار",
+             "يقول باي، باي بيده مقلدا الكبار",
+             "يحضن، ويربت يقبل أشخاص مألوفين",
+             "يتجاوب عند سماع اسمه الشخصي بالنظر أو مد الذراعين كي يحمل",
+             "يمد اللعب أو الأشياء إلى الكبير ويطلق سراحها",
+             "يشارك بأشياء أو طعام مع الآخرين عندما يطلب منه",
+             "يحيي أطفال بعمره ومكانته والكبار المألوفين عندما يذكر",
+             "يحضر أو يأخذ شيء من غرفة إلى أخرى عندما يعطى التعليمات",
+             "يظهر محاولة لمساعدة والدته أو والده بمهامهما وذلك بعمل جزء من الشغل: حمل الغسيل ، نقل المكنسة ... إلخ",
+             "يحيي الكبار المألوفين لديه بدون تذكير",
+             "يقول شكراً من غير تذكير حوالي 50 % من الوقت",
+             "يجيب على الهاتف، ينادي الكبير أو يتحدث إلى شخص مألوف",
+             "يستجيب لطلب الكبار 75 % من الوقت",
+             "يجيب على أسئلة الكبار الموجهة له حول ألعابه أو اهتماماته",
+             "يأخذ الأذن لاستعمال أدوات تخص الآخرين 75 % من الوقت"
+            };
+            return View(plans);
         }
 
         #endregion
