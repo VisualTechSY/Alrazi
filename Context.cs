@@ -41,6 +41,7 @@ namespace Alrazi
         public DbSet<TestPortage> TestPortages { get; set; }
         public DbSet<TestPortageDetails> TestPortageDetails { get; set; }
         public DbSet<TestPortageSkill> TestPortageSkills { get; set; }
+        public DbSet<TestPortageSkillDetalis> TestPortageSkillDetalis { get; set; }
         public DbSet<TestStanfordBinet> TestStanfordBinets { get; set; }
         public DbSet<TestStanfordBinetDetails> TestStanfordBinetDetails { get; set; }
 
