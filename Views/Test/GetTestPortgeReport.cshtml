@@ -100,17 +100,17 @@
                                 <td>@item.Mark</td>
                                 <td>@item.Grade</td>
                                 <td>@TestManager.GetTestPortageSubjectArabic(item.TestPortageSubject)</td>
-                                
+
                                 @{
                                     //todo check calc
-                                    var temp =( 
-                                        (new Birthday(Model.Student.BirthDate, Model.TestDate).TotalMonth) 
-                                      - ((int.Parse(item.AgeGrowthYear) * 12) + int.Parse(item.AgeGrowthMonth))
-                                             )/12;
+                                    var temp = (
+                                    (new Birthday(Model.Student.BirthDate, Model.TestDate).TotalMonth)
+                                    - ((int.Parse(item.AgeGrowthYear) * 12) + int.Parse(item.AgeGrowthMonth))
+                                    ) / 12;
                                     <td>@temp</td>
                                 }
 
-                               
+
                             </tr>
                         }
                     </tbody>
@@ -124,78 +124,95 @@
 <div class="row">
     <div class="col-12">
         <div class="card">
-            <div class="card-body">
-                @{
-                    var Social = @Model.TestPortageDetails.First(x => x.TestPortageSubject == Alrazi.Enums.Test.TestPortageSubject.Social);
-                    var Knowledge = @Model.TestPortageDetails.First(x => x.TestPortageSubject == Alrazi.Enums.Test.TestPortageSubject.Knowledge);
-                    var Communication = @Model.TestPortageDetails.First(x => x.TestPortageSubject == Alrazi.Enums.Test.TestPortageSubject.Communication);
-                    var Care = @Model.TestPortageDetails.First(x => x.TestPortageSubject == Alrazi.Enums.Test.TestPortageSubject.Care);
-                    var Movement = @Model.TestPortageDetails.First(x => x.TestPortageSubject == Alrazi.Enums.Test.TestPortageSubject.Movement);
-                    <p>
-                        <b>العمر الاجتماعي</b><br />
-                        يحدد مستوى أداء الطفل على المهارات الاجتماعية كالتفاعل مع الآخرين من أقارب وأصدقاء، وكذلك حسن التصرف في المواقف الاجتماعية التي يواجهها الطفل.
-                        <br />
-                        العمر الاجتماعي للطفل: @Social.AgeGrowthYear سنوات   و @Social.AgeGrowthMonth شهر.
-                        <br />
-                       نسبة الأداء: (@Social.Mark%)
-                        <br />
-                        مستوى الأداء: @Social.Grade
-                        <br />
-                        أي يوجد لدى الطفل @Social.Grade في البعد الاجتماعي مقارنةً بأداء الأطفال الذين هم في نفس العمر الزمني.
-                    
-                        <br /><b>العمر المعرفي</b><br />
-                        يحدد مستوى أداء الطفل على المهارات المعرفية الخاصة بمرحلة ما قبل المدرسة وفي المرحلة الأساسية الأولى مثل الإشارة إلى الألوان وتسمية الصور ومطابقة الأشكال الهندسية.
-                        <br />
-                        العمر المعرفي للطفل: @Knowledge.AgeGrowthYear سنوات   و @Knowledge.AgeGrowthMonth شهر
-                        <br />
-                        نسبة الأداء: (@Knowledge.Mark%)
-                        <br />
-                        مستوى الأداء: @Knowledge.Grade
-                        <br />
-                        أي يوجد لدى الطفل @Knowledge.Grade في البعد المعرفي مقارنةً بأداء الأطفال الذين هم في نفس العمر الزمني.
+                        <div class="card-body">
+                            @{
+                                var Social = @Model.TestPortageDetails.First(x => x.TestPortageSubject == Alrazi.Enums.Test.TestPortageSubject.Social);
+                                var Knowledge = @Model.TestPortageDetails.First(x => x.TestPortageSubject == Alrazi.Enums.Test.TestPortageSubject.Knowledge);
+                                var Communication = @Model.TestPortageDetails.First(x => x.TestPortageSubject == Alrazi.Enums.Test.TestPortageSubject.Communication);
+                                var Care = @Model.TestPortageDetails.First(x => x.TestPortageSubject == Alrazi.Enums.Test.TestPortageSubject.Care);
+                                var Movement = @Model.TestPortageDetails.First(x => x.TestPortageSubject == Alrazi.Enums.Test.TestPortageSubject.Movement);
+                                <p>
+                                    <b>العمر الاجتماعي</b><br />
+                                    يحدد مستوى أداء الطفل على المهارات الاجتماعية كالتفاعل مع الآخرين من أقارب وأصدقاء، وكذلك حسن التصرف في المواقف الاجتماعية التي يواجهها الطفل.
+                                    <br />
+                                    العمر الاجتماعي للطفل: @Social.AgeGrowthYear سنوات   و @Social.AgeGrowthMonth شهر.
+                                    &emsp;
+                                    نسبة الأداء: (@Social.Mark%)
+                                    &emsp;
+                                    مستوى الأداء: @Social.Grade
+                                    <br />
+                                    أي يوجد لدى الطفل @Social.Grade في البعد الاجتماعي مقارنةً بأداء الأطفال الذين هم في نفس العمر الزمني.
 
-                        <br /><b>العمر الاتصالي</b><br />
-                        يحدد مستوى أداء الطفل في المهارات التواصلية من لغة استقبالية وتعبيرية.
-                        <br />
-                        العمر الاتصالي للطفل: @Communication.AgeGrowthYear سنوات   و @Communication.AgeGrowthMonth شهر.
-                        <br />
-                        نسبة الأداء: (@Communication.Mark%)    
-                         <br />
-                         مستوى الأداء: @Communication.Grade .
-                        <br />
-                        أي لدى الطفل  @Communication.Grade  في البعد الاتصالي مقارنةً بأداء الأطفال الذين هم في نفس العمر الزمني.
+                                    <br /><b>العمر المعرفي</b><br />
+                                    يحدد مستوى أداء الطفل على المهارات المعرفية الخاصة بمرحلة ما قبل المدرسة وفي المرحلة الأساسية الأولى مثل الإشارة إلى الألوان وتسمية الصور ومطابقة الأشكال الهندسية.
+                                    <br />
+                                    العمر المعرفي للطفل: @Knowledge.AgeGrowthYear سنوات   و @Knowledge.AgeGrowthMonth شهر
+                                    &emsp;
+                                    نسبة الأداء: (@Knowledge.Mark%)
+                                    &emsp;
+                                    مستوى الأداء: @Knowledge.Grade
+                                    <br />
+                                    أي يوجد لدى الطفل @Knowledge.Grade في البعد المعرفي مقارنةً بأداء الأطفال الذين هم في نفس العمر الزمني.
 
-                        <br /><b>العمر في العناية بالذات</b><br />
-                        يحدد مستوى أداء الطفل على مهارات العناية الذاتية مثل تحمل الطفل للمسؤولية واعتماده على نفسه في المأكل، الملبس، وقضاء حاجاته الخاصة.
-                        <br />
-                        العمر في العناية بالذات للطفل: @Care.AgeGrowthYear سنوات   و @Care.AgeGrowthMonth شهر.
-                        <br />
-                         نسبة الأداء: (@Care.Mark%)
-                        <br />
-                        مستوى الأداء: @Care.Grade
-                        <br />
-                        أي يوجد لدى الطفل @Care.Grade في بُعد العناية الذاتية مقارنةً بأداء الأطفال الذين هم في نفس العمر الزمني.
-                       
-                        <br /><b>العمر الحركي</b><br />
-                        يحدد مستوى أداء الطفل على المهارات الحركية الكبيرة مثل المشي والقفز، والمهارات الحركية الدقيقة كاستعمال المقص أو العمل بالمعجون.
-                        <br />
-                        العمر الحركي للطفل: @Movement.AgeGrowthYear سنوات   و @Movement.AgeGrowthMonth شهر.
-                        <br />
-                       نسبة الأداء: (@Movement.Mark%)   
-                         <br />
-                         مستوى الأداء: @Movement.Grade
-                        <br />
-                        أي يوجد لدى الطفل @Movement.Grade في البُعد الحركي مقارنةً بأداء الأطفال الذين هم في نفس العمر الزمني.
+                                    <br /><b>العمر الاتصالي</b><br />
+                                    يحدد مستوى أداء الطفل في المهارات التواصلية من لغة استقبالية وتعبيرية.
+                                    <br />
+                                    العمر الاتصالي للطفل: @Communication.AgeGrowthYear سنوات   و @Communication.AgeGrowthMonth شهر.
+                                    &emsp;
+                                    نسبة الأداء: (@Communication.Mark%)
+                                    &emsp;
+                                    مستوى الأداء: @Communication.Grade .
+                                    <br />
+                                    أي لدى الطفل  @Communication.Grade  في البعد الاتصالي مقارنةً بأداء الأطفال الذين هم في نفس العمر الزمني.
 
-                        <br /><b>خلاصة</b><br />
-                        @Model.Summary
-                        <br /><b>توصيات</b><br />
-                        @Model.Recommendations
-                        
-                        </p>
+                                    <br /><b>العمر في العناية بالذات</b><br />
+                                    يحدد مستوى أداء الطفل على مهارات العناية الذاتية مثل تحمل الطفل للمسؤولية واعتماده على نفسه في المأكل، الملبس، وقضاء حاجاته الخاصة.
+                                    <br />
+                                    العمر في العناية بالذات للطفل: @Care.AgeGrowthYear سنوات   و @Care.AgeGrowthMonth شهر.
+                                    &emsp;
+                                    نسبة الأداء: (@Care.Mark%)
+                                    &emsp;
+                                    مستوى الأداء: @Care.Grade
+                                    <br />
+                                    أي يوجد لدى الطفل @Care.Grade في بُعد العناية الذاتية مقارنةً بأداء الأطفال الذين هم في نفس العمر الزمني.
 
-                }
-            </div>
+                                    <br /><b>العمر الحركي</b><br />
+                                    يحدد مستوى أداء الطفل على المهارات الحركية الكبيرة مثل المشي والقفز، والمهارات الحركية الدقيقة كاستعمال المقص أو العمل بالمعجون.
+                                    <br />
+                                    العمر الحركي للطفل: @Movement.AgeGrowthYear سنوات   و @Movement.AgeGrowthMonth شهر.
+                                    &emsp;
+                                    نسبة الأداء: (@Movement.Mark%)
+                                    &emsp;
+                                    مستوى الأداء: @Movement.Grade
+                                    <br />
+                                    أي يوجد لدى الطفل @Movement.Grade في البُعد الحركي مقارنةً بأداء الأطفال الذين هم في نفس العمر الزمني.
+
+                                </p>
+                                    <form method="post">
+
+                                        <input type="hidden" name="id" value="@Model.Id" />
+
+                                        <div class="col-12">
+                                            <div class="mb-3">
+                                                <label for="name" class="form-label">خلاصة</label>
+                                                <textarea type="text" name="Summary" class="form-control">@Model.Summary</textarea>
+                                            </div>
+                                        </div>
+
+                                        <div class="col-12">
+                                            <div class="mb-3">
+                                                <label for="name" class="form-label">توصيات</label>
+                                                <textarea type="text" name="Recommendations" class="form-control">@Model.Recommendations</textarea>
+                                            </div>
+                                        </div>
+
+                                        <div style="padding-top:20px">
+                                            <button type="submit" class="btn btn-primary">حفظ وطباعة</button>
+                                        </div>
+                                    </form>
+
+                            }
+                        </div>
             </<div>
             </div>
         </div>
