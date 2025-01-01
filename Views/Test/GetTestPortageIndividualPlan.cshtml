@@ -1,38 +1,99 @@
-﻿@model List<string>
+﻿@using Alrazi.ViewModel
+@model List<TestPortageIndividualPlanVM>
 @{
-    ViewData["Title"] = "عرض اختبار بورتج قائمة الشطب";
+    ViewData["Title"] = "الخطة الفردية";
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
 
-<div class="row">
-    <div class="col-12">
-        <div class="card">
-                <table class="table table-centered mb-0" id="table1">
-                        <thead class="table-dark">
-                    <tr>
-                        <th colspan="2">
-                            التفاعل مع الآخرين
-                        </th>
-                    </tr>
+<body>
+    <div class="row">
+        <div class="col-12">
+            <div class="card">
+                @{int index=0;}
+                @foreach (var item in Model)
+                {
+                    string elementId = "table" + ++index;
+
+                    <table class="data-table table-centered mb-0" id=@elementId>
+                        <thead>
+                            <tr>
+                                <th colspan="4">@item.TitleGroup</th>
+                            </tr> 
                             <tr>
                                 <th>اختيار</th>
-                                <th>السلوك</th>
+                                <th>م</th>
+                                <th>الهدف</th>
+                                <th>الدرجة</th>
                             </tr>
                         </thead>
                         <tbody>
-
-            @foreach (var item in Model)
-            {
-                            <tr>
-                                <td><input type="checkbox" class="row-checkbox" data-name="@item"/></td>
-                                <td>@item</td>
-                            </tr>
-            }
+                            @{int serial=0;}
+                            @foreach (var Quastion in item.Quastions)
+                            {
+                                <tr>
+                                    <td><input type="checkbox" class="row-checkbox" data-table=@elementId></td>
+                                    <td>@(++serial)</td>
+                                    <td>@Quastion</td>
+                                    <td></td>
+                                </tr>
+                            }
                         </tbody>
                     </table>
+                }
 
+            </div>
         </div>
+        <button onclick="printSelectedData()">طباعة البيانات المحددة</button>
     </div>
-<button onclick="printSelectedData()">طباعة البيانات المحددة</button>
-</div>
+
+
+    <script>
+        function printSelectedData() {
+            const selectedRows = document.querySelectorAll('.row-checkbox:checked');
+            const groupedTables = {};
+
+            // تجميع البيانات حسب الجداول
+            selectedRows.forEach(row => {
+                const tableId = row.getAttribute('data-table');
+                const table = document.getElementById(tableId);
+                const header = table.querySelector('thead').outerHTML;
+
+                // استخراج الصف بدون العمود الأول
+                const rowCells = Array.from(row.closest('tr').cells).slice(1);
+                const rowData = `<tr>${rowCells.map(cell => cell.outerHTML).join('')}</tr>`;
+
+                if (!groupedTables[tableId]) {
+                    groupedTables[tableId] = {
+                        header: header,
+                        rows: []
+                    };
+                }
+
+                groupedTables[tableId].rows.push(rowData);
+            });
+
+            // إنشاء المحتوى للطباعة
+            let printContent = '';
+            for (const tableId in groupedTables) {
+                const tableData = groupedTables[tableId];
+                // إزالة العمود الأول من الترويسة
+                const headerWithoutFirstColumn = tableData.header.replace(/<th>.*?<\/th>/, '');
+                printContent += '<table border="1" cellpadding="5" cellspacing="0" style="width:100%; text-align:center;">';
+                printContent += headerWithoutFirstColumn;
+                printContent += '<tbody>';
+                tableData.rows.forEach(row => {
+                    printContent += row;
+                });
+                printContent += '</tbody></table>';
+            }
+
+            const printWindow = window.open('', '', 'height=600,width=800');
+            printWindow.document.write('<html dir="rtl"><head><title>طباعة</title></head><body>');
+            printWindow.document.write(printContent);
+            printWindow.document.write('</body></html>');
+            printWindow.document.close();
+            printWindow.print();
+        }
+    </script>
+</body>
