@@ -51,7 +51,7 @@
 
 <div class="row">
 
-		<div class="col-md-4 grid-margin stretch-card notdone">
+		<div class="col-md-6 grid-margin stretch-card notdone">
 			<div class="card">
 				<div class="card-body">
 					<div class="d-flex flex-row">
@@ -61,10 +61,19 @@
 
 						<a href="~/Test/AddTest?studentId=@Model.Id&testType=@TestType.Portage" class="mt-2 text-success font-weight-bold p-2">إضافة الصورة الجانبية </a>
 						<a href="~/Test/GetTest?studentId=@Model.Id&testType=@TestType.Portage" class="mt-2 text-success font-weight-bold p-2">عرض الاختبارات</a>
-							<br />
-							<br />
+						تاربخ اخر اختبار: 
+						@{
+							DateTime? date = Model.TestPortages.FirstOrDefault()?.TestDate;
+						@(date is null || date == default(DateTime) ? "لا يوجد" : Model.TestPortages.First().TestDate.ToShortDateString())
+						}
+						<br /><br />
 						<a href="~/Test/AddTest?studentId=@Model.Id&testType=@TestType.PortageSkill" class="mt-2 text-success font-weight-bold p-2">إضافة قائمة الشطب </a>
 						<a href="~/Test/GetTest?studentId=@Model.Id&testType=@TestType.PortageSkill" class="mt-2 text-success font-weight-bold p-2">عرض الاختبارات</a>
+						تاربخ اخر اختبار:
+						@{
+							DateTime? date2 = Model.TestPortages.FirstOrDefault()?.LastTestDateSkill;
+							@(date2 is null || date2 == default(DateTime) ? "لا يوجد" : Model.TestPortages.First().LastTestDateSkill.ToShortDateString())
+						}
 						<br /><br />
 						<a href="~/Test/GetTestPortageIndividualPlan" class="mt-2 text-success font-weight-bold p-2">طباعة الخطة الفردية</a>
 						</div>
@@ -73,7 +82,7 @@
 			</div>
 		</div>
 
-		<div class="col-md-4 grid-margin stretch-card notdone">
+		<div class="col-md-6 grid-margin stretch-card notdone">
 			<div class="card">
 				<div class="card-body">
 					<div class="d-flex flex-row">
