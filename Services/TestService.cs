@@ -13,6 +13,15 @@ namespace Alrazi.Services
                                         .Include(x => x.Student)
                                         .FirstAsync(x => x.Id == testId);
         }
+        public async Task<TestPortage> UpdateSummaryTestPortage(TestPortage testPortage)
+        {
+            TestPortage getTestPortage = await context.TestPortages.FindAsync(testPortage.Id);
+
+            getTestPortage.Recommendations = testPortage.Recommendations;
+            getTestPortage.Summary = testPortage.Summary;
+            await context.SaveChangesAsync();
+            return await GetTestPortageById(getTestPortage.Id);
+        }
         public async Task<List<TestPortageDetails>> GetStudentTestPortage(int studentId)
         {
             var getTest = await context.TestPortageDetails
@@ -26,13 +35,24 @@ namespace Alrazi.Services
         public async Task<List<TestPortage>> GetStudentTestPortageSkill(int studentId)
         {
             var getTest = await context.TestPortages
-                                                    .Where(x => x.StudentId == studentId &&x.TestDateSkill != default)
+                                                    .Where(x => x.StudentId == studentId && x.LastTestDateSkill != default)
                                                     .Include(x => x.Student)
                                                     .Include(x => x.TestPortageSkills)
+                                                    .ThenInclude(x => x.TestPortageSkillDetalis)
                                                     .OrderBy(x => x.SerialNumber)
                                                     .ToListAsync();
             return getTest;
         }
+        public async Task<Student> GetLastTestPortage(int studentId)
+        {
+            int maxSerial = context.TestPortages.Where(x => x.StudentId == studentId)?.Max(x => x.SerialNumber) ?? 0;
+
+            return await context.Students
+                .Include(x => x.TestPortages.Where(c => c.SerialNumber == maxSerial))
+                .FirstAsync(x => x.Id == studentId);
+        }
+
+        //صورة جانبية
         public async Task<int> AddTestPortage(TestPortage testPortage)
         {
             var stdTest = context.TestPortages.Where(x => x.StudentId == testPortage.StudentId);
@@ -42,19 +62,16 @@ namespace Alrazi.Services
             await context.SaveChangesAsync();
             return testPortage.Id;
         }
-
-        public async Task<Student> GetTestPortageWithOutSkill(int studentId)
-        {
-            return await context.Students
-                .Include(x => x.TestPortages.Where(c => c.TestDateSkill == default))
-                .FirstAsync(x => x.Id == studentId);
-        }
+        //قائمة شطب
         public async Task<int> AddTestPortageSkill(TestPortage testPortage)
         {
-            var getTestPortageSkill = await context.TestPortages.FirstAsync(x => x.Id == testPortage.Id);
-            getTestPortageSkill.TestDateSkill = testPortage.TestDateSkill;
+            var getTestPortageSkill = await context.TestPortages.Include(x => x.TestPortageSkills).FirstAsync(x => x.Id == testPortage.Id);
+            getTestPortageSkill.LastTestDateSkill = testPortage.TestPortageSkills[0].TestDateSkill;
+            //todo
 
-            testPortage.TestPortageSkills.ForEach(x => x.TestPortageId = testPortage.Id);
+            int maxSerial = getTestPortageSkill.LastTestDateSkill == default ? 1 : getTestPortageSkill.TestPortageSkills.Max(x => x.SerialNumber) + 1;
+            testPortage.TestPortageSkills[0].SerialNumber = maxSerial;
+            testPortage.TestPortageSkills[0].TestPortageId = testPortage.Id;
 
             await context.TestPortageSkills.AddRangeAsync(testPortage.TestPortageSkills);
             await context.SaveChangesAsync();

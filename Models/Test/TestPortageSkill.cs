@@ -5,12 +5,16 @@ namespace Alrazi.Models.Test
 {
 	public class TestPortageSkill
 	{
+		/// <summary>
+		/// قائمة الشطب
+		/// </summary>
 		public int Id { get; set; }
 		public int TestPortageId { get; set; }
 		public TestPortage TestPortage { get; set; }
 
-		public TestPortage_Skill TestPortage_Skill { get; set; }
+        public int SerialNumber { get; set; }
+        public DateTime TestDateSkill { get; set; }
 
-		public double Mark { get; set; }
-	}
+        public List<TestPortageSkillDetalis> TestPortageSkillDetalis { get; set; }
+    }
 }

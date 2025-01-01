@@ -71,7 +71,7 @@
             <div class="col-4">
                 <div class="mb-3">
                     <label for="name" class="form-label">تاريخ المقابلة</label>
-                    <input type="date" id="TestDateSkill" required name="TestDateSkill" class="form-control" onchange="getAgeDateTime()" value="@DateTime.Now.ToString("yyyy-MM-dd")">
+                    <input type="date" id="TestDateSkill" required name="TestPortageSkills[0].TestDateSkill" class="form-control" onchange="getAgeDateTime()" value="@DateTime.Now.ToString("yyyy-MM-dd")">
                 </div>
             </div>
             <div class="col-4">
@@ -109,8 +109,9 @@
                                     100
                                 </td>
                                 <td>
-                                    <input type="hidden" name="TestPortageSkills[0].TestPortage_Skill" value="@TestPortage_Skill.Social_InteractWithOthers" />
-                                    <input type="text" class="form-control" name="TestPortageSkills[0].Mark" required />
+                                 
+                                    <input type="hidden" name="TestPortageSkills[0].TestPortageSkillDetalis[0].TestPortage_Skill" value="@TestPortage_Skill.Social_InteractWithOthers" />
+                                    <input type="text" class="form-control" name="TestPortageSkills[0].TestPortageSkillDetalis[0].Mark" required />
                                 </td>
                             </tr>
                             <tr>
@@ -121,8 +122,8 @@
                                     100
                                 </td>
                                 <td>
-                                    <input type="hidden" name="TestPortageSkills[1].TestPortage_Skill" value="@TestPortage_Skill.Social_Emotionalskills" />
-                                    <input type="text" class="form-control" name="TestPortageSkills[1].Mark" required />
+                                    <input type="hidden" name="TestPortageSkills[0].TestPortageSkillDetalis[1].TestPortage_Skill" value="@TestPortage_Skill.Social_Emotionalskills" />
+                                    <input type="text" class="form-control" name="TestPortageSkills[0].TestPortageSkillDetalis[1].Mark" required />
                                 </td>
                             </tr>
                             <tr>
@@ -133,8 +134,8 @@
                                     100
                                 </td>
                                 <td>
-                                    <input type="hidden" name="TestPortageSkills[2].TestPortage_Skill" value="@TestPortage_Skill.Social_InteractWithGames" />
-                                    <input type="text" class="form-control" name="TestPortageSkills[2].Mark" required />
+                                    <input type="hidden" name="TestPortageSkills[0].TestPortageSkillDetalis[2].TestPortage_Skill" value="@TestPortage_Skill.Social_InteractWithGames" />
+                                    <input type="text" class="form-control" name="TestPortageSkills[0].TestPortageSkillDetalis[2].Mark" required />
                                 </td>
                             </tr>
 
@@ -150,8 +151,8 @@
                                     100
                                 </td>
                                 <td>
-                                    <input type="hidden" name="TestPortageSkills[3].TestPortage_Skill" value="@TestPortage_Skill.Knowledge_SensorySkills" />
-                                    <input type="text" class="form-control" name="TestPortageSkills[3].Mark" required />
+                                    <input type="hidden" name="TestPortageSkills[0].TestPortageSkillDetalis[3].TestPortage_Skill" value="@TestPortage_Skill.Knowledge_SensorySkills" />
+                                    <input type="text" class="form-control" name="TestPortageSkills[0].TestPortageSkillDetalis[3].Mark" required />
                                 </td>
                             </tr>
                             <tr>
@@ -162,8 +163,8 @@
                                     100
                                 </td>
                                 <td>
-                                    <input type="hidden" name="TestPortageSkills[4].TestPortage_Skill" value="@TestPortage_Skill.Knowledge_ExploreAndThink" />
-                                    <input type="text" class="form-control" name="TestPortageSkills[4].Mark" required />
+                                    <input type="hidden" name="TestPortageSkills[0].TestPortageSkillDetalis[4].TestPortage_Skill" value="@TestPortage_Skill.Knowledge_ExploreAndThink" />
+                                    <input type="text" class="form-control" name="TestPortageSkills[0].TestPortageSkillDetalis[4].Mark" required />
                                 </td>
                             </tr>
 
@@ -178,8 +179,8 @@
                                     100
                                 </td>
                                 <td>
-                                    <input type="hidden" name="TestPortageSkills[5].TestPortage_Skill" value="@TestPortage_Skill.Communication_CommunicationAndLanguage" />
-                                    <input type="text" class="form-control" name="TestPortageSkills[5].Mark" required />
+                                    <input type="hidden" name="TestPortageSkills[0].TestPortageSkillDetalis[5].TestPortage_Skill" value="@TestPortage_Skill.Communication_CommunicationAndLanguage" />
+                                    <input type="text" class="form-control" name="TestPortageSkills[0].TestPortageSkillDetalis[5].Mark" required />
                                 </td>
                             </tr>
                             <tr>
@@ -190,8 +191,8 @@
                                     100
                                 </td>
                                 <td>
-                                    <input type="hidden" name="TestPortageSkills[6].TestPortage_Skill" value="@TestPortage_Skill.Communication_EarlyReading" />
-                                    <input type="text" class="form-control" name="TestPortageSkills[6].Mark" required />
+                                    <input type="hidden" name="TestPortageSkills[0].TestPortageSkillDetalis[6].TestPortage_Skill" value="@TestPortage_Skill.Communication_EarlyReading" />
+                                    <input type="text" class="form-control" name="TestPortageSkills[0].TestPortageSkillDetalis[6].Mark" required />
                                 </td>
                             </tr>
 
@@ -206,8 +207,8 @@
                                     100
                                 </td>
                                 <td>
-                                    <input type="hidden" name="TestPortageSkills[7].TestPortage_Skill" value="@TestPortage_Skill.Care_Nutrition" />
-                                    <input type="text" class="form-control" name="TestPortageSkills[7].Mark" required />
+                                    <input type="hidden" name="TestPortageSkills[0].TestPortageSkillDetalis[7].TestPortage_Skill" value="@TestPortage_Skill.Care_Nutrition" />
+                                    <input type="text" class="form-control" name="TestPortageSkills[0].TestPortageSkillDetalis[7].Mark" required />
                                 </td>
                             </tr>
                             <tr>
@@ -218,8 +219,8 @@
                                     100
                                 </td>
                                 <td>
-                                    <input type="hidden" name="TestPortageSkills[8].TestPortage_Skill" value="@TestPortage_Skill.Care_Cleanliness" />
-                                    <input type="text" class="form-control" name="TestPortageSkills[8].Mark" required />
+                                    <input type="hidden" name="TestPortageSkills[0].TestPortageSkillDetalis[8].TestPortage_Skill" value="@TestPortage_Skill.Care_Cleanliness" />
+                                    <input type="text" class="form-control" name="TestPortageSkills[0].TestPortageSkillDetalis[8].Mark" required />
                                 </td>
                             </tr>
                             <tr>
@@ -230,8 +231,8 @@
                                     100
                                 </td>
                                 <td>
-                                    <input type="hidden" name="TestPortageSkills[9].TestPortage_Skill" value="@TestPortage_Skill.Care_GettingDressed" />
-                                    <input type="text" class="form-control" name="TestPortageSkills[9].Mark" required />
+                                    <input type="hidden" name="TestPortageSkills[0].TestPortageSkillDetalis[9].TestPortage_Skill" value="@TestPortage_Skill.Care_GettingDressed" />
+                                    <input type="text" class="form-control" name="TestPortageSkills[0].TestPortageSkillDetalis[9].Mark" required />
                                 </td>
                             </tr>
 
@@ -246,8 +247,8 @@
                                     100
                                 </td>
                                 <td>
-                                    <input type="hidden" name="TestPortageSkills[10].TestPortage_Skill" value="@TestPortage_Skill.Movement_MajourSkills" />
-                                    <input type="text" class="form-control" name="TestPortageSkills[10].Mark" required />
+                                    <input type="hidden" name="TestPortageSkills[0].TestPortageSkillDetalis[10].TestPortage_Skill" value="@TestPortage_Skill.Movement_MajourSkills" />
+                                    <input type="text" class="form-control" name="TestPortageSkills[0].TestPortageSkillDetalis[10].Mark" required />
                                 </td>
                             </tr>
                             <tr>
@@ -258,8 +259,8 @@
                                     100
                                 </td>
                                 <td>
-                                    <input type="hidden" name="TestPortageSkills[11].TestPortage_Skill" value="@TestPortage_Skill.Movement_MicroSkills" />
-                                    <input type="text" class="form-control" name="TestPortageSkills[11].Mark" required />
+                                    <input type="hidden" name="TestPortageSkills[0].TestPortageSkillDetalis[11].TestPortage_Skill" value="@TestPortage_Skill.Movement_MicroSkills" />
+                                    <input type="text" class="form-control" name="TestPortageSkills[0].TestPortageSkillDetalis[11].Mark" required />
                                 </td>
                             </tr>
 
@@ -271,8 +272,8 @@
                                     100
                                 </td>
                                 <td>
-                                    <input type="hidden" name="TestPortageSkills[12].TestPortage_Skill" value="@TestPortage_Skill.Movement_PreWriting" />
-                                    <input type="text" class="form-control" name="TestPortageSkills[12].Mark" required />
+                                    <input type="hidden" name="TestPortageSkills[0].TestPortageSkillDetalis[12].TestPortage_Skill" value="@TestPortage_Skill.Movement_PreWriting" />
+                                    <input type="text" class="form-control" name="TestPortageSkills[0].TestPortageSkillDetalis[12].Mark" required />
                                 </td>
                             </tr>
 

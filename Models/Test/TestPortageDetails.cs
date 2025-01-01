@@ -6,6 +6,9 @@ namespace Alrazi.Models.Test
 {
     public class TestPortageDetails
     {
+        /// <summary>
+        /// الصورة الجانبية
+        /// </summary>
         public int Id { get; set; }
 
         public int TestPortageId { get; set; }

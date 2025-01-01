@@ -29,7 +29,7 @@
         <div class="col-4">
             <div class="mb-3">
                 <label for="name" class="form-label">اسم الطفل</label>
-                <input type="text" class="form-control" value="@Model.FullName"  readonly>
+                <input type="text" class="form-control" value="@Model.FullName" readonly>
             </div>
         </div>
         <div class="col-4">
@@ -82,56 +82,40 @@
                     <tbody>
                         @{
                             int index = 0;
-                                <input type="hidden" name="StudentId" value="@Model.Id" />
+                            <input type="hidden" name="StudentId" value="@Model.Id" />
 
                             foreach (var item in Enum.GetValues<TestPortageSubject>())
                             {
-                                    <input type="hidden" class="form-control" name="TestPortageDetails[@index].TestPortageSubject" value="@item" />
-                                    <tr>
-                                        <td>
-                                            @TestManager.GetTestPortageSubjectArabic(item)
-                                        </td>
-                                        <td>
-                                            <input type="text" class="form-control" name="TestPortageDetails[@index].AgeTheBase" required />
-                                        </td>
-                                        <td>
-                                            <input type="text" class="form-control" name="TestPortageDetails[@index].AgeAddonal" required />
-                                        </td>
-                                        <td>
-                                            <input type="text" class="form-control" name="TestPortageDetails[@index].AgeGrowth" required />
-                                        </td>
-                                        <td>
-                                            <input type="number" class="form-control" id="@("Mark"+index)" name="TestPortageDetails[@index].Mark" onchange="fillResult(@index)" required />
-                                        </td>
-                                        <td>
-                                            <input type="text" class="form-control" id="@("Result"+index)" disapled readonly />
-                                        </td>
-                                    </tr>
+                                <input type="hidden" class="form-control" name="TestPortageDetails[@index].TestPortageSubject" value="@item" />
+                                <tr>
+                                    <td>
+                                        @TestManager.GetTestPortageSubjectArabic(item)
+                                    </td>
+                                    <td>
+                                        <input type="text" class="form-control" name="TestPortageDetails[@index].AgeTheBase" required />
+                                    </td>
+                                    <td>
+                                        <input type="text" class="form-control" name="TestPortageDetails[@index].AgeAddonal" required />
+                                    </td>
+                                    <td>
+                                        <input type="text" class="form-control" name="TestPortageDetails[@index].AgeGrowth" required />
+                                    </td>
+                                    <td>
+                                        <input type="number" class="form-control" id="@("Mark"+index)" name="TestPortageDetails[@index].Mark" onchange="fillResult(@index)" required />
+                                    </td>
+                                    <td>
+                                        <input type="text" class="form-control" id="@("Result"+index)" disapled readonly />
+                                    </td>
+                                </tr>
                                 index++;
                             }
                         }
                     </tbody>
                 </table>
             </div>
-
-                <div class="col-12">
-                    <div class="mb-3">
-                        <label for="name" class="form-label">خلاصة</label>
-                        <textarea type="text" name="Summary" class="form-control"></textarea>
-                    </div>
-                </div>
-
-                <div class="col-12">
-                    <div class="mb-3">
-                        <label for="name" class="form-label">توصيات</label>
-                        <textarea type="text" name="Recommendations" class="form-control"></textarea>
-                    </div>
-                </div>
-
-
-                <div style="padding-top:20px">
-                    <button type="submit" class="btn btn-primary">حفظ التعديلات</button>
-                </div>
+            <div style="padding-top:20px">
+                <button type="submit" class="btn btn-primary">حفظ التعديلات</button>
+            </div>
 
         </div>
     </div>
@@ -141,7 +125,7 @@
 
 <script>
 
-   window.onload= getAgeDateTime;
+    window.onload = getAgeDateTime;
 
     function fillResult(index) {
 
@@ -159,7 +143,7 @@
     }
 
 
-        function getAgeDateTime() {
+    function getAgeDateTime() {
         var birthDate = $("#BirthDate").val();
         var studyStateDate = $("#StudyStateDate").val();
         if (birthDate == '' || studyStateDate == '')
@@ -186,6 +170,6 @@
         }
 
         var str = `السنة : ${ageYears} - الشهر : ${ageMonths} - اليوم ${ageDays}`;
-           $("#AgeTimeDate").val(str);
-        }
-    </script>
+        $("#AgeTimeDate").val(str);
+    }
+</script>
