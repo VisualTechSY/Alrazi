@@ -79,12 +79,12 @@ namespace Alrazi.Controllers
             return RedirectToAction("GetTestPortgeReport", new { testId = testId });
         }
 
-        public async Task<IActionResult> AddTestPortageSkill(int studentId, int testId)
+        public async Task<IActionResult> AddTestPortageSkill(int studentId)
         {
             if (!HttpContext.HasSession())
                 return RedirectToAction("Index", "Home");
-            ViewBag.selectedTestId = testId;
             Student testPortages = await testService.GetLastTestPortage(studentId);
+            ViewBag.selectedTestId = testPortages.TestPortages.Any() ? testPortages.TestPortages[0].Id : 0;
             return View(testPortages);
         }
 

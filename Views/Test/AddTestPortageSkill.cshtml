@@ -24,29 +24,6 @@
 </div>
 <!-- end page title -->
 
-<div class="row">
-    <div class="col-4">
-        <div class="mb-3">
-            <label for="name" class="form-label">حدد رقم اختبار لإضافة قائمة الشطب</label>
-
-            <select class="form-control" id="selecttest" onchange="location = this.value;">
-                <option selected value="" disabled>غير محدد</option>
-                @foreach (var item in Model.TestPortages)
-                {
-                    var val = "?studentId=" + item.StudentId + "&" + "testId=" + item.Id;
-                    @if (ViewBag.selectedTestId == item.Id)
-                    {
-                        <option selected value="@val">@item.SerialNumber</option>
-                    }
-                    else
-                    {
-                        <option value="@val">@item.SerialNumber</option>
-                    }
-                }
-            </select>
-        </div>
-    </div>
-</div>
 
 @if (ViewBag.selectedTestId != 0)
 {

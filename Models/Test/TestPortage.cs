@@ -25,9 +25,9 @@ namespace Alrazi.Models.Test
         public DateTime LastTestDateSkill { get; set; }
 
         [DisplayName("خلاصة")]
-        public string Summary { get; set; }
+        public string? Summary { get; set; }
         [DisplayName("توصيات")]
-        public string Recommendations { get; set; }
+        public string? Recommendations { get; set; }
 
         //معلومات الصورة الجانبية
         public List<TestPortageDetails> TestPortageDetails { get; set; }
