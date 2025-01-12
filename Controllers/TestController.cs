@@ -37,6 +37,7 @@ namespace Alrazi.Controllers
                 TestType.Portage => RedirectToAction("AddTestPortage", new { studentId = studentId }),
                 TestType.StanfordBinet => RedirectToAction("AddTestStanfordBinet", new { studentId = studentId }),
                 TestType.PortageSkill => RedirectToAction("AddTestPortageSkill", new { studentId = studentId }),
+                TestType.Raven => RedirectToAction("AddRaven", new { studentId = studentId }),
                 _ => RedirectToAction("Index", "Home"),
             };
         }
@@ -51,6 +52,7 @@ namespace Alrazi.Controllers
                 TestType.Portage => RedirectToAction("GetTestPortage", new { studentId = studentId }),
                 TestType.StanfordBinet => RedirectToAction("GetTestStanfordBinet", new { studentId = studentId }),
                 TestType.PortageSkill => RedirectToAction("GetTestPortageSkill", new { studentId = studentId }),
+                TestType.Raven => RedirectToAction("GetRaven", new { studentId = studentId }),
                 _ => RedirectToAction("Index", "Home"),
             };
         }

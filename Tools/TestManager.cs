@@ -1,4 +1,5 @@
 ﻿using Alrazi.Enums.Test;
+using Alrazi.ViewModel;
 
 namespace Alrazi.Tools
 {
@@ -10,6 +11,7 @@ namespace Alrazi.Tools
             {
                 TestType.Portage => "بورتج",
                 TestType.StanfordBinet => "ستانفورد بينيه للذكاء",
+                TestType.Raven => "رافن",
                 _ => "",
             };
         }
@@ -87,7 +89,6 @@ namespace Alrazi.Tools
             else if (mark <= 119) return "متوسط مرتفع";
             else return "متفوق";
         }
-
 
     }
 }

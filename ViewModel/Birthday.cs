@@ -15,6 +15,11 @@
             //todo round Days>25
             get { return (Years + "," + Months); }
         }
+        public double CalcAge
+        {
+            //todo round Days>25
+            get { return (Years + Months * 0.084); }
+        }
         public override string ToString()
         {
             return Years + " سنوات ," + Months + " أشهر ," + Days + " أيام";
