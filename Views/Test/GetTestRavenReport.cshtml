@@ -1,0 +1,204 @@
+﻿@using Alrazi.Models.Test
+@using Alrazi.Tools
+@using Alrazi.ViewModel
+@model TestRaven
+@{
+    ViewData["Title"] = "نتائج تقييم رافن الملون";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<body>
+    <style>
+        /* استهداف القسم المطلوب فقط عند الطباعة */
+        @@media print {
+            .print-section * {
+                display: none;
+            }
+
+            .print-section input[type="radio"]:checked + label {
+                display: block;
+            }
+        }
+    </style>
+</body>
+
+
+
+<center><h4>نتائج تقييم رافن الملون</h4> </center>
+
+<div class="row">
+
+    <div class="col-4">
+        <div class="mb-3">
+            <label for="name" class="form-label">اسم الطفل</label>
+            <input type="text" class="form-control" value="@Model.Student.FullName" readonly>
+        </div>
+    </div>
+    <div class="col-4">
+        <div class="mb-3">
+            <label for="name" class="form-label">الجنس</label>
+            <input type="text" class="form-control" value="@Model.Student.Gender" readonly>
+        </div>
+    </div>
+    <div class="col-3">
+        <div class="mb-3">
+            <label for="name" class="form-label">تاريخ المقابلة</label>
+            <input type="date" id="TestDate" class="form-control" value="@Model.TestDate.ToString("yyyy-MM-dd")" readonly>
+        </div>
+    </div>
+    <div class="col-1">
+        <div class="mb-3">
+            <label for="name" class="form-label">رقم الاختبار</label>
+            <label inputclass="form-label">@Model.SerialNumber</label>
+        </div>
+    </div>
+
+    <div class="col-4">
+        <div class="mb-3">
+            <label for="name" class="form-label">تاريخ الميلاد</label>
+            <input type="date" id="BirthDate" class="form-control" value="@Model.Student.BirthDate.ToString("yyyy-MM-dd")" readonly>
+        </div>
+    </div>
+    <div class="col-4">
+        <div class="mb-3">
+            <label for="name" class="form-label">العمر الزمني</label>
+            <input type="text" value="@(new Birthday(Model.Student.BirthDate, Model.TestDate))" class="form-control" readonly>
+        </div>
+    </div>
+    <div class="col-4">
+        <div class="mb-3">
+            <label for="name" class="form-label">القائم بالاختبار</label>
+            <input type="text" class="form-control" value="@Model.Examiner" readonly>
+        </div>
+    </div>
+</div>
+
+
+<div class="row">
+    <div class="col-12">
+        <div class="card">
+            <div class="card-body">
+                <p>
+                    من خلال دراسة الحالة
+                    @(Model.Student.IsMale ? "للطفل" : "للطفلة")
+                    تبين
+                    @(Model.Student.IsMale ? "بأنه" : "بأنها")
+                    بحاجة إلى تطبيق اختبار الذكاء المصفوفات المتتابعة الملونة
+                    ( Ravrn )
+                    حيث تم تطبيق الاختبار بالتاريخ المذكور أعلاه  و كانت النتيجة
+                    @(Model.Student.IsMale ? "للطفل" : "للطفلة")
+                    كما هو في الجدول التالي
+
+                </p>
+                <table class="table table-centered mb-0">
+                    <thead class="table-dark">
+                        <tr>
+                            <th rowspan="2">مجموع العلامات</th>
+                            <th rowspan="2">الترتيب المئيني</th>
+                            <th colspan="2" style="text-align:center">نسبة الأداء</th>
+                        </tr>
+                        <tr>
+                            <th style="text-align:center">الدرجة</th>
+                            <th style="text-align:center">المسمى</th>
+                        </tr>
+                    </thead>
+                    <tr>
+                        <td>@Model.Mark</td>
+                        <td>@Model.Centenary</td>
+                        <td style="text-align:center">@Model.ResaultIQ</td>
+                        <td style="text-align:center">@Model.ResaultRank</td>
+                    </tr>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+<div class="row">
+    <div class="col-12">
+        <div class="card">
+            <div class="card-body">
+                @{
+                    <input type="hidden" name="id" value="@Model.Id" />
+                    <div class="col-12">
+                        <div class="mb-3">
+                            <label for="name" class="form-label">خلاصة</label>
+                            <section class="print-section">
+                                <br />
+                                <input type="radio" name="a">
+                                <label>
+                                    بناءً على النتائج التقييم ( Ravrn )  للقدرات غير اللفظية تبين بأن
+                                    نسبة الأداء @Model.ResaultIQ @Model.ResaultRank
+                                    فهو بحاجة إلى تأهيل  التربوي بما يتناسب مع الحالة
+                                </label>
+                                <br />
+                                <input type="radio" name="a">
+                                <label>
+                                    لم يتم تطبيق الاختبار لعدم  استجابة @(Model.Student.IsMale ? "الطفل" : "الطفلة") و يعاد تطبيق الاختبار بعد تنفيذ الخطة الفردية  بما يتناسب مع الحالة
+                                </label>
+                            </section>
+
+                        </div>
+                    </div>
+
+                    <div class="col-12">
+                        <div class="mb-3">
+                            <label for="name" class="form-label">توصيات</label>
+                            <p>
+                                ـ وضع خطة فردية من الناحية النمائية أو السلوكية بما يتناسب مع الطفل / ـة
+                                <br />
+                                ـ تطبيق اختبار سانفورد بينة النسخة الخامسة بعد تنفيذ الخطة الفردية
+                                <br />
+                                ـ إعادة التقييم كل سنة لمقارنة مع الاختبار السابق
+                            </p>
+                        </div>
+                    </div>
+                    <section class="print-section">
+                        <div style="padding-top:20px">
+                            <input type="button" class="btn btn-primary" onclick="print()" value="طباعة">
+                        </div>
+                    </section>
+
+                }
+            </div>
+            </<div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+<script>
+
+    window.onload = onloadpage;
+
+    function onloadpage() {
+        var birthDate = $("#BirthDate").val();
+        var studyStateDate = $("#TestDate").val();
+        if (birthDate == '' || studyStateDate == '') {
+            $("#AgeTimeDate").val('');
+            return;
+        }
+
+        const birthdate = new Date(birthDate);
+        const currentDate = new Date(studyStateDate);
+
+        let ageYears = currentDate.getFullYear() - birthdate.getFullYear();
+        let ageMonths = currentDate.getMonth() - birthdate.getMonth();
+        let ageDays = currentDate.getDate() - birthdate.getDate();
+
+        if (ageDays < 0) {
+            ageMonths--;
+            ageDays += new Date(currentDate.getFullYear(), currentDate.getMonth(), 0).getDate();
+        }
+
+        if (ageMonths < 0) {
+            ageYears--;
+            ageMonths += 12;
+        }
+
+        var str = `السنة : ${ageYears} - الشهر : ${ageMonths} - اليوم ${ageDays}`;
+        $("#AgeTimeDate").val(str);
+    }
+</script>

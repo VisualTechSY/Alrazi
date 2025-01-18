@@ -37,7 +37,7 @@ namespace Alrazi.Controllers
                 TestType.Portage => RedirectToAction("AddTestPortage", new { studentId = studentId }),
                 TestType.StanfordBinet => RedirectToAction("AddTestStanfordBinet", new { studentId = studentId }),
                 TestType.PortageSkill => RedirectToAction("AddTestPortageSkill", new { studentId = studentId }),
-                TestType.Raven => RedirectToAction("AddRaven", new { studentId = studentId }),
+                TestType.Raven => RedirectToAction("AddTestRaven", new { studentId = studentId }),
                 _ => RedirectToAction("Index", "Home"),
             };
         }
@@ -52,7 +52,7 @@ namespace Alrazi.Controllers
                 TestType.Portage => RedirectToAction("GetTestPortage", new { studentId = studentId }),
                 TestType.StanfordBinet => RedirectToAction("GetTestStanfordBinet", new { studentId = studentId }),
                 TestType.PortageSkill => RedirectToAction("GetTestPortageSkill", new { studentId = studentId }),
-                TestType.Raven => RedirectToAction("GetRaven", new { studentId = studentId }),
+                TestType.Raven => RedirectToAction("GetTestRaven", new { studentId = studentId }),
                 _ => RedirectToAction("Index", "Home"),
             };
         }
@@ -684,6 +684,47 @@ namespace Alrazi.Controllers
                 return RedirectToAction("Index", "Home");
 
             List<TestStanfordBinetDetails> getTest = await testService.GetStudentTestStanfordBinet(studentId);
+            return View(getTest);
+        }
+
+        #endregion
+
+
+        #region Raven
+        public async Task<IActionResult> AddTestRaven(int studentId)
+        {
+            if (!HttpContext.HasSession())
+                return RedirectToAction("Index", "Home");
+
+            Student student = await studentService.GetStudent(studentId);
+
+            return View(student);
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> AddTestRaven(TestRaven testRaven)
+        {
+            if (!HttpContext.HasSession())
+                return RedirectToAction("Index", "Home");
+            int testId = await testService.AddTestRaven(testRaven);
+            return RedirectToAction("GetTestRavenReport", new { testId = testId });
+        }
+
+        //جلب تقرير الاختبار الواحد
+        public async Task<IActionResult> GetTestRavenReport(int testId)
+        {
+            if (!HttpContext.HasSession())
+                return RedirectToAction("Index", "Home");
+            TestRaven getTest = await testService.GetTestRavenById(testId);
+            return View(getTest);
+        }
+
+        public async Task<IActionResult> GetTestRaven(int studentId)
+        {
+            if (!HttpContext.HasSession())
+                return RedirectToAction("Index", "Home");
+
+            List<TestRaven> getTest = await testService.GetStudentTestRaven(studentId);
             return View(getTest);
         }
 

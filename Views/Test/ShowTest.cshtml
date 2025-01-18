@@ -91,6 +91,11 @@
 							<h4>@TestManager.GetTestTypeArabic(TestType.StanfordBinet)</h4>
 							<a href="~/Test/AddTest?studentId=@Model.Id&testType=@TestType.StanfordBinet" class="mt-2 text-success font-weight-bold p-2">إضافة إختبار</a>
 							<a href="~/Test/GetTest?studentId=@Model.Id&testType=@TestType.StanfordBinet" class="mt-2 text-success font-weight-bold p-2">عرض الاختبارات</a>
+@* 					تاربخ اخر اختبار:
+						@{
+							DateTime? date3 = Model.TestStanfordBinets.FirstOrDefault()?.TestDate;
+							@(date2 is null || date2 == default(DateTime) ? "لا يوجد" : Model.TestPortages.First().LastTestDateSkill.ToShortDateString())
+						}  *@
 						</div>
 					</div>
 				</div>
@@ -105,6 +110,11 @@
 							<h4>@TestManager.GetTestTypeArabic(TestType.Raven)</h4>
 							<a href="~/Test/AddTest?studentId=@Model.Id&testType=@TestType.Raven" class="mt-2 text-success font-weight-bold p-2">إضافة إختبار</a>
 							<a href="~/Test/GetTest?studentId=@Model.Id&testType=@TestType.Raven" class="mt-2 text-success font-weight-bold p-2">عرض الاختبارات</a>
+@* 						تاربخ اخر اختبار:
+						@{
+							DateTime? date4 = Model.TestRavens.FirstOrDefault()?.TestDate;
+							@(date2 is null || date2 == default(DateTime) ? "لا يوجد" : Model.TestPortages.First().LastTestDateSkill.ToShortDateString())
+						} *@
 						</div>
 					</div>
 				</div>

@@ -110,6 +110,37 @@ namespace Alrazi.Services
 
 
 
+        public async Task<TestRaven> GetTestRavenById(int testId)
+        {
+            TestRaven getTest= await context.TestRavens
+                                        .Include(x => x.Student)
+                                        .FirstAsync(x => x.Id == testId);
+            getTest.CalcResault();
+            return getTest;
+        }
+        public async Task<List<TestRaven>> GetStudentTestRaven(int studentId)
+        {
+            List<TestRaven> getTest = await context.TestRavens
+                                                    .Where(x => x.StudentId == studentId)
+                                                    .Include(x=>x.Student)
+                                                    .OrderByDescending(x => x.SerialNumber)
+                                                    .ToListAsync();
+            foreach (var item in getTest)
+                item.CalcResault();
+            return getTest;
+        }
+        public async Task<int> AddTestRaven(TestRaven testRaven)
+        {
+            var stdTest = context.TestRavens.Where(x => x.StudentId == testRaven.StudentId);
+            testRaven.SerialNumber = stdTest.Any() ? stdTest.Max(x => x.SerialNumber) + 1 : 1;
+
+            context.TestRavens.Add(testRaven);
+            await context.SaveChangesAsync();
+            return testRaven.Id;
+        }
+
+
+
         /*
          //todo Excel compare between TestResault
                 public async Task<List<StudentTestReportVM>> GetTestStudentReport(int studentId)
