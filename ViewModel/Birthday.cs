@@ -9,12 +9,7 @@
         public int Days { get; set; }
 
         public int TotalMonth => (Years * 12 + Months);
-        //العمر الزمني  مثل 7.3
-        public string ChronologicalAge
-        {
-            //todo round Days>25
-            get { return (Years + "," + Months); }
-        }
+
         //public double CalcAge
         //{
         //    //todo round Days>25
@@ -46,6 +41,26 @@
                 Months += 12;
             }
 
+        }
+
+        //العمر الزمني  مثل 7.3
+        public string GetDecimalAge
+        {
+            //todo round Days>25
+            get { return (Years + "," + Months); }
+        }
+        public static int ConvertFromDecimalToMonth(string decimalAge)
+        {
+            var age = decimalAge.Split('.');
+
+            int year = 0, month = 0;
+
+            _ = int.TryParse(age[0], out year);
+
+            if (age.Length > 1)
+                _ = int.TryParse(age[1], out month);
+
+            return year * 12 + month;
         }
     }
 }

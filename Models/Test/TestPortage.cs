@@ -5,7 +5,7 @@ namespace Alrazi.Models.Test
     /// الصورة الجانبية كل 6 أشهر
     /// تضم قائمة شطب كل شهرين
     /// <summary>
-    /// اختبار البروتج
+    /// اختبار البورتج
     /// </summary>
     public class TestPortage
     {
