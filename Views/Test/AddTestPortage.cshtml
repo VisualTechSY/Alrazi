@@ -92,13 +92,13 @@
                                         @TestManager.GetTestPortageSubjectArabic(item)
                                     </td>
                                     <td>
-                                        <input type="text" class="form-control" name="TestPortageDetails[@index].AgeTheBase" required />
+                                        <input type="text" class="form-control" id="@("AgeTheBase"+index)" name="TestPortageDetails[@index].AgeTheBase" onchange="fillAgeGrowth(@index)" required />
                                     </td>
                                     <td>
-                                        <input type="text" class="form-control" name="TestPortageDetails[@index].AgeAddonal" required />
+                                        <input type="number" class="form-control" id="@("AgeAddonal"+index)" name="TestPortageDetails[@index].AgeAddonal" onchange="fillAgeGrowth(@index)" required />
                                     </td>
                                     <td>
-                                        <input type="text" class="form-control" name="TestPortageDetails[@index].AgeGrowth" required />
+                                        <input type="text" class="form-control" id="@("AgeGrowth"+index)" disabled readonly />
                                     </td>
                                     <td>
                                         <input type="number" class="form-control" id="@("Mark"+index)" name="TestPortageDetails[@index].Mark" onchange="fillResult(@index)" required />
@@ -126,6 +126,48 @@
 <script>
 
     window.onload = getAgeDateTime;
+
+    function fillAgeGrowth(index) {
+
+        var ba = document.getElementById('AgeTheBase' + index).value;
+        var add=  parseInt(document.getElementById('AgeAddonal' + index).value||0);
+
+        if(ba ==null || add ==null)
+        return;
+
+        var gro= calcAgeGrowth(ba, add);
+
+        document.getElementById('AgeGrowth' + index).value = gro;
+    }
+
+
+        function convertFromDecimalToMonth(decimalAge) {
+        const age = decimalAge.split('.');
+
+        var year = 0, month = 0;
+
+        year = parseInt(age[0]) || 0;
+
+        if (age.length > 1) {
+            month = parseInt(age[1]) || 0;
+        }
+
+        return year * 12 + month;
+    }
+
+    function calcAgeGrowth(ageTheBase, ageAdditional) {
+        var totalMonth = convertFromDecimalToMonth(ageTheBase);
+
+        if (totalMonth === 0) return "";
+
+        totalMonth =totalMonth+ ageAdditional;
+
+        return `${Math.floor(totalMonth / 12)},${totalMonth % 12}`;
+    }
+
+
+
+
 
     function fillResult(index) {
 

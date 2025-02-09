@@ -62,5 +62,14 @@
 
             return year * 12 + month;
         }
+        public static string CalcAgeGrowth(string AgeTheBase, int AgeAddonal)
+        {
+            int totalMonth = ConvertFromDecimalToMonth(AgeTheBase);
+
+            if (totalMonth == 0) return "";
+
+            totalMonth += AgeAddonal;
+            return ((totalMonth / 12) + "," + (totalMonth % 12));
+        }
     }
 }

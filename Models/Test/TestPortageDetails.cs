@@ -1,5 +1,6 @@
 ﻿using Alrazi.Enums.Test;
 using Alrazi.Tools;
+using Alrazi.ViewModel;
 using System.ComponentModel;
 
 namespace Alrazi.Models.Test
@@ -20,9 +21,9 @@ namespace Alrazi.Models.Test
         [DisplayName("القاعدي")]
         public string AgeTheBase { get; set; }
         [DisplayName("الاضافي")]
-        public string AgeAddonal { get; set; }
+        public int AgeAddonal { get; set; }
         [DisplayName("النمائي")]
-        public string AgeGrowth { get; set; }
+        public string AgeGrowth => Birthday.CalcAgeGrowth(AgeTheBase, AgeAddonal);
         [DisplayName("الدرجة")]
         public int Mark { get; set; }
 
@@ -36,12 +37,12 @@ namespace Alrazi.Models.Test
 
         string AgeGrowthCalcYear()
         {
-            var age= AgeGrowth.Split('.');
+            var age= AgeGrowth.Split(',');
             return age[0];
         } 
          string AgeGrowthCalcMonth()
         {
-            var age= AgeGrowth.Split('.');
+            var age= AgeGrowth.Split(',');
             return (age.Length>1)? age[1]:"0";
         }
 
