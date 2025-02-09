@@ -47,7 +47,7 @@
         public string GetDecimalAge
         {
             //todo round Days>25
-            get { return (Years + "," + Months); }
+            get { return (Years + "." + Months); }
         }
         public static int ConvertFromDecimalToMonth(string decimalAge)
         {
@@ -62,14 +62,25 @@
 
             return year * 12 + month;
         }
-        public static string CalcAgeGrowth(string AgeTheBase, int AgeAddonal)
+        public static string CalcAgeAddMonth(string AgeTheBase, int MonthAddonal)
         {
             int totalMonth = ConvertFromDecimalToMonth(AgeTheBase);
 
             if (totalMonth == 0) return "";
 
-            totalMonth += AgeAddonal;
-            return ((totalMonth / 12) + "," + (totalMonth % 12));
+            totalMonth += MonthAddonal;
+            return ((totalMonth / 12) + "." + (totalMonth % 12));
+        }
+        public static string CalcAgeMinusMonth(string AgeTheBase, string MonthMinus)
+        {
+            int totalMonth = ConvertFromDecimalToMonth(AgeTheBase);
+            int monthMinus = ConvertFromDecimalToMonth(MonthMinus);
+
+            if (totalMonth == 0) return "";
+
+            totalMonth -= monthMinus;
+            if (totalMonth < 0) totalMonth = 0;
+            return ((totalMonth / 12) + "." + (totalMonth % 12));
         }
     }
 }

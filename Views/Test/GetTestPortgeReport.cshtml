@@ -102,15 +102,9 @@
                                 <td>@TestManager.GetTestPortageSubjectArabic(item.TestPortageSubject)</td>
 
                                 @{
-                                    //todo check calc
-                                    var temp = (
-                                    (new Birthday(Model.Student.BirthDate, Model.TestDate).TotalMonth)
-                                    - ((int.Parse(item.AgeGrowthYear) * 12) + int.Parse(item.AgeGrowthMonth))
-                                    ) / 12;
+                                    var temp = Birthday.CalcAgeMinusMonth((new Birthday(Model.Student.BirthDate, Model.TestDate).GetDecimalAge), item.AgeGrowth);
                                     <td>@temp</td>
                                 }
-
-
                             </tr>
                         }
                     </tbody>

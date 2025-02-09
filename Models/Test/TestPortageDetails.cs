@@ -23,7 +23,7 @@ namespace Alrazi.Models.Test
         [DisplayName("الاضافي")]
         public int AgeAddonal { get; set; }
         [DisplayName("النمائي")]
-        public string AgeGrowth => Birthday.CalcAgeGrowth(AgeTheBase, AgeAddonal);
+        public string AgeGrowth => Birthday.CalcAgeAddMonth(AgeTheBase, AgeAddonal);
         [DisplayName("الدرجة")]
         public int Mark { get; set; }
 
@@ -37,12 +37,12 @@ namespace Alrazi.Models.Test
 
         string AgeGrowthCalcYear()
         {
-            var age= AgeGrowth.Split(',');
+            var age= AgeGrowth.Split('.');
             return age[0];
         } 
          string AgeGrowthCalcMonth()
         {
-            var age= AgeGrowth.Split(',');
+            var age= AgeGrowth.Split('.');
             return (age.Length>1)? age[1]:"0";
         }
 
