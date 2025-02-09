@@ -7,8 +7,8 @@
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
-<script>if (confirm("هل ترغب في طباعة الصفحة ؟")) { print(); }</script>
-
+@* <script>if (confirm("هل ترغب في طباعة الصفحة ؟")) { print(); }</script>
+ *@
 <center><h4>نتائج تقييم البورتج</h4> </center>
 
 <div class="row">
@@ -66,7 +66,11 @@
     <div class="col-4">
         <div class="mb-3">
             <label for="name" class="form-label">نسبة الأداء</label>
-            <input type="text" class="form-control" value="@Model.TestPortageDetails.Average(x=>x.Mark)" readonly>
+            @{
+                var mark = Model.TestPortageDetails.Average(x => x.Mark);
+                var markResult = mark +"%\t"+ TestManager.GetTestPortageResault(mark);
+                <input type="text" class="form-control" value="@markResult" readonly>
+            }
         </div>
     </div>
 
