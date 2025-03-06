@@ -75,7 +75,7 @@
 							@(date2 is null || date2 == default(DateTime) ? "لا يوجد" : Model.TestPortages.First().LastTestDateSkill.ToShortDateString())
 						}
 						<br /><br />
-						<a href="~/Test/GetTestPortageIndividualPlan" class="mt-2 text-success font-weight-bold p-2">طباعة الخطة الفردية</a>
+						<a href="~/Test/GetTestPortageIndividualPlan?studentId=@Model.Id" class="mt-2 text-success font-weight-bold p-2">طباعة الخطة الفردية</a>
 						</div>
 					</div>
 				</div>

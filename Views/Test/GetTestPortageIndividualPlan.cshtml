@@ -5,48 +5,92 @@
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
-
+<!DOCTYPE html>
+<html dir="rtl">
+<head>
+    <meta charset="utf-8" />
+    <title>@ViewData["Title"]</title>
+    <style>
+        @@media print {
+            table thead {
+                display: table-header-group; /* يجعل thead يتكرر في كل صفحة */
+            }
+            table {
+                page-break-inside: avoid; /* يمنع تقسيم الجدول بين الصفحات */
+            }
+            .print-header {
+                display: block;
+                page-break-before: always; /* يضيف فاصل صفحة قبل كل جدول */
+            }
+        }
+    </style>
+</head>
 <body>
     <div class="row">
         <div class="col-12">
             <div class="card">
-                @{int index=0;}
+                <!-- الجدول الأول -->
+                <table class="data-table table-centered mb-0" style="width: 100%; border-collapse: collapse;">
+                    <tbody>
+                        <tr style="padding: 15px 0;">
+                            <!-- تباعد بين الأسطر -->
+                            <th style="padding: 10px; text-align: right;">الاسم:</th>
+                            <th colspan="4" style="padding: 10px; text-align: right;">@ViewBag.FullName</th>
+                            <th style="padding: 10px; text-align: right;">الميلاد:</th>
+                            <th colspan="4" style="padding: 10px; text-align: right;">@ViewBag.BirthDate</th>
+                        </tr>
+                        <tr style="padding: 15px 0;">
+                            <!-- تباعد بين الأسطر -->
+                            <th style="padding: 10px; text-align: right;">تاريخ الاختبار:</th>
+                            <th colspan="4" style="padding: 10px; text-align: right;">.......................</th>
+                            <th style="padding: 10px; text-align: right;">تاريخ تنفيذ الخطة:</th>
+                            <th colspan="4" style="padding: 10px; text-align: right;">.......................</th>
+                        </tr>
+                    </tbody>
+                </table>
+                <br />
+                <!-- الجداول الأخرى -->
+                @{
+                    int index = 0;
+                }
                 @foreach (var item in Model)
                 {
                     string elementId = "table" + ++index;
 
-                    <table class="data-table table-centered mb-0" id=@elementId>
-                        <thead>
+                    <table class="table table-centered mb-0" id=@elementId>
+                        <thead class="table-dark">
                             <tr>
-                                <th colspan="4">@item.TitleGroup</th>
-                            </tr> 
+                                <th colspan="5" style="text-align:center">@item.TitleGroup</th>
+                            </tr>
                             <tr>
                                 <th>اختيار</th>
                                 <th>م</th>
                                 <th>الهدف</th>
-                                <th>الدرجة</th>
+                                <th>الخام</th>
+                                <th>العلامة</th>
                             </tr>
                         </thead>
                         <tbody>
-                            @{int serial=0;}
+                            @{
+                                int serial = 0;
+                            }
                             @foreach (var Quastion in item.Quastions)
                             {
                                 <tr>
                                     <td><input type="checkbox" class="row-checkbox" data-table=@elementId></td>
                                     <td>@(++serial)</td>
                                     <td>@Quastion</td>
+                                    <td>100</td>
                                     <td></td>
                                 </tr>
                             }
                         </tbody>
                     </table>
                 }
-
             </div>
         </div>
-        <button onclick="printSelectedData()">طباعة البيانات المحددة</button>
+        <button onclick="printSelectedData()" class="btn btn-primary">طباعة البيانات المحددة</button>
     </div>
-
 
     <script>
         function printSelectedData() {
@@ -75,11 +119,14 @@
 
             // إنشاء المحتوى للطباعة
             let printContent = '';
+            const firstTable = document.querySelector('.data-table').outerHTML; // الجدول الأول
+
             for (const tableId in groupedTables) {
                 const tableData = groupedTables[tableId];
                 // إزالة العمود الأول من الترويسة
                 const headerWithoutFirstColumn = tableData.header.replace(/<th>.*?<\/th>/, '');
-                printContent += '<table border="1" cellpadding="5" cellspacing="0" style="width:100%; text-align:center;">';
+                printContent += `<div class="print-header">${firstTable}</div>`; // إضافة الجدول الأول في كل صفحة
+                printContent += `<table border="1" cellpadding="5" cellspacing="0" style="width:100%; text-align:center;">`;
                 printContent += headerWithoutFirstColumn;
                 printContent += '<tbody>';
                 tableData.rows.forEach(row => {
@@ -88,8 +135,11 @@
                 printContent += '</tbody></table>';
             }
 
+            // فتح نافذة الطباعة
             const printWindow = window.open('', '', 'height=600,width=800');
-            printWindow.document.write('<html dir="rtl"><head><title>طباعة</title></head><body>');
+            printWindow.document.write('<html dir="rtl"><head><title>طباعة</title>');
+            printWindow.document.write('<style>@@media print { table thead { display: table-header-group; } table { page-break-inside: avoid; } .print-header { display: block; page-break-before: always; } }</style>');
+            printWindow.document.write('</head><body>');
             printWindow.document.write(printContent);
             printWindow.document.write('</body></html>');
             printWindow.document.close();
@@ -97,3 +147,4 @@
         }
     </script>
 </body>
+</html>

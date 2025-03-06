@@ -157,7 +157,7 @@ namespace Alrazi.Tools
     //المعايير المئينية
     class ArrayResults
     {
-        public ArrayResults(int MinAgeInMonth, int MaxAgeMonth, int MinMark, int MakMark, int Centenary)
+        public ArrayResults(int MinAgeMonth, int MaxAgeMonth, int MinMark, int MaxMark, int Centenary)
         {
             this.MinAgeMonth = MinAgeMonth; this.MaxAgeMonth = MaxAgeMonth; this.MinMark = MinMark; this.MaxMark = MaxMark; this.Centenary = Centenary;
         }
