@@ -4,6 +4,7 @@ using Alrazi;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -11,9 +12,11 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace Alrazi.Migrations
 {
     [DbContext(typeof(Context))]
-    partial class ContextModelSnapshot : ModelSnapshot
+    [Migration("20250306192146_stanfordReportSummaryMigration")]
+    partial class stanfordReportSummaryMigration
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -1240,8 +1243,9 @@ namespace Alrazi.Migrations
                     b.Property<int>("Mark")
                         .HasColumnType("int");
 
-                    b.Property<int>("PercentileRank")
-                        .HasColumnType("int");
+                    b.Property<string>("PercentileRank")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
 
                     b.Property<int>("TestStanfordBinetId")
                         .HasColumnType("int");

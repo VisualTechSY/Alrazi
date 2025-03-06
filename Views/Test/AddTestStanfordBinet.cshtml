@@ -94,7 +94,7 @@
                                     </td>
 
                                     <td>
-                                        <input type="text" class="form-control" name="TestStanfordBinetDetails[@index].PercentileRank" required />
+                                        <input type="number" class="form-control" name="TestStanfordBinetDetails[@index].PercentileRank" required />
                                     </td>
                                 </tr>
                                 index++;
@@ -123,7 +123,7 @@
         else if (mark <= 54) grd = "تخلف متوسط";
         else if (mark <= 69) grd = "تخلف بسيط";
         else if (mark <= 79) grd = "على حدود التخلف";
-        else if (mark <= 89) grd = "أدى من المتوسط ";
+        else if (mark <= 89) grd = "أدنى من المتوسط ";
         else if (mark <= 109) grd = "متوسط";
         else if (mark <= 119) grd = "متوسط مرتفع";
         else grd = "متفوق";

@@ -107,12 +107,22 @@ namespace Alrazi.Services
             await context.SaveChangesAsync();
             return testStanfordBinet.Id;
         }
+        public async Task<TestStanfordBinet> UpdateSummaryTesttStanfordBinet(TestStanfordBinet testStanfordBinet)
+        {
+            TestStanfordBinet getTestStanfordBinet = await context.TestStanfordBinets.FindAsync(testStanfordBinet.Id);
 
+            getTestStanfordBinet.Recommendations = testStanfordBinet.Recommendations;
+            getTestStanfordBinet.Summary = testStanfordBinet.Summary;
+            getTestStanfordBinet.School = testStanfordBinet.School;
+            getTestStanfordBinet.Class = testStanfordBinet.Class;
+            await context.SaveChangesAsync();
+            return await GetTestStanfordBinetById(getTestStanfordBinet.Id);
+        }
 
 
         public async Task<TestRaven> GetTestRavenById(int testId)
         {
-            TestRaven getTest= await context.TestRavens
+            TestRaven getTest = await context.TestRavens
                                         .Include(x => x.Student)
                                         .FirstAsync(x => x.Id == testId);
             getTest.CalcResault();
@@ -122,7 +132,7 @@ namespace Alrazi.Services
         {
             List<TestRaven> getTest = await context.TestRavens
                                                     .Where(x => x.StudentId == studentId)
-                                                    .Include(x=>x.Student)
+                                                    .Include(x => x.Student)
                                                     .OrderByDescending(x => x.SerialNumber)
                                                     .ToListAsync();
             foreach (var item in getTest)

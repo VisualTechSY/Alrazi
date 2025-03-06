@@ -16,6 +16,16 @@ namespace Alrazi.Models.Test
         [DisplayName("تاريخ التقرير")]
         public DateTime TestDate { get; set; }
 
+        [DisplayName("المدرسة")]
+        public string? School { get; set; }
+        [DisplayName("الصف")]
+        public string? Class { get; set; }
+
+        [DisplayName("خلاصة")]
+        public string? Summary { get; set; }
+        [DisplayName("توصيات")]
+        public string? Recommendations { get; set; }
+
         public List<TestStanfordBinetDetails> TestStanfordBinetDetails { get; set; }
 
     }

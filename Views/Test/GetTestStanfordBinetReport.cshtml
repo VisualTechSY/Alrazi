@@ -1,14 +1,93 @@
 ﻿@using Alrazi.Models.Test
 @using Alrazi.Tools
+@using Alrazi.Enums.Test
 @model TestStanfordBinet
 @{
     ViewData["Title"] = "تقرير ستانفورد بينيه للذكاء";
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
-<script>if (confirm("هل ترغب في طباعة الصفحة ؟")) {  print() ; }</script>
-
 <center><h4>تقرير ستانفورد بينيه للذكاء</h4> </center>
+
+<body>
+    <style>
+        @@media print {
+            .no-print-section * {
+                display: none;
+            }
+        }
+    </style>
+</body>
+
+<div class="row">
+
+    <div class="col-4">
+        <div class="mb-3">
+            <label for="name" class="form-label">اسم الطفل</label>
+            <input type="text" class="form-control" value="@Model.Student.FullName" readonly>
+        </div>
+    </div>
+    <div class="col-4">
+        <div class="mb-3">
+            <label for="name" class="form-label">الجنس</label>
+            <input type="text" class="form-control" value="@Model.Student.Gender" readonly>
+        </div>
+    </div>
+    <div class="col-3">
+        <div class="mb-3">
+            <label for="name" class="form-label">تاريخ المقابلة</label>
+            <input type="date" id="TestDate" class="form-control" value="@Model.TestDate.ToString("yyyy-MM-dd")" readonly>
+        </div>
+    </div>
+    <div class="col-1">
+        <div class="mb-3">
+            <label for="name" class="form-label">رقم الاختبار</label>
+            <label inputclass="form-label">@Model.SerialNumber</label>
+        </div>
+    </div>
+
+    <div class="col-4">
+        <div class="mb-3">
+            <label for="name" class="form-label">تاريخ الميلاد</label>
+            <input type="date" id="BirthDate" class="form-control" value="@Model.Student.BirthDate.ToString("yyyy-MM-dd")" readonly>
+        </div>
+    </div>
+    <div class="col-4">
+        <div class="mb-3">
+            <label for="name" class="form-label">العمر الزمني</label>
+            <input type="text" id="AgeTimeDate" class="form-control" readonly>
+        </div>
+    </div>
+    <div class="col-4">
+        <div class="mb-3">
+            <label for="name" class="form-label">القائم بالاختبار</label>
+            <input type="text" class="form-control" value="@Model.Examiner" readonly>
+        </div>
+    </div> 
+    <div class="col-4">
+        <div class="mb-3">
+            <label for="name" class="form-label">المدرسة</label>
+            <input type="text" id="school" class="form-control" value="@Model.School">
+        </div>
+    </div> 
+    <div class="col-4">
+        <div class="mb-3">
+            <label for="name" class="form-label">الصف</label>
+            <input type="text" id="class" class="form-control" value="@Model.Class">
+        </div>
+    </div>
+    <div class="col-4">
+        <div class="mb-3">
+            <label for="name" class="form-label">المجموع</label>
+            @{
+                var mark = Model.TestStanfordBinetDetails.Average(x => x.Mark);
+                var markResult = mark + "%\t" + TestManager.GetTestStanfordBinetResault(mark);
+                <input type="text" class="form-control" value="@markResult" readonly>
+            }
+        </div>
+    </div>
+</div>
+
 
 <div class="row">
     <div class="col-12">
@@ -46,36 +125,168 @@
     <div class="col-12">
         <div class="card">
             <div class="card-body">
-                @{
-                    // var Social = @Model.TestPortageDetails.First(x => x.TestPortageSubject == Alrazi.Enums.Test.TestPortageSubject.Social);
-                    // var Knowledge = @Model.TestPortageDetails.First(x => x.TestPortageSubject == Alrazi.Enums.Test.TestPortageSubject.Knowledge);
-                    // var Communication = @Model.TestPortageDetails.First(x => x.TestPortageSubject == Alrazi.Enums.Test.TestPortageSubject.Communication);
-                    // var Care = @Model.TestPortageDetails.First(x => x.TestPortageSubject == Alrazi.Enums.Test.TestPortageSubject.Care);
-                    // var Movement = @Model.TestPortageDetails.First(x => x.TestPortageSubject == Alrazi.Enums.Test.TestPortageSubject.Movement);
                     <p>
-                        حصل الطفل() على نسبة ذكاء كلية()  ويتضح من خلال هذه الدرجة أن ذكاء المفحوص العام يقع ضمن فئة() و يمكن أن يتراوح المدى الفعلي لهذه الدرجة بين()  و ذلك بنسبة ثقة 95 % و قد يرجع الاختلاف المتوقع إلى عدة عوامل ،منها تعاون المفحوص و التهيؤ النفسي، و الحالة الصحية ، والاهتمام بالاختبار، و الظروف البيئية أثناء تطبيق الاختبار، و اختلاف تركيز االمفحوص و غيرها من العوامل التي قد تؤثر على الأداء.
-                        نسبة الذكاء غير اللفظي Nonverbal IQ :
-                        حصل الطفل() على نسبة ذكاء غير لفظي() ومن خلال  هذه الدرجة يتضح ان ذكاء المفحوص غير اللفظي يقع ضمن فئة()  مما يدل على قدرة() للمفحوص في مهارة حل المشكلات المجردة، تذكر الحقائق والأشكال، حل المشكلات الكمية المقدمة في شكل صور، تجميع التصميمات، تذكر تسلسل الطرقات، تذكر المعلومات المقدمة في شكل صور، أرقام ورموز في مقابل المعلومات المقدمة في شكل كلمات وجمل مطبوعة أو منطوقة.
-
-                        نسبة الذكاء اللفظي Verbal IQ:
-                        حصل الطفل() على نسبة ذكاء لفظية()  ومن خلال هذه الدرجة يتضح ان الذكاء اللفظي للمفحوص يقع ضمن فئة() مما يدل على قدرة() في القدرة العامة للاستدلال، حل المشكلات ، التصور واستدعاء المعلومات المهمة المقدمة في كلمات وجمل(مطبوعة أو منطوقة) .
+                        @{
+                            var fullScaleIQ = Model.TestStanfordBinetDetails.First(x => x.TestStanfordBinetSubject == TestStanfordBinetSubject.FullScaleIQ);
+                            var nonverbalIQ = Model.TestStanfordBinetDetails.First(x => x.TestStanfordBinetSubject == TestStanfordBinetSubject.NonverbalIQ);
+                            var verbalIQ = Model.TestStanfordBinetDetails.First(x => x.TestStanfordBinetSubject == TestStanfordBinetSubject.VerbalIQ);
+                            var fluidReasoning = Model.TestStanfordBinetDetails.First(x => x.TestStanfordBinetSubject == TestStanfordBinetSubject.FluidReasoning);
+                            var knowledge = Model.TestStanfordBinetDetails.First(x => x.TestStanfordBinetSubject == TestStanfordBinetSubject.Knowledge);
+                            var quantitativeReasoning = Model.TestStanfordBinetDetails.First(x => x.TestStanfordBinetSubject == TestStanfordBinetSubject.QuantitativeReasoning);
+                            var visualSpatialProcessing = Model.TestStanfordBinetDetails.First(x => x.TestStanfordBinetSubject == TestStanfordBinetSubject.VisualSpatialProcessing);
+                            var workingMemory = Model.TestStanfordBinetDetails.First(x => x.TestStanfordBinetSubject == TestStanfordBinetSubject.WorkingMemory);
+                        }
+                        <b>@TestManager.GetTestStanfordBinetSubjectArabic(TestStanfordBinetSubject.FullScaleIQ) Full Scale IQ</b><br />
+                        حصل الطفل @Model.Student.FullName
+                        على نسبة ذكاء كلية
+                        (@fullScaleIQ.Mark)
+                        ويتضح من خلال هذه الدرجة أن ذكاء المفحوص العام يقع ضمن فئة
+                        (@fullScaleIQ.Grade)
+                        و يمكن أن يتراوح المدى الفعلي لهذه الدرجة بين
+                        (@fullScaleIQ.PercentileRank)
+                        و ذلك بنسبة ثقة 95 % و قد يرجع الاختلاف المتوقع إلى عدة عوامل ،منها تعاون المفحوص و التهيؤ النفسي، و الحالة الصحية ، والاهتمام بالاختبار، و الظروف البيئية أثناء تطبيق الاختبار، و اختلاف تركيز االمفحوص و غيرها من العوامل التي قد تؤثر على الأداء.
+                        <br />
+                        <b>@TestManager.GetTestStanfordBinetSubjectArabic(TestStanfordBinetSubject.NonverbalIQ) Nonverbal IQ</b><br />
+                        حصل الطفل @Model.Student.FullName
+                        على نسبة ذكاء غير لفظي
+                        (@nonverbalIQ.Mark)
+                        ومن خلال  هذه الدرجة يتضح ان ذكاء المفحوص غير اللفظي يقع ضمن فئة
+                        (@nonverbalIQ.Grade)
+                        مما يدل على قدرة
+                        (@nonverbalIQ.PercentileRank)
+                        للمفحوص في مهارة حل المشكلات المجردة، تذكر الحقائق والأشكال، حل المشكلات الكمية المقدمة في شكل صور، تجميع التصميمات، تذكر تسلسل الطرقات، تذكر المعلومات المقدمة في شكل صور، أرقام ورموز في مقابل المعلومات المقدمة في شكل كلمات وجمل مطبوعة أو منطوقة.
+                        <br />
+                        <b>@TestManager.GetTestStanfordBinetSubjectArabic(TestStanfordBinetSubject.VerbalIQ) Verbal IQ</b><br />
+                        حصل الطفل @Model.Student.FullName
+                        على نسبة ذكاء لفظية
+                        (@verbalIQ.Mark)
+                        ومن خلال هذه الدرجة يتضح ان الذكاء اللفظي للمفحوص يقع ضمن فئة
+                        (@verbalIQ.Grade)
+                        مما يدل على قدرة
+                        (@verbalIQ.PercentileRank)
+                        في القدرة العامة للاستدلال، حل المشكلات ، التصور واستدعاء المعلومات المهمة المقدمة في كلمات وجمل(مطبوعة أو منطوقة) . 
+                        <br />
                         تفسير درجات المؤشرات العاملية:
-                        _ الاستدلال التحليلي fluid Reasoning
-                        حصل المفحوص على درجة معيارية()  ومن خلال الدرجة يتضح أن قدرات المفحوص في الاستدلال التحليلي(قدرة وراثية Fluid Intelligence) تقع ضمن فئة()  مما يدل على قدرة() لدى المفحوص على حل المشكلات اللفظية وغير اللفظية باستخدام الاستدلال الاستقرائي أو الاستدلال الاستنباطي، وفي تحديد القواعد الأساسية و العلاقات بين أجزاء المعلومات(مثل الموضوعات البصرية) غير المألوفة للفرد، وفي قدرته على الاستدلال بشكل استقرائي(كما في المصفوفات أو أنشطة التشابه اللفظي) وفي قدرته على الاستدلال من الجزء إلى الكل أو من الخاص إلى العام أو من حالة فردية إلى قاعدة عامة . وفي قدرته على الاستدلال على نتيجة أو معنى متضمن أو مثال محدد. وكذلك في قدرته على فحص صور تصف أنشطة إنسانية واستنتاج المشكلة الأساسية أو الموقف من خلال سرد قصة.
-                        _ المعرفة Knowledge:
-                        حصل المفحوص على درجة معيارية()  ومن خلال الدرجة يتضح أن قدرة المفحوص في مجال المعلومات(قدرة مكتسبة من الخبرة والتعلم Crystallized Intelligence )  تقع ضمن فئة() مما يدل على مستوى() في القدرة العقلية المتبلورة، وهي المخزون التراكمي من المعلومات العامة المكتسبة من البيت، المدرسة أو العمل، مثل المفردات، والتي اكتسبت وخزنت على مدار حياة الفرد في الذاكرة طويلة المدى.
-                        _ الاستدلال الكمي Quantitative Reasoning:
-                        حصل المفحوص على درجة معيارية()  ومن خلال الدرجة يتضح أن قدرة المفحوص في هذا المجال(الذي يعكس المرونة العقلية للمفحوص وقدرته على تصحيح الأخطاء وتجربة حلول مختلفة) تقع ضمن فئة() مما يدل على أن قدرته() في التعامل مع الأرقام وحل المشكلات العددية بصرف النظر عن نمط المشكلة وما إذا كانت تأخذ صورة كلامية أو تعتمد على العلاقات المصورة.وحل المشكلات في المواقف العملية أكثر من التركيز على معرفة قواعد الرياضيات كما يتم اكتسابها من خلال التعليم .
-                        _ المعالجة البصرية المكانية Visual - Spatial processing:
-                        حصل المفحوص على درجة معيارية()    ومن خلال الدرجة يتضح أن قدرة المفحوص في هذا المجال(الذي يعد مؤشرا على الإدراك البصري والتحليل والتركيب للأنماط البصرية المختلفة والتنبه العقلي والقدرة على التوافق أو التكيف) يقع ضمن فئة() مما يدل أن لديه قدرة() على رؤية الأنماط، أو العلاقات، أو الاتجاهات المكانية، أو الشكل الكلي بين أجزاء متنوعة من المعلومات المعروضة بصريا.
-                        _ الذاكرة العاملة Working Memory:
-                        حصل المفحوص على درجة معيارية()  ومن خلال هذه الدرجة يتضح أن قدرة المفحوص في هذا المجال تقع ضمن فئة() مما يدل على أن قدرته() في فحص وتخزين وتحويل المعلومات المتنوعة المخزنة في الذاكرة قصيرة المدى.ومن مهام الذاكرة العاملة تصنيف معطيات الحواس والاستدعاء الانتقائي للمعاني والرموز لاستثمارها في الاستجابة للمواقف الخارجية، وبالتالي تعد من أهم عناصر التوافق مع البيئة الخارجية.يتأثر الأداء على اختبارات الذاكرة العاملة بالمشكلات العصبية التي قد يعاني منها المفحوص أو من مشكلات الانتباه أو من بعض الصعوبات اللغوية التعبيرية أو من مدى الذاكرة قصيرة المدى.
+                        <br />
+                      -<b>@TestManager.GetTestStanfordBinetSubjectArabic(TestStanfordBinetSubject.FluidReasoning) Fluid Reasoning</b><br />
+                        حصل المفحوص على درجة معيارية
+                        (@fluidReasoning.Mark)
+                        ومن خلال الدرجة يتضح أن قدرات المفحوص في الاستدلال التحليلي(قدرة وراثية Fluid Intelligence) تقع ضمن فئة
+                        (@fluidReasoning.Grade)
+                        مما يدل على قدرة
+                        (@fluidReasoning.PercentileRank)
+                        لدى المفحوص على حل المشكلات اللفظية وغير اللفظية باستخدام الاستدلال الاستقرائي أو الاستدلال الاستنباطي، وفي تحديد القواعد الأساسية و العلاقات بين أجزاء المعلومات(مثل الموضوعات البصرية) غير المألوفة للفرد، وفي قدرته على الاستدلال بشكل استقرائي(كما في المصفوفات أو أنشطة التشابه اللفظي) وفي قدرته على الاستدلال من الجزء إلى الكل أو من الخاص إلى العام أو من حالة فردية إلى قاعدة عامة . وفي قدرته على الاستدلال على نتيجة أو معنى متضمن أو مثال محدد. وكذلك في قدرته على فحص صور تصف أنشطة إنسانية واستنتاج المشكلة الأساسية أو الموقف من خلال سرد قصة.
+                        <br />
+                        -<b>@TestManager.GetTestStanfordBinetSubjectArabic(TestStanfordBinetSubject.Knowledge) Knowledge</b><br />
+                        حصل المفحوص على درجة معيارية
+                        (@knowledge.Mark)
+                        ومن خلال الدرجة يتضح أن قدرة المفحوص في مجال المعلومات(قدرة مكتسبة من الخبرة والتعلم Crystallized Intelligence )  تقع ضمن فئة
+                        (@knowledge.Grade)
+                        مما يدل على مستوى
+                        (@knowledge.PercentileRank)
+                        في القدرة العقلية المتبلورة، وهي المخزون التراكمي من المعلومات العامة المكتسبة من البيت، المدرسة أو العمل، مثل المفردات، والتي اكتسبت وخزنت على مدار حياة الفرد في الذاكرة طويلة المدى.
+                        <br />
+                       -<b>@TestManager.GetTestStanfordBinetSubjectArabic(TestStanfordBinetSubject.QuantitativeReasoning) Quantitative Reasoning</b><br />
+                        حصل المفحوص على درجة معيارية
+                        (@quantitativeReasoning.Mark)
+                        ومن خلال الدرجة يتضح أن قدرة المفحوص في هذا المجال(الذي يعكس المرونة العقلية للمفحوص وقدرته على تصحيح الأخطاء وتجربة حلول مختلفة) تقع ضمن فئة
+                        (@quantitativeReasoning.Grade)
+                        مما يدل على أن قدرته
+                        (@quantitativeReasoning.PercentileRank)
+                        في التعامل مع الأرقام وحل المشكلات العددية بصرف النظر عن نمط المشكلة وما إذا كانت تأخذ صورة كلامية أو تعتمد على العلاقات المصورة.وحل المشكلات في المواقف العملية أكثر من التركيز على معرفة قواعد الرياضيات كما يتم اكتسابها من خلال التعليم .
+                        <br />
+                        -<b>@TestManager.GetTestStanfordBinetSubjectArabic(TestStanfordBinetSubject.VisualSpatialProcessing) Visual Spatial Processing</b><br />
+                        حصل المفحوص على درجة معيارية
+                        (@visualSpatialProcessing.Mark)
+                        ومن خلال الدرجة يتضح أن قدرة المفحوص في هذا المجال(الذي يعد مؤشرا على الإدراك البصري والتحليل والتركيب للأنماط البصرية المختلفة والتنبه العقلي والقدرة على التوافق أو التكيف) يقع ضمن فئة
+                        (@visualSpatialProcessing.Grade)
+                        مما يدل أن لديه قدرة
+                        (@visualSpatialProcessing.PercentileRank)
+                        على رؤية الأنماط، أو العلاقات، أو الاتجاهات المكانية، أو الشكل الكلي بين أجزاء متنوعة من المعلومات المعروضة بصريا.
+                        <br />
+                        -<b>@TestManager.GetTestStanfordBinetSubjectArabic(TestStanfordBinetSubject.WorkingMemory) Working Memory</b><br />
+                        حصل المفحوص على درجة معيارية
+                        (@workingMemory.Mark) 
+                        ومن خلال هذه الدرجة يتضح أن قدرة المفحوص في هذا المجال تقع ضمن فئة
+                        (@workingMemory.Grade)
+                        مما يدل على أن قدرته
+                        (@workingMemory.PercentileRank)
+                        في فحص وتخزين وتحويل المعلومات المتنوعة المخزنة في الذاكرة قصيرة المدى.ومن مهام الذاكرة العاملة تصنيف معطيات الحواس والاستدعاء الانتقائي للمعاني والرموز لاستثمارها في الاستجابة للمواقف الخارجية، وبالتالي تعد من أهم عناصر التوافق مع البيئة الخارجية.يتأثر الأداء على اختبارات الذاكرة العاملة بالمشكلات العصبية التي قد يعاني منها المفحوص أو من مشكلات الانتباه أو من بعض الصعوبات اللغوية التعبيرية أو من مدى الذاكرة قصيرة المدى.
 
                     </p>
-                }
+
+                <form method="post" onsubmit="return prepareForm(this)">
+
+                    <input type="hidden" name="id" value="@Model.Id" />
+                    <input type="hidden" name="school" />
+                    <input type="hidden" name="class" />
+
+                    <div class="col-12">
+                        <div class="mb-3">
+                            <label for="name" class="form-label">خلاصة</label>
+                            <textarea type="text" name="Summary" class="form-control">@Model.Summary</textarea>
+                        </div>
+                    </div>
+
+                    <div class="col-12">
+                        <div class="mb-3">
+                            <label for="name" class="form-label">توصيات</label>
+                            <textarea type="text" name="Recommendations" class="form-control">@Model.Recommendations</textarea>
+                        </div>
+                    </div>
+
+                    <div class="no-print-section" style="padding-top:20px">
+                        <button type="submit" class="btn btn-primary" onclick="print()">حفظ وطباعة</button>
+                    </div>
+                </form>
             </div>
             </<div>
             </div>
         </div>
     </div>
 </div>
+
+
+<script>
+
+    window.onload = onloadpage;
+
+
+      function prepareForm(form) {
+        form.school.value = document.getElementById('school').value;
+        form.class.value= document.getElementById('class').value;
+        return true;
+    }
+
+
+
+
+    function onloadpage() {
+        var birthDate = $("#BirthDate").val();
+        var studyStateDate = $("#TestDate").val();
+        if (birthDate == '' || studyStateDate == '') {
+            $("#AgeTimeDate").val('');
+            return;
+        }
+
+        const birthdate = new Date(birthDate);
+        const currentDate = new Date(studyStateDate);
+
+        let ageYears = currentDate.getFullYear() - birthdate.getFullYear();
+        let ageMonths = currentDate.getMonth() - birthdate.getMonth();
+        let ageDays = currentDate.getDate() - birthdate.getDate();
+
+        if (ageDays < 0) {
+            ageMonths--;
+            ageDays += new Date(currentDate.getFullYear(), currentDate.getMonth(), 0).getDate();
+        }
+
+        if (ageMonths < 0) {
+            ageYears--;
+            ageMonths += 12;
+        }
+
+        var str = `السنة : ${ageYears} - الشهر : ${ageMonths} - اليوم ${ageDays}`;
+        $("#AgeTimeDate").val(str);
+    }
+</script>

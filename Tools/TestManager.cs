@@ -85,7 +85,7 @@ namespace Alrazi.Tools
             else if (mark <= 54) return "تخلف متوسط";
             else if (mark <= 69) return "تخلف بسيط";
             else if (mark <= 79) return "على حدود التخلف";
-            else if (mark <= 89) return "أدى من المتوسط ";
+            else if (mark <= 89) return "أدنى من المتوسط ";
             else if (mark <= 109) return "متوسط";
             else if (mark <= 119) return "متوسط مرتفع";
             else return "متفوق";

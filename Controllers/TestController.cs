@@ -175,6 +175,14 @@ namespace Alrazi.Controllers
             TestStanfordBinet getTest = await testService.GetTestStanfordBinetById(testId);
             return View(getTest);
         }
+        [HttpPost]
+        public async Task<IActionResult> GetTestStanfordBinetReport(TestStanfordBinet testStanfordBinet)
+        {
+            if (!HttpContext.HasSession())
+                return RedirectToAction("Index", "Home");
+            TestStanfordBinet getTest = await testService.UpdateSummaryTesttStanfordBinet(testStanfordBinet);
+            return View(getTest);
+        }
 
         public async Task<IActionResult> GetTestStanfordBinet(int studentId)
         {
