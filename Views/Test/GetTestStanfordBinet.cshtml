@@ -70,6 +70,7 @@
                                 <th>الدرجة المعيارية</th>
                                 <th>الفئة التصنيفية</th>
                                 <th>الرتبة المئينية</th>
+                                <th>حدود الثقة عند مستوى الثقة 95%</th>
                             </tr>
                         </thead>
                         <tbody>
@@ -91,7 +92,8 @@
                                         <td>@TestManager.GetTestStanfordBinetSubjectArabic(item.TestStanfordBinetSubject)</td>
                                         <td>@item.Mark</td>
                                         <td>@item.Grade</td>
-                                        <td>@item.PercentileRank </td>
+                                        <td>@item.PercentileRank</td>
+                                        <td>@item.ConfidenceLimits</td>
                                         @if (serialNum != item.TestStanfordBinet.SerialNumber)
                                         {
                                             serialNum = item.TestStanfordBinet.SerialNumber;

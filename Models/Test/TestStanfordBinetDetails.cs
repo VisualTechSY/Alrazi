@@ -17,7 +17,9 @@ namespace Alrazi.Models.Test
         [DisplayName("الفئة التصنيفية")]
         public string Grade => TestManager.GetTestStanfordBinetResault(Mark);
         [DisplayName("الرتبة المئينية")]
-        public int PercentileRank { get; set; }
+        public int PercentileRank { get; set; } 
+        [DisplayName("حدود الثقة عند مستوى لثقة 95%")]
+        public string ConfidenceLimits { get; set; }
 
     }
 }

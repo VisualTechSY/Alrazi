@@ -72,6 +72,7 @@
                             <th>الدرجة المعيارية</th>
                             <th>الفئة التصنيفية</th>
                             <th>الرتبة المئينية</th>
+                            <th>حدود الثقة عند مستوى الثقة 95%</th>
                         </tr>
                     </thead>
                     <tbody>
@@ -95,6 +96,9 @@
 
                                     <td>
                                         <input type="number" class="form-control" name="TestStanfordBinetDetails[@index].PercentileRank" required />
+                                    </td>
+                                    <td>
+                                        <input type="text" class="form-control" name="TestStanfordBinetDetails[@index].ConfidenceLimits" required />
                                     </td>
                                 </tr>
                                 index++;
