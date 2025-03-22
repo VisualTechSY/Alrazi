@@ -16,10 +16,7 @@ namespace Alrazi.Controllers
 
         public IActionResult Index()
         {
-            if (HttpContext.HasSession())
-                return Redirect("~/Panel");
-
-            return Redirect("~/Login");
+            return View();
         }
 
         [HttpGet("Login")]
