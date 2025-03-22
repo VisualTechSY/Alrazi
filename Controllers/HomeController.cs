@@ -3,6 +3,7 @@ using Alrazi.Services;
 using Alrazi.Tools;
 using Microsoft.AspNetCore.Mvc;
 using System.Diagnostics;
+using System.Threading.Tasks;
 
 namespace Alrazi.Controllers
 {
@@ -88,6 +89,74 @@ namespace Alrazi.Controllers
         {
             HttpContext.Session.Clear();
             return Redirect("~/Login");
+        }
+
+        [HttpGet("Add-Blog")]
+        public IActionResult AddBlog()
+        {
+            if (!HttpContext.HasSession())
+                return RedirectToAction("Index");
+            return View();
+        }
+
+        [HttpPost("Add-Blog")]
+        public async Task<IActionResult> AddBlog(string title , string details , List<string> videos)
+        {
+            if (!HttpContext.HasSession())
+                return RedirectToAction("Index");
+            await websiteService.AddBlog(title, details, Request.Form.Files.ToList(), videos);
+            return View();
+        }
+
+        [HttpGet("Get-Blogs")]
+        public async Task<IActionResult> GetBlogs()
+        {
+            if (!HttpContext.HasSession())
+                return RedirectToAction("Index");
+            return View(await websiteService.GetBlogs());
+        }
+
+        [HttpGet("DeleteBlogs/{id}")]
+        public async Task<IActionResult> DeleteBlogs(int id)
+        {
+            if (!HttpContext.HasSession())
+                return RedirectToAction("Index");
+            await websiteService.RemoveBlog(id);
+            return Redirect("Get-Blogs");
+        }
+
+        [HttpGet("ChangePin/{id}")]
+        public async Task<IActionResult> ChangePin(int id)
+        {
+            if (!HttpContext.HasSession())
+                return RedirectToAction("Index");
+            await websiteService.ChangePin(id);
+            return Redirect("Get-Blogs");
+        }
+
+        [HttpGet("Get-Contacts")]
+        public async Task<IActionResult> GetContacts()
+        {
+            if (!HttpContext.HasSession())
+                return RedirectToAction("Index");
+            return View(await websiteService.GetContacts(false));
+        }
+
+        [HttpGet("Get-Contact/{id}")]
+        public async Task<IActionResult> GetContact(int id)
+        {
+            if (!HttpContext.HasSession())
+                return RedirectToAction("Index");
+            return View(await websiteService.GetContact(id));
+        }
+
+        [HttpGet("ReadContact/{id}")]
+        public async Task<IActionResult> ReadContact(int id)
+        {
+            if (!HttpContext.HasSession())
+                return RedirectToAction("Index");
+            await websiteService.UpdateContact(id);
+            return Redirect("Get-Contacts");
         }
 
     }
