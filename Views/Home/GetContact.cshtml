@@ -1,0 +1,59 @@
+﻿@model ContactMessage
+@{
+    ViewData["Title"] = "المدونة";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<!-- start page title -->
+<div class="row">
+    <div class="col-12">
+        <div class="page-title-box">
+            <div class="page-title-right">
+                <ol class="breadcrumb m-0">
+                    <li class="breadcrumb-item"><a href="~/Panel">الرئيسية</a></li>
+                    <li class="breadcrumb-item"><a href="~/Get-Contacts">استعراض رسائل التواصل</a></li>
+                    <li class="breadcrumb-item active">استعراض الرسالة</li>
+                </ol>
+            </div>
+            <h4 class="page-title">استعراض الرسالة</h4>
+        </div>
+    </div>
+</div>
+<!-- end page title -->
+
+
+<div class="row">
+    <div class="col-12">
+        <div class="card">
+            <div class="card-body">
+                <div>
+                    <input type="hidden" name="id" value="@Model.Id" />
+                    <div class="mb-3">
+                        <label for="username" class="form-label">الاسم الكامل</label>
+                        <input type="text" id="username" value="@Model.FullName" disabled class="form-control">
+                    </div>
+
+                    <div class="mb-3">
+                        <label for="FullName" class="form-label">رقم الجوال</label>
+                        <input type="text" name="FullName" required value="@Model.PhoneNumber" class="form-control">
+                    </div>
+
+                    <div class="mb-3">
+                        <label for="FullName" class="form-label">تاريخ الارسال</label>
+                        <input type="text" name="FullName" required value="@Model.SendDate" class="form-control">
+                    </div>
+
+                    <div class="mb-3">
+                        <label for="FullName" class="form-label">نص الرسالة</label>
+                        <textarea class="form-control">@Model.Message</textarea>
+                    </div>
+
+                    <div style="padding-top:20px">
+                        <a href="~/ReadContact/@Model.Id" class="btn btn-danger">أرشفة</a>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

@@ -1,0 +1,72 @@
+﻿@model List<Blog>
+@{
+    ViewData["Title"] = "المدونة";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<!-- start page title -->
+<div class="row">
+    <div class="col-12">
+        <div class="page-title-box">
+            <div class="page-title-right">
+                <ol class="breadcrumb m-0">
+                    <li class="breadcrumb-item"><a href="~/Panel">الرئيسية</a></li>
+                    <li class="breadcrumb-item active">استعراض المدونات</li>
+                </ol>
+            </div>
+            <h4 class="page-title">استعراض المدونات</h4>
+        </div>
+    </div>
+</div>
+<!-- end page title -->
+
+
+<div class="row">
+    <div class="col-12">
+        <div class="card">
+            <div class="card-body">
+                <table class="table table-centered mb-0">
+                    <thead class="table-dark">
+                        <tr>
+                            <th>عنوان المدونة</th>
+                            <th>الوصف</th>
+                            <th>تاريخ النشر</th>
+                            <th>تثبيت</th>
+                            <th>حذف</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @foreach (var item in Model)
+                        {
+                            <tr>
+                                @if (item.IsPin)
+                                {
+                                    <td style="color:red">@item.Title</td>
+                                }
+                                else
+                                {
+                                    <td>@item.Title</td>
+                                }
+                                <td>@item.ShortDetails</td>
+                                <td>@item.PostDate</td>
+                                <td>
+                                    @if (item.IsPin)
+                                    {
+                                        <a href="~/ChangePin/@item.Id">الغاء تثبيت</a>
+                                    }
+                                    else
+                                    {
+                                        <a href="~/ChangePin/@item.Id">تثبيت</a>
+                                    }
+                                </td>
+                                <td>
+                                    <a href="~/DeleteBlog/@item.Id">حذف</a>
+                                </td>
+                            </tr>
+                        }
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>

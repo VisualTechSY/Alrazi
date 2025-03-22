@@ -1,7 +1,5 @@
 ﻿using Alrazi.Models;
-using Alrazi.Models.Test;
 using Alrazi.Tools;
-using Alrazi.ViewModel;
 using HtmlAgilityPack;
 using Microsoft.EntityFrameworkCore;
 
@@ -70,7 +68,7 @@ namespace Alrazi.Services
             return await context.ContactMessages.Where(x => x.IsRead == isRead).ToListAsync();
         }
 
-        public async Task AddBlog(string title , string details , List<IFormFile> files , List<string> videos)
+        public async Task AddBlog(string title , string details , List<IFormFile> files , string video)
         {
 
             string plainTextDetails = ConvertHtmlToPlainText(details);
@@ -94,11 +92,11 @@ namespace Alrazi.Services
                     IsIamge = true
                 });
             }
-            foreach (var item in videos)
+            if (!string.IsNullOrWhiteSpace(video))
             {
                 blog.BlogFiles.Add(new BlogFile
                 {
-                    Url = item,
+                    Url = video,
                     IsIamge = false
                 });
             }

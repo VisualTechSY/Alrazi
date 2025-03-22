@@ -1,74 +1,67 @@
 ﻿@model Blog
 @{
     ViewData["Title"] = "المدونة";
-    Layout = "~/Views/Shared/_WebLayout.cshtml";
+    Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
-<section class="inner-header divider parallax layer-overlay overlay-white-8" data-bg-img="~/images/bg/bg2.jpg">
-    <div class="container pt-100 pb-100">
-        <!-- Section Content -->
-        <div class="section-content">
-            <div class="row">
-                <div class="col-md-12 text-center">
-                    <h2 class="title">المدونة</h2>
-                    <ol class="breadcrumb text-center mt-10">
-                        <li><a href="#">الرئيسية</a></li>
-                        <li><a href="#">آخر الأخبار</a></li>
-                        <li class="active text-theme-colored">@Model.Title</li>
-                    </ol>
-                </div>
+<!-- start page title -->
+<div class="row">
+    <div class="col-12">
+        <div class="page-title-box">
+            <div class="page-title-right">
+                <ol class="breadcrumb m-0">
+                    <li class="breadcrumb-item"><a href="~/Panel">الرئيسية</a></li>
+                    <li class="breadcrumb-item active">إضافة خبر</li>
+                </ol>
             </div>
+            <h4 class="page-title">إضافة خبر</h4>
         </div>
     </div>
-</section>
+</div>
+<!-- end page title -->
 
-<!-- Section: Blog -->
-<section>
-    <div class="container mt-30 mb-30 pt-30 pb-30">
-        <div class="row">
-            <div class="col-md-9">
-                <div class="blog-posts single-post">
-                    <article class="post clearfix mb-0">
-                        <div class="entry-header">
-                            <div class="post-thumb thumb"> <img src="@Model.BlogFiles.First(x=> x.IsIamge).Url" alt="" class="img-responsive img-fullwidth"> </div>
-                        </div>
-                        <div class="entry-content">
-                            <div class="entry-meta media no-bg no-border mt-15 pb-20">
-                                <div class="media-body pl-15">
-                                    <div class="event-content pull-left flip">
-                                        <h3 class="entry-title text-white text-uppercase pt-0 mt-0"><a href="blog-single-right-sidebar.html">@Model.Title</a></h3>
-                                        <span class="mb-10 text-gray-darkgray mr-10 font-13"><i class="fa fa-commenting-o mr-5 text-theme-colored"></i> @Model.PostDate.ToShortDateString()</span>
-                                    </div>
-                                </div>
-                            </div>
-                            <p class="mb-15">
-                                @Html.Raw(Model.Details)
-                            </p>
-                        </div>
-                    </article>
-                </div>
-            </div>
-            <div class="col-md-3">
-                <div class="sidebar sidebar-left mt-sm-30">
-                    <div class="widget">
-                        <h5 class="widget-title line-bottom">آخر الأخبار</h5>
-                        <div class="latest-posts">
-                            @foreach (var item in ViewData["LastBlogs"] as List<Blog>)
-                            {
-                                <article class="post media-post clearfix pb-0 mb-10">
-                                    <div class="post-right">
-                                        <h5 class="post-title mt-0"><a href="~/Home/Blog/@item.Id">@item.Title</a></h5>
-                                        <p>
-                                            @item.ShortDetails
-                                        </p>
-                                    </div>
-                                </article>
-                            }
-                           
-                        </div>
+
+<div class="row">
+    <div class="col-12">
+        <div class="card">
+            <div class="card-body">
+                <form method="post">
+                    @if (!string.IsNullOrWhiteSpace(ViewBag.Message))
+                    {
+                        @if (ViewBag.Done)
+                        {
+                            <p style="color:green">@ViewBag.Message</p>
+                        }
+                        else
+                        {
+                            <p style="color:red">@ViewBag.Message</p>
+                        }
+                    }
+                    <div class="mb-3">
+                        <label for="title" class="form-label">عنوان الخبر</label>
+                        <input type="text" id="title" required name="title" class="form-control" placeholder="عنوان الخبر">
                     </div>
-                </div>
+
+                    <div class="mb-3">
+                        <label for="file" class="form-label">الصور</label>
+                        <input type="file" id="file" required name="file" class="form-control" multiple>
+                    </div>
+
+                    <div class="mb-3">
+                        <label for="video" class="form-label">رابط الفيديو</label>
+                        <input type="text" id="video" name="video" class="form-control">
+                    </div>
+
+                    <div class="mb-3">
+                        <label for="username" class="form-label">تفاصيل الخبر</label>
+                        <textarea name="details" class="form-control"></textarea>
+                    </div>
+
+                    <div style="padding-top:20px">
+                        <button type="submit" class="btn btn-primary">إضافة</button>
+                    </div>
+                </form>
             </div>
         </div>
     </div>
-</section> 
+</div>

@@ -100,11 +100,13 @@ namespace Alrazi.Controllers
         }
 
         [HttpPost("Add-Blog")]
-        public async Task<IActionResult> AddBlog(string title , string details , List<string> videos)
+        public async Task<IActionResult> AddBlog(string title , string details , string video)
         {
             if (!HttpContext.HasSession())
                 return RedirectToAction("Index");
-            await websiteService.AddBlog(title, details, Request.Form.Files.ToList(), videos);
+            await websiteService.AddBlog(title, details, Request.Form.Files.ToList(), video);
+            ViewBag.Done = true;
+            ViewBag.Message = "تم النشر بنجاح";
             return View();
         }
 
@@ -116,8 +118,8 @@ namespace Alrazi.Controllers
             return View(await websiteService.GetBlogs());
         }
 
-        [HttpGet("DeleteBlogs/{id}")]
-        public async Task<IActionResult> DeleteBlogs(int id)
+        [HttpGet("DeleteBlog/{id}")]
+        public async Task<IActionResult> DeleteBlog(int id)
         {
             if (!HttpContext.HasSession())
                 return RedirectToAction("Index");
