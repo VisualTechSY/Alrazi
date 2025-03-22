@@ -23,6 +23,7 @@ builder.Services.AddTransient<AccountService>();
 builder.Services.AddTransient<ConfigService>();
 builder.Services.AddTransient<StudentService>();
 builder.Services.AddTransient<TestService>();
+builder.Services.AddTransient<WebsiteService>();
 
 builder.Services.AddHostedService<CheckIdel>();
 

@@ -11,8 +11,11 @@ namespace Alrazi
     {
         public DbSet<AccessChannel> AccessChannels { get; set; }
         public DbSet<Account> Accounts { get; set; }
+        public DbSet<Blog> Blogs { get; set; }
+        public DbSet<BlogFile> BlogFiles { get; set; }
         public DbSet<BehavioralProblem> BehavioralProblems { get; set; }
         public DbSet<Config> Configs { get; set; }
+        public DbSet<ContactMessage> ContactMessages { get; set; }
         public DbSet<Diagnosis> Diagnoses { get; set; }
         public DbSet<Employee> Employees { get; set; }
         public DbSet<EmployeePermission> EmployeePermissions { get; set; }

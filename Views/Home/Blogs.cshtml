@@ -1,0 +1,60 @@
+﻿@model List<Blog>
+@{
+    ViewData["Title"] = "المدونة";
+    Layout = "~/Views/Shared/_WebLayout.cshtml";
+}
+
+<!-- Section: inner-header -->
+<section class="inner-header divider parallax layer-overlay overlay-white-8" data-bg-img="~/images/bg/bg2.jpg">
+    <div class="container pt-100 pb-100">
+        <!-- Section Content -->
+        <div class="section-content">
+            <div class="row">
+                <div class="col-md-12 text-center">
+                    <h2 class="title">آخر الأخبار</h2>
+                    <ol class="breadcrumb text-center mt-10">
+                        <li><a href="~/Home/Index">الرئيسية</a></li>
+                        <li class="active text-theme-colored">آخر الأخبار</li>
+                    </ol>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<section>
+    <div class="container">
+        <div class="row multi-row-clearfix">
+            <div class="blog-posts">
+                @foreach (var item in Model)
+                {
+                    <div class="col-md-3">
+                        <article class="post clearfix mb-30 bg-lighter">
+                            <div class="entry-header">
+                                <div class="post-thumb thumb">
+                                    <img src="@item.BlogFiles.First(x=> x.IsIamge).Url" alt="" class="img-responsive img-fullwidth">
+                                </div>
+                            </div>
+                            <div class="entry-content border-1px p-20 pr-10">
+                                <div class="entry-meta media mt-0 no-bg no-border">
+                                    <div class="media-body pl-15">
+                                        <div class="event-content pull-left flip">
+                                            <h4 class="entry-title text-white text-uppercase m-0 mt-5"><a href="blog-single-right-sidebar.html">@item.Title</a></h4>
+                                            <span class="mb-10 text-gray-darkgray mr-10 font-13">
+                                                <i class="fa fa-commenting-o mr-5 text-theme-colored"></i> @item.PostDate.ToShortDateString()</span>
+                                        </div>
+                                    </div>
+                                </div>
+                                <p class="mt-10">
+                                    @item.Details
+                                </p>
+                                <a href="~/Home/Blog/@item.Id" class="btn-read-more">عرض الخبر</a>
+                                <div class="clearfix"></div>
+                            </div>
+                        </article>
+                    </div>
+                }
+            </div>
+        </div>
+    </div>
+</section> 

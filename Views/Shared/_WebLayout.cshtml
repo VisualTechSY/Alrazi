@@ -140,25 +140,8 @@
         <div class="col-sm-6 col-md-4">
           <div class="widget dark">
             <h4 class="widget-title line-bottom-theme-colored-3">الاخبار المهمه</h4>
-            <div class="latest-posts">
-              <article class="post media-post clearfix pb-0 mb-10">
-                <div class="post-right">
-                  <h5 class="post-title mt-0 mb-5"><a href="~/#">عنوان</a></h5>
-                  <p class="post-date mb-0 font-12">مار 0٨, ٢٠١٧</p>
-                </div>
-              </article>
-              <article class="post media-post clearfix pb-0 mb-10">
-                <div class="post-right">
-                  <h5 class="post-title mt-0 mb-5"><a href="~/#">عنوان</a></h5>
-                  <p class="post-date mb-0 font-12">مار 0٨, ٢٠١٧</p>
-                </div>
-              </article>
-                                <article class="post media-post clearfix pb-0 mb-10">
-                                    <div class="post-right">
-                                        <h5 class="post-title mt-0 mb-5"><a href="~/#">عنوان</a></h5>
-                                        <p class="post-date mb-0 font-12">مار 0٨, ٢٠١٧</p>
-                                    </div>
-                                </article>
+                            <div class="latest-posts" id="latest-posts">
+              
             </div>
           </div>
         </div>
@@ -190,6 +173,21 @@
 <script src="~/js/revolution-slider/js/extensions/revolution.extension.parallax.min.js"></script>
 <script src="~/js/revolution-slider/js/extensions/revolution.extension.slideanims.min.js"></script>
 <script src="~/js/revolution-slider/js/extensions/revolution.extension.video.min.js"></script>
+
+    <script>
+        function GetLastBlogs(){
+            $.ajax({
+            type: 'GET',
+            url: '/Home/GetLastBlogs',
+            success: function (result) {
+                 $("#latest-posts").empty();
+                 for(var i = 0 ; i < result.length ; i++){
+                     $("#latest-posts").append('<article class="post media-post clearfix pb-0 mb-10"><div class="post-right"><h5 class="post-title mt-0 mb-5"><a href="~/Home/Blog/'+result.id+'">'+result.title+'</a></h5><p class="post-date mb-0 font-12">'+result.postDate+'</p></div></article>');
+                 }
+            }
+        });
+        }
+    </script>
 
 </body>
 </html>

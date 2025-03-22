@@ -1,3 +1,4 @@
+using Alrazi.Models;
 using Alrazi.Services;
 using Alrazi.Tools;
 using Microsoft.AspNetCore.Mvc;
@@ -8,15 +9,45 @@ namespace Alrazi.Controllers
     public class HomeController : Controller
     {
         private readonly AccountService accountService;
+        private readonly WebsiteService websiteService;
 
-        public HomeController(AccountService accountService)
+        public HomeController(AccountService accountService , WebsiteService websiteService)
         {
             this.accountService = accountService;
+            this.websiteService = websiteService;
         }
 
-        public IActionResult Index()
+        public async Task<IActionResult> Index()
         {
-            return View();
+            return View(await websiteService.GetLastBlog(3));
+        }
+
+        [HttpPost]
+        public async Task AddContact(string fullName , string message , string phoneNumber)
+        {
+            await websiteService.AddMessage(new Models.ContactMessage
+            {
+                FullName = fullName,
+                Message = message,
+                SendDate = DateTime.Now,
+                PhoneNumber = phoneNumber,
+            });
+        }
+
+        public async Task<List<Blog>> GetLastBlogs()
+        {
+            return await websiteService.GetLastBlog(3);
+        }
+
+        public async Task<IActionResult> Blogs()
+        {
+            return View(await websiteService.GetBlogs());
+        }
+
+        public async Task<IActionResult> Blog(int id)
+        {
+            ViewData["LastBlogs"] = await websiteService.GetLastBlog(3);
+            return View(await websiteService.GetBlog(id));
         }
 
         [HttpGet("Login")]

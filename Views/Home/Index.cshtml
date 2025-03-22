@@ -1,4 +1,4 @@
-﻿
+﻿@model List<Blog>
 @{
     ViewData["Title"] = "الرئيسية";
     Layout = "~/Views/Shared/_WebLayout.cshtml";
@@ -255,7 +255,7 @@
             <h3 class="mt-0 mb-0 pt-15 pb-15 text-white text-center bg-theme-colored">في حال وجود أي استفسار</h3>
             <div class="p-20 bg-gray-lighter form-boxshadow">
             <!-- Appilication Form Start-->
-            <form id="reservation_form" name="reservation_form" class="reservation-form mt-10" method="post">
+            <div id="reservation_form" name="reservation_form" class="reservation-form mt-10">
                 <div class="row">
                 <div class="col-sm-12">
                     <div class="form-group mb-20">
@@ -275,11 +275,12 @@
                 <div class="col-sm-12">
                     <div class="form-group mb-0 mt-10">
                     <input name="form_botcheck" class="form-control" type="hidden" value="">
-                    <button type="submit" class="btn btn-theme-colored btn-lg btn-block" data-loading-text="Please wait...">ارسال الطلب</button>
+                     <button type="button" id="btnAdd" onclick="AddContact()" class="btn btn-theme-colored btn-lg btn-block">ارسال الطلب</button>
+                        <div id="note"></div>
                     </div>
                 </div>
                 </div>
-            </form>
+            </div>
             <!-- Application Form End-->
 
             <!-- Application Form Validation Start-->
@@ -386,27 +387,49 @@
     </div>
     <div class="section-content">
         <div class="row">
-        <div class="col-sm-6 col-md-4 col-lg-4">
-            <article class="post clearfix maxwidth600 mb-30 border-1px">
-            <div class="entry-header-new mb-0">
-                <div class="post-thumb thumb">
-                    <img src="~/images/blog/1.jpg" alt="" class="img-responsive img-fullwidth">
-                </div>
-                <div class="blog-overlay"></div>
-            </div>
-            <div class="bg-white pt-30 pr-20 pl-20 pb-30 text-center">
-                <h3 class="entry-title mt-0 pt-0"><a class="text-theme-colored" href="~/#">العنوان</a></h3>
-                <ul class="list-inline entry-date font-13 mt-5">
-                <li><i class="fa fa-clock-o mr-5 text-theme-colored"></i> 16/06/2025 </li>
-                </ul>
-                <p class="mt-10">
-                    الوصف بطريقة محتصرة
-                </p>
-                <a class="btn btn-theme-colored btn-lg btn-flat mt-0 text-white mt-10" href="~/#">عرض الخبر <i class="fa fa-angle-double-right text-theme-colored2"></i></a>
-            </div>
-            </article>
-        </div>
+        @foreach(var item in Model){
+                    <div class="col-sm-6 col-md-4 col-lg-4">
+                        <article class="post clearfix maxwidth600 mb-30 border-1px">
+                            <div class="entry-header-new mb-0">
+                                <div class="post-thumb thumb">
+                                    <img src="~/images/blog/1.jpg" alt="" class="img-responsive img-fullwidth">
+                                </div>
+                                <div class="blog-overlay"></div>
+                            </div>
+                            <div class="bg-white pt-30 pr-20 pl-20 pb-30 text-center">
+                                <h3 class="entry-title mt-0 pt-0">
+                                    <a class="text-theme-colored" href="">@item.Title</a>
+                                </h3>
+                                <ul class="list-inline entry-date font-13 mt-5">
+                                    <li><i class="fa fa-clock-o mr-5 text-theme-colored"></i> @item.PostDate.ToShortDateString() </li>
+                                </ul>
+                                <p class="mt-10">
+                                    @item.ShortDetails
+                                </p>
+                                <a class="btn btn-theme-colored btn-lg btn-flat mt-0 text-white mt-10" href="~/Home/Blog/@item.Id">عرض الخبر <i class="fa fa-angle-double-right text-theme-colored2"></i></a>
+                            </div>
+                        </article>
+                    </div>
+        }
         </div>
     </div>
     </div>
 </section>
+
+
+<script>
+    function AddContact(){
+        $("#btnAdd").addClass('d-none');
+        $.ajax({
+        type: 'POST',
+        url: '/Home/AddContact',
+        data: { fullName: $("#reservation_name").val(),message: $("#reservation_phone").val(),phoneNumber: $("#form_message").val() },
+        success: function (result) {
+             $("#note").empty();
+            $("#btnAdd").addClass('d-none');
+            $("#note").append('<p style="color:green"><b>تمت العملية بنجاح</b></p>');
+            $("#btnAdd").removeClass('d-none');
+        }
+    });
+    }
+</script>
