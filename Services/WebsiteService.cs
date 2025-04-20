@@ -68,12 +68,10 @@ namespace Alrazi.Services
             return await context.ContactMessages.Where(x => x.IsRead == isRead).ToListAsync();
         }
 
-        public async Task AddBlog(string title , string details , List<IFormFile> files , string video)
+        public async Task<int> AddBlog(string title , string details , List<IFormFile> files , string video)
         {
 
             string plainTextDetails = ConvertHtmlToPlainText(details);
-            string[] words = plainTextDetails.Split(new[] { ' ', '\n', '\r' }, StringSplitOptions.RemoveEmptyEntries);
-            string shortDetails = string.Join(" ", words.Take(15));
 
             var blog = new Blog
             {
@@ -81,9 +79,10 @@ namespace Alrazi.Services
                 Details = details,
                 Title = title,
                 IsPin = false,
-                ShortDetails = shortDetails,
                 BlogFiles = new List<BlogFile>()
             };
+            blog.ShortDetails = blog.GetShortDetails();
+
             foreach (var item in files)
             {
                 blog.BlogFiles.Add(new BlogFile
@@ -102,6 +101,7 @@ namespace Alrazi.Services
             }
             await context.Blogs.AddAsync(blog);
             await context.SaveChangesAsync();
+            return blog.Id;
         }
 
         string ConvertHtmlToPlainText(string html)

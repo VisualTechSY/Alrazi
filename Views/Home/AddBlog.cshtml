@@ -20,15 +20,14 @@
 </div>
 <!-- end page title -->
 
-
 <div class="row">
     <div class="col-12">
         <div class="card">
             <div class="card-body">
-                <form method="post">
+                <form method="post" enctype="multipart/form-data">
                     @if (!string.IsNullOrWhiteSpace(ViewBag.Message))
                     {
-                        @if (ViewBag.Done)
+                        if (ViewBag.Done)
                         {
                             <p style="color:green">@ViewBag.Message</p>
                         }
@@ -37,6 +36,30 @@
                             <p style="color:red">@ViewBag.Message</p>
                         }
                     }
+
+                    <!-- ✅ عرض رابط الخبر مع زر نسخ -->
+                    @if (!string.IsNullOrWhiteSpace(ViewBag.PostLink))
+                    {
+                        <div class="mb-3">
+                            <label class="form-label">رابط الخبر</label>
+                            <div class="input-group">
+                                <input type="text" id="postLink" class="form-control" value="@ViewBag.PostLink" readonly />
+                                <button class="btn btn-outline-secondary" type="button" onclick="copyPostLink()">📋 نسخ</button>
+                            </div>
+                            <small class="form-text text-muted">يمكنك نسخ الرابط يدوياً أو الضغط على زر النسخ.</small>
+                        </div>
+
+                        <script>
+                            function copyPostLink() {
+                                var copyText = document.getElementById("postLink");
+                                copyText.select();
+                                copyText.setSelectionRange(0, 99999); // لدعم الجوال
+                                document.execCommand("copy");
+                                alert("✅ تم نسخ الرابط: " + copyText.value);
+                            }
+                        </script>
+                    }
+
                     <div class="mb-3">
                         <label for="title" class="form-label">عنوان الخبر</label>
                         <input type="text" id="title" required name="title" class="form-control" placeholder="عنوان الخبر">
@@ -54,7 +77,8 @@
 
                     <div class="mb-3">
                         <label for="username" class="form-label">تفاصيل الخبر</label>
-                        <textarea name="details" class="form-control"></textarea>
+                        <textarea name="details" style="height:250px" class="form-control" required></textarea>
+                        <a href="https://html5-editor.net/" target="_blank">محرر النصوص</a>
                     </div>
 
                     <div style="padding-top:20px">
