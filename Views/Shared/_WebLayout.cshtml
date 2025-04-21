@@ -92,7 +92,7 @@
                </a>
             <ul class="menuzord-menu">
               <li class="active"><a href="~/#home">الصفحة الرئيسية</a></li>
-              <li class=""><a href="~/Home/Index#about">حول</a></li>
+              <li class=""><a href="~/#about">حول</a></li>
               <li class=""><a href="~/Blogs">آخر الأخبار</a></li>
               <li class=""><a href="~/#contactUs">تواصل معنا</a></li>
               <li class=""><a href="~/Login">تسجيل الدخول</a></li>
@@ -179,15 +179,18 @@
         function GetLastBlogs(){
             $.ajax({
             type: 'GET',
-            url: '/Home/GetLastBlogs',
+            url: '/Home/GetLastPinnedBlogs',
             success: function (result) {
                  $("#latest-posts").empty();
                  for(var i = 0 ; i < result.length ; i++){
-                     $("#latest-posts").append('<article class="post media-post clearfix pb-0 mb-10"><div class="post-right"><h5 class="post-title mt-0 mb-5"><a href="~/Home/Blog/'+result.id+'">'+result.title+'</a></h5><p class="post-date mb-0 font-12">'+result.postDate+'</p></div></article>');
+                     $("#latest-posts").append('<article class="post media-post clearfix pb-0 mb-10"><div class="post-right"><h5 class="post-title mt-0 mb-5"><a href="/Home/Blog/'+result[i].id+'">'+result[i].title+'</a></h5><p class="post-date mb-0 font-12">'+result[i].dateToView+'</p></div></article>');
                  }
             }
         });
         }
+        $(document).ready(function () {
+            GetLastBlogs();
+        });
     </script>
 
 </body>

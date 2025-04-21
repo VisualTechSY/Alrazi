@@ -16,6 +16,14 @@ namespace Alrazi.Services
         {
             return await context.Blogs
                 .Include(x => x.BlogFiles)
+                .OrderByDescending(x => x.Id)
+                .Take(count)
+                .ToListAsync();
+        }
+        public async Task<List<Blog>> GetLastPinnedBlog(int count)
+        {
+            return await context.Blogs
+                .Include(x => x.BlogFiles)
                 .Where(x=> x.IsPin)
                 .OrderByDescending(x => x.Id)
                 .Take(count)

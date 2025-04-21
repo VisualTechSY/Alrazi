@@ -387,12 +387,14 @@
     </div>
     <div class="section-content">
         <div class="row">
-        @foreach(var item in Model){
+        @foreach(var item in Model)
+        {
+                    var imgUrl = item.BlogFiles.Any(x => x.IsIamge) ? item.BlogFiles.First(x => x.IsIamge).Url : "/images/blog/1.jpg";
                     <div class="col-sm-6 col-md-4 col-lg-4">
                         <article class="post clearfix maxwidth600 mb-30 border-1px">
                             <div class="entry-header-new mb-0">
                                 <div class="post-thumb thumb">
-                                    <img src="~/images/blog/1.jpg" alt="" class="img-responsive img-fullwidth">
+                                    <img src="@imgUrl" alt="" class="img-responsive img-fullwidth">
                                 </div>
                                 <div class="blog-overlay"></div>
                             </div>

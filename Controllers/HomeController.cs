@@ -38,6 +38,11 @@ namespace Alrazi.Controllers
             return await websiteService.GetLastBlog(3);
         }
 
+        public async Task<List<Blog>> GetLastPinnedBlogs()
+        {
+            return await websiteService.GetLastPinnedBlog(3);
+        }
+
         [HttpGet("Blogs")]
         public async Task<IActionResult> Blogs()
         {
@@ -145,6 +150,14 @@ namespace Alrazi.Controllers
             return View(await websiteService.GetContacts(false));
         }
 
+        [HttpGet("Get-Archived-Contacts")]
+        public async Task<IActionResult> GetArchivedContacts()
+        {
+            if (!HttpContext.HasSession())
+                return RedirectToAction("Index");
+            return View(await websiteService.GetContacts(true));
+        }
+
         [HttpGet("Get-Contact/{id}")]
         public async Task<IActionResult> GetContact(int id)
         {
@@ -159,7 +172,7 @@ namespace Alrazi.Controllers
             if (!HttpContext.HasSession())
                 return RedirectToAction("Index");
             await websiteService.UpdateContact(id);
-            return Redirect($"~/Get-Contacts/{id}");
+            return Redirect($"~/Get-Archived-Contacts");
         }
 
     }

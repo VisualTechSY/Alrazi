@@ -1,0 +1,55 @@
+﻿@model List<ContactMessage>
+@{
+    ViewData["Title"] = "المدونة";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+
+<!-- start page title -->
+<div class="row">
+    <div class="col-12">
+        <div class="page-title-box">
+            <div class="page-title-right">
+                <ol class="breadcrumb m-0">
+                    <li class="breadcrumb-item"><a href="~/Panel">الرئيسية</a></li>
+                    <li class="breadcrumb-item active">استعراض الرسائل المؤرشفة</li>
+                </ol>
+            </div>
+            <h4 class="page-title">استعراض الرسائل المؤرشفة</h4>
+        </div>
+    </div>
+</div>
+<!-- end page title -->
+
+
+<div class="row">
+    <div class="col-12">
+        <div class="card">
+            <div class="card-body">
+                <table class="table table-centered mb-0">
+                    <thead class="table-dark">
+                        <tr>
+                            <th>اسم المرسل</th>
+                            <th>رقم الهاتف</th>
+                            <th>تاريخ الارسال</th>
+                            <th>خيارات</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @foreach (var item in Model)
+                        {
+                            <tr>
+                                <td>@item.FullName</td>
+                                <td>@item.PhoneNumber</td>
+                                <td>@item.SendDate</td>
+                                <td>
+                                    <a href="~/Get-Contact/@item.Id">عرض</a>
+                                </td>
+                            </tr>
+                        }
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>

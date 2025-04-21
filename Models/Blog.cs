@@ -10,6 +10,7 @@ namespace Alrazi.Models
         public string ShortDetails { get; set; }
         public bool IsPin { get; set; }
         public DateTime PostDate { get; set; }
+        public string DateToView => PostDate.ToShortDateString();
         public List<BlogFile> BlogFiles { get; set; }
         public string GetShortDetails()
         {  // إزالة جميع الـ HTML tags
