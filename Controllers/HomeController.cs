@@ -22,13 +22,13 @@ namespace Alrazi.Controllers
         }
 
         [HttpPost]
-        public async Task AddContact(string fullName, string message, string phoneNumber)
+        public async Task AddContact(string fullName,  string phoneNumber, string message)
         {
             await websiteService.AddMessage(new Models.ContactMessage
             {
                 FullName = fullName,
                 Message = message,
-                SendDate = DateTime.Now,
+                SendDate = DateTime.UtcNow.AddHours(3),
                 PhoneNumber = phoneNumber,
             });
         }
