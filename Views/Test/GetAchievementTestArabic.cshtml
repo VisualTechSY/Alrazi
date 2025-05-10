@@ -1,0 +1,83 @@
+﻿@using Alrazi.ViewModel
+@model List<string>
+@{
+    ViewData["Title"] = "طباعة المستويات";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<!DOCTYPE html>
+<html dir="rtl">
+<head>
+    <meta charset="utf-8" />
+    <title>@ViewData["Title"]</title>
+    <style>
+        @@media print {
+            table thead {
+                display: table-header-group; /* يجعل thead يتكرر في كل صفحة */
+            }
+            table {
+                page-break-inside: avoid; /* يمنع تقسيم الجدول بين الصفحات */
+            }
+            .print-header {
+                display: block;
+                page-break-before: always; /* يضيف فاصل صفحة قبل كل جدول */
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="row">
+        <div class="col-12">
+            <div class="card">
+                <!-- الجدول الأول -->
+                <table class="data-table table-centered mb-0" style="width: 100%; border-collapse: collapse;">
+                    <tbody>
+                        <tr style="padding: 15px 0;">
+                            <!-- تباعد بين الأسطر -->
+                            <th style="padding: 10px; text-align: right;">الاسم:</th>
+                            <th colspan="4" style="padding: 10px; text-align: right;">@ViewBag.FullName</th>
+                            <th style="padding: 10px; text-align: right;">الميلاد:</th>
+                            <th colspan="4" style="padding: 10px; text-align: right;">@ViewBag.BirthDate</th>
+                        </tr>
+                        <tr style="padding: 15px 0;">
+                            <!-- تباعد بين الأسطر -->
+                            <th style="padding: 10px; text-align: right;">تاريخ الاختبار:</th>
+                            <th colspan="4" style="padding: 10px; text-align: right;">.......................</th>
+                        </tr>
+                    </tbody>
+                </table>
+                <br />
+                    <table class="table table-centered mb-0" >
+                        <thead class="table-dark">
+                            <tr>
+                                <th colspan="5" style="text-align:center"></th>
+                            </tr>
+                            <tr>
+                                <th>م</th>
+                                <th>اسم المهارة</th>
+                                <th>الخام</th>
+                                <th>العلامة</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @{
+                                int serial = 0;
+                            }
+                            @foreach (var Quastion in Model)
+                            {
+                                <tr>
+                                    <td>@(++serial)</td>
+                                    <td>@Quastion</td>
+                                    <td></td>
+                                    <td></td>
+                                </tr>
+                            }
+                        </tbody>
+                    </table>
+            </div>
+        </div>
+        <button onclick="print()" class="btn btn-primary">طباعة الصفحة</button>
+    </div>
+
+</body>
+</html>

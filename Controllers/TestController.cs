@@ -144,8 +144,8 @@ namespace Alrazi.Controllers
             ViewBag.FullName = getStudent.FullName;
             ViewBag.BirthDate = getStudent.BirthDate.ToShortDateString();
             return View(testPortageIndividualPlanVMs);
-        }
-
+        }  
+        
         #endregion
 
         #region StanfordBinet
@@ -234,6 +234,36 @@ namespace Alrazi.Controllers
         }
 
         #endregion
+
+
+
+
+
+        #region AchievementTests
+
+        public async Task<IActionResult> GetAchievementTestsSchoolReadinessQS(int studentId)
+        {
+            if (!HttpContext.HasSession())
+                return RedirectToAction("Index", "Home");
+
+            List<AchievementTestsSchoolReadinessQSVM> achievementTestsSchoolReadinessQSVMs = TestManager.GetAchievementTestsSchoolReadinessQS();
+            var getStudent = await studentService.GetStudent(studentId);
+            ViewBag.FullName = getStudent.FullName;
+            ViewBag.BirthDate = getStudent.BirthDate.ToShortDateString();
+            return View(achievementTestsSchoolReadinessQSVMs);
+        }
+
+
+        public async Task<IActionResult> GetAchievementTestArabic(int testId)
+        {
+            if (!HttpContext.HasSession())
+                return RedirectToAction("Index", "Home");
+            List<string> testsArabic = TestManager.GetAchievementTestArabic(testId);
+            return View(testsArabic);
+        }
+
+        #endregion
+
 
     }
 }
