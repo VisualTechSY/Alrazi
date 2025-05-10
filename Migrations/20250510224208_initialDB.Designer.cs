@@ -12,8 +12,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace Alrazi.Migrations
 {
     [DbContext(typeof(Context))]
-    [Migration("20241004183223_addLDColumn")]
-    partial class addLDColumn
+    [Migration("20250510224208_initialDB")]
+    partial class initialDB
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -90,6 +90,62 @@ namespace Alrazi.Migrations
                     b.ToTable("BehavioralProblems");
                 });
 
+            modelBuilder.Entity("Alrazi.Models.Blog", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
+
+                    b.Property<string>("Details")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<bool>("IsPin")
+                        .HasColumnType("bit");
+
+                    b.Property<DateTime>("PostDate")
+                        .HasColumnType("datetime2");
+
+                    b.Property<string>("ShortDetails")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("Title")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("Blogs");
+                });
+
+            modelBuilder.Entity("Alrazi.Models.BlogFile", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
+
+                    b.Property<int>("BlogId")
+                        .HasColumnType("int");
+
+                    b.Property<bool>("IsIamge")
+                        .HasColumnType("bit");
+
+                    b.Property<string>("Url")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("BlogId");
+
+                    b.ToTable("BlogFiles");
+                });
+
             modelBuilder.Entity("Alrazi.Models.Config", b =>
                 {
                     b.Property<int>("Id")
@@ -108,6 +164,37 @@ namespace Alrazi.Migrations
                     b.HasKey("Id");
 
                     b.ToTable("Configs");
+                });
+
+            modelBuilder.Entity("Alrazi.Models.ContactMessage", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
+
+                    b.Property<string>("FullName")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<bool>("IsRead")
+                        .HasColumnType("bit");
+
+                    b.Property<string>("Message")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("PhoneNumber")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<DateTime>("SendDate")
+                        .HasColumnType("datetime2");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("ContactMessages");
                 });
 
             modelBuilder.Entity("Alrazi.Models.Diagnosis", b =>
@@ -480,8 +567,8 @@ namespace Alrazi.Migrations
                     b.Property<int>("ChildOrder")
                         .HasColumnType("int");
 
-                    b.Property<int?>("ChildResidence")
-                        .HasColumnType("int");
+                    b.Property<string>("ChildResidence")
+                        .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("DisabilityOfRelative")
                         .IsRequired()
@@ -509,9 +596,6 @@ namespace Alrazi.Migrations
                     b.Property<string>("FatherStudy")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
-
-                    b.Property<DateTime>("MotherAgeAtBirth")
-                        .HasColumnType("datetime2");
 
                     b.Property<DateTime>("MotherBirthDate")
                         .HasColumnType("datetime2");
@@ -627,18 +711,15 @@ namespace Alrazi.Migrations
                         .HasColumnType("bit");
 
                     b.Property<string>("OtherProplem")
-                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("RhesusFactor")
-                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<bool>("SevereInfections")
                         .HasColumnType("bit");
 
                     b.Property<string>("Tests")
-                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<bool>("VaccineRelatedProblems")
@@ -658,15 +739,17 @@ namespace Alrazi.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<int>("AudiogramTypeResult")
-                        .HasColumnType("int");
+                    b.Property<string>("AudiogramTypeResult")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("BrainScan")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<int>("BrainScanResult")
-                        .HasColumnType("int");
+                    b.Property<string>("BrainScanResult")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("CurrentMedications")
                         .IsRequired()
@@ -688,8 +771,9 @@ namespace Alrazi.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<int>("EyeExaminationResult")
-                        .HasColumnType("int");
+                    b.Property<string>("EyeExaminationResult")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("LaboratoryTests")
                         .HasColumnType("nvarchar(max)");
@@ -707,6 +791,14 @@ namespace Alrazi.Migrations
                 {
                     b.Property<int>("Id")
                         .HasColumnType("int");
+
+                    b.Property<string>("AFewCompareColleagues")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("AlotCompareColleagues")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("AssaultsOthers")
                         .IsRequired()
@@ -750,8 +842,12 @@ namespace Alrazi.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<bool>("ComplicationsDuringPregnancy")
-                        .HasColumnType("bit");
+                    b.Property<int>("BirthType")
+                        .HasColumnType("int");
+
+                    b.Property<string>("ComplicationsDuringPregnancy")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
 
                     b.Property<bool>("GotJaundice")
                         .HasColumnType("bit");
@@ -759,12 +855,15 @@ namespace Alrazi.Migrations
                     b.Property<bool>("GrowthComplete")
                         .HasColumnType("bit");
 
-                    b.Property<bool>("IsNatural")
+                    b.Property<bool>("IsBlue")
                         .HasColumnType("bit");
 
                     b.Property<string>("MonthMotherExposedRadiation")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
+
+                    b.Property<DateTime>("MotherAgeAtBirth")
+                        .HasColumnType("datetime2");
 
                     b.Property<string>("NurseryLong")
                         .IsRequired()
@@ -818,6 +917,9 @@ namespace Alrazi.Migrations
 
                     b.Property<string>("OtherNote")
                         .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("SkillsFamilyRequiredChild")
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("SkillsRequiredChild")
@@ -1026,6 +1128,239 @@ namespace Alrazi.Migrations
                     b.ToTable("StudentVisitCenters");
                 });
 
+            modelBuilder.Entity("Alrazi.Models.Test.TestPortage", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
+
+                    b.Property<string>("Attendant")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("Examiner")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<DateTime>("LastTestDateSkill")
+                        .HasColumnType("datetime2");
+
+                    b.Property<string>("Recommendations")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<int>("SerialNumber")
+                        .HasColumnType("int");
+
+                    b.Property<int>("StudentId")
+                        .HasColumnType("int");
+
+                    b.Property<string>("Summary")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<DateTime>("TestDate")
+                        .HasColumnType("datetime2");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("StudentId");
+
+                    b.ToTable("TestPortages");
+                });
+
+            modelBuilder.Entity("Alrazi.Models.Test.TestPortageDetails", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
+
+                    b.Property<int>("AgeAddonal")
+                        .HasColumnType("int");
+
+                    b.Property<string>("AgeTheBase")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<int>("Mark")
+                        .HasColumnType("int");
+
+                    b.Property<int>("TestPortageId")
+                        .HasColumnType("int");
+
+                    b.Property<int>("TestPortageSubject")
+                        .HasColumnType("int");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("TestPortageId");
+
+                    b.ToTable("TestPortageDetails");
+                });
+
+            modelBuilder.Entity("Alrazi.Models.Test.TestPortageSkill", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
+
+                    b.Property<int>("SerialNumber")
+                        .HasColumnType("int");
+
+                    b.Property<DateTime>("TestDateSkill")
+                        .HasColumnType("datetime2");
+
+                    b.Property<int>("TestPortageId")
+                        .HasColumnType("int");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("TestPortageId");
+
+                    b.ToTable("TestPortageSkills");
+                });
+
+            modelBuilder.Entity("Alrazi.Models.Test.TestPortageSkillDetalis", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
+
+                    b.Property<double>("Mark")
+                        .HasColumnType("float");
+
+                    b.Property<int>("TestPortageSkillId")
+                        .HasColumnType("int");
+
+                    b.Property<int>("TestPortage_Skill")
+                        .HasColumnType("int");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("TestPortageSkillId");
+
+                    b.ToTable("TestPortageSkillDetalis");
+                });
+
+            modelBuilder.Entity("Alrazi.Models.Test.TestRaven", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
+
+                    b.Property<string>("Examiner")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<int>("Mark")
+                        .HasColumnType("int");
+
+                    b.Property<int>("SerialNumber")
+                        .HasColumnType("int");
+
+                    b.Property<int>("StudentId")
+                        .HasColumnType("int");
+
+                    b.Property<DateTime>("TestDate")
+                        .HasColumnType("datetime2");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("StudentId");
+
+                    b.ToTable("TestRavens");
+                });
+
+            modelBuilder.Entity("Alrazi.Models.Test.TestStanfordBinet", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
+
+                    b.Property<string>("Class")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("Examiner")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("Recommendations")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("School")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<int>("SerialNumber")
+                        .HasColumnType("int");
+
+                    b.Property<int>("StudentId")
+                        .HasColumnType("int");
+
+                    b.Property<string>("Summary")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<DateTime>("TestDate")
+                        .HasColumnType("datetime2");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("StudentId");
+
+                    b.ToTable("TestStanfordBinets");
+                });
+
+            modelBuilder.Entity("Alrazi.Models.Test.TestStanfordBinetDetails", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
+
+                    b.Property<string>("ConfidenceLimits")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<int>("Mark")
+                        .HasColumnType("int");
+
+                    b.Property<int>("PercentileRank")
+                        .HasColumnType("int");
+
+                    b.Property<int>("TestStanfordBinetId")
+                        .HasColumnType("int");
+
+                    b.Property<int>("TestStanfordBinetSubject")
+                        .HasColumnType("int");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("TestStanfordBinetId");
+
+                    b.ToTable("TestStanfordBinetDetails");
+                });
+
+            modelBuilder.Entity("Alrazi.Models.BlogFile", b =>
+                {
+                    b.HasOne("Alrazi.Models.Blog", "Blog")
+                        .WithMany("BlogFiles")
+                        .HasForeignKey("BlogId")
+                        .OnDelete(DeleteBehavior.Restrict)
+                        .IsRequired();
+
+                    b.Navigation("Blog");
+                });
+
             modelBuilder.Entity("Alrazi.Models.Employee", b =>
                 {
                     b.HasOne("Alrazi.Models.Account", "Account")
@@ -1078,8 +1413,8 @@ namespace Alrazi.Migrations
             modelBuilder.Entity("Alrazi.Models.StudentAbility", b =>
                 {
                     b.HasOne("Alrazi.Models.Student", "Student")
-                        .WithMany()
-                        .HasForeignKey("Id")
+                        .WithOne("StudentAbility")
+                        .HasForeignKey("Alrazi.Models.StudentAbility", "Id")
                         .OnDelete(DeleteBehavior.Restrict)
                         .IsRequired();
 
@@ -1089,8 +1424,8 @@ namespace Alrazi.Migrations
             modelBuilder.Entity("Alrazi.Models.StudentAcademic", b =>
                 {
                     b.HasOne("Alrazi.Models.Student", "Student")
-                        .WithMany()
-                        .HasForeignKey("Id")
+                        .WithOne("StudentAcademic")
+                        .HasForeignKey("Alrazi.Models.StudentAcademic", "Id")
                         .OnDelete(DeleteBehavior.Restrict)
                         .IsRequired();
 
@@ -1155,7 +1490,7 @@ namespace Alrazi.Migrations
             modelBuilder.Entity("Alrazi.Models.StudentInterests", b =>
                 {
                     b.HasOne("Alrazi.Models.Student", "Student")
-                        .WithMany()
+                        .WithMany("StudentInterests")
                         .HasForeignKey("StudentId")
                         .OnDelete(DeleteBehavior.Restrict)
                         .IsRequired();
@@ -1166,7 +1501,7 @@ namespace Alrazi.Migrations
             modelBuilder.Entity("Alrazi.Models.StudentLevelInfo", b =>
                 {
                     b.HasOne("Alrazi.Models.Student", "Student")
-                        .WithMany()
+                        .WithMany("StudentLevelInfos")
                         .HasForeignKey("StudentId")
                         .OnDelete(DeleteBehavior.Restrict)
                         .IsRequired();
@@ -1199,8 +1534,8 @@ namespace Alrazi.Migrations
             modelBuilder.Entity("Alrazi.Models.StudentMistake", b =>
                 {
                     b.HasOne("Alrazi.Models.Student", "Student")
-                        .WithMany()
-                        .HasForeignKey("Id")
+                        .WithOne("StudentMistake")
+                        .HasForeignKey("Alrazi.Models.StudentMistake", "Id")
                         .OnDelete(DeleteBehavior.Restrict)
                         .IsRequired();
 
@@ -1295,7 +1630,7 @@ namespace Alrazi.Migrations
             modelBuilder.Entity("Alrazi.Models.StudentVisitCenter", b =>
                 {
                     b.HasOne("Alrazi.Models.Student", "Student")
-                        .WithMany()
+                        .WithMany("StudentVisitCenters")
                         .HasForeignKey("StudentId")
                         .OnDelete(DeleteBehavior.Restrict)
                         .IsRequired();
@@ -1303,10 +1638,92 @@ namespace Alrazi.Migrations
                     b.Navigation("Student");
                 });
 
+            modelBuilder.Entity("Alrazi.Models.Test.TestPortage", b =>
+                {
+                    b.HasOne("Alrazi.Models.Student", "Student")
+                        .WithMany("TestPortages")
+                        .HasForeignKey("StudentId")
+                        .OnDelete(DeleteBehavior.Restrict)
+                        .IsRequired();
+
+                    b.Navigation("Student");
+                });
+
+            modelBuilder.Entity("Alrazi.Models.Test.TestPortageDetails", b =>
+                {
+                    b.HasOne("Alrazi.Models.Test.TestPortage", "TestPortage")
+                        .WithMany("TestPortageDetails")
+                        .HasForeignKey("TestPortageId")
+                        .OnDelete(DeleteBehavior.Restrict)
+                        .IsRequired();
+
+                    b.Navigation("TestPortage");
+                });
+
+            modelBuilder.Entity("Alrazi.Models.Test.TestPortageSkill", b =>
+                {
+                    b.HasOne("Alrazi.Models.Test.TestPortage", "TestPortage")
+                        .WithMany("TestPortageSkills")
+                        .HasForeignKey("TestPortageId")
+                        .OnDelete(DeleteBehavior.Restrict)
+                        .IsRequired();
+
+                    b.Navigation("TestPortage");
+                });
+
+            modelBuilder.Entity("Alrazi.Models.Test.TestPortageSkillDetalis", b =>
+                {
+                    b.HasOne("Alrazi.Models.Test.TestPortageSkill", "TestPortageSkill")
+                        .WithMany("TestPortageSkillDetalis")
+                        .HasForeignKey("TestPortageSkillId")
+                        .OnDelete(DeleteBehavior.Restrict)
+                        .IsRequired();
+
+                    b.Navigation("TestPortageSkill");
+                });
+
+            modelBuilder.Entity("Alrazi.Models.Test.TestRaven", b =>
+                {
+                    b.HasOne("Alrazi.Models.Student", "Student")
+                        .WithMany("TestRavens")
+                        .HasForeignKey("StudentId")
+                        .OnDelete(DeleteBehavior.Restrict)
+                        .IsRequired();
+
+                    b.Navigation("Student");
+                });
+
+            modelBuilder.Entity("Alrazi.Models.Test.TestStanfordBinet", b =>
+                {
+                    b.HasOne("Alrazi.Models.Student", "Student")
+                        .WithMany("TestStanfordBinets")
+                        .HasForeignKey("StudentId")
+                        .OnDelete(DeleteBehavior.Restrict)
+                        .IsRequired();
+
+                    b.Navigation("Student");
+                });
+
+            modelBuilder.Entity("Alrazi.Models.Test.TestStanfordBinetDetails", b =>
+                {
+                    b.HasOne("Alrazi.Models.Test.TestStanfordBinet", "TestStanfordBinet")
+                        .WithMany("TestStanfordBinetDetails")
+                        .HasForeignKey("TestStanfordBinetId")
+                        .OnDelete(DeleteBehavior.Restrict)
+                        .IsRequired();
+
+                    b.Navigation("TestStanfordBinet");
+                });
+
             modelBuilder.Entity("Alrazi.Models.Account", b =>
                 {
                     b.Navigation("Employee")
                         .IsRequired();
+                });
+
+            modelBuilder.Entity("Alrazi.Models.Blog", b =>
+                {
+                    b.Navigation("BlogFiles");
                 });
 
             modelBuilder.Entity("Alrazi.Models.Employee", b =>
@@ -1316,6 +1733,12 @@ namespace Alrazi.Migrations
 
             modelBuilder.Entity("Alrazi.Models.Student", b =>
                 {
+                    b.Navigation("StudentAbility")
+                        .IsRequired();
+
+                    b.Navigation("StudentAcademic")
+                        .IsRequired();
+
                     b.Navigation("StudentAutonomy")
                         .IsRequired();
 
@@ -1330,10 +1753,17 @@ namespace Alrazi.Migrations
                     b.Navigation("StudentFamilyInfo")
                         .IsRequired();
 
+                    b.Navigation("StudentInterests");
+
+                    b.Navigation("StudentLevelInfos");
+
                     b.Navigation("StudentMedical")
                         .IsRequired();
 
                     b.Navigation("StudentMedicalTest")
+                        .IsRequired();
+
+                    b.Navigation("StudentMistake")
                         .IsRequired();
 
                     b.Navigation("StudentMotherMedical")
@@ -1352,11 +1782,36 @@ namespace Alrazi.Migrations
 
                     b.Navigation("StudentSocialDevelopment")
                         .IsRequired();
+
+                    b.Navigation("StudentVisitCenters");
+
+                    b.Navigation("TestPortages");
+
+                    b.Navigation("TestRavens");
+
+                    b.Navigation("TestStanfordBinets");
                 });
 
             modelBuilder.Entity("Alrazi.Models.StudentPsychologyDevelopment", b =>
                 {
                     b.Navigation("StudentPsychologyDevelopmentBehavioralProblems");
+                });
+
+            modelBuilder.Entity("Alrazi.Models.Test.TestPortage", b =>
+                {
+                    b.Navigation("TestPortageDetails");
+
+                    b.Navigation("TestPortageSkills");
+                });
+
+            modelBuilder.Entity("Alrazi.Models.Test.TestPortageSkill", b =>
+                {
+                    b.Navigation("TestPortageSkillDetalis");
+                });
+
+            modelBuilder.Entity("Alrazi.Models.Test.TestStanfordBinet", b =>
+                {
+                    b.Navigation("TestStanfordBinetDetails");
                 });
 #pragma warning restore 612, 618
         }

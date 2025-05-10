@@ -1350,7 +1350,7 @@ namespace Alrazi.Migrations
             modelBuilder.Entity("Alrazi.Models.BlogFile", b =>
                 {
                     b.HasOne("Alrazi.Models.Blog", "Blog")
-                        .WithMany()
+                        .WithMany("BlogFiles")
                         .HasForeignKey("BlogId")
                         .OnDelete(DeleteBehavior.Restrict)
                         .IsRequired();
@@ -1716,6 +1716,11 @@ namespace Alrazi.Migrations
                 {
                     b.Navigation("Employee")
                         .IsRequired();
+                });
+
+            modelBuilder.Entity("Alrazi.Models.Blog", b =>
+                {
+                    b.Navigation("BlogFiles");
                 });
 
             modelBuilder.Entity("Alrazi.Models.Employee", b =>

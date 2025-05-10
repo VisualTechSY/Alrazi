@@ -6,7 +6,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 namespace Alrazi.Migrations
 {
     /// <inheritdoc />
-    public partial class Initial : Migration
+    public partial class initialDB : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
@@ -55,6 +55,23 @@ namespace Alrazi.Migrations
                 });
 
             migrationBuilder.CreateTable(
+                name: "Blogs",
+                columns: table => new
+                {
+                    Id = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    Title = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    Details = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    ShortDetails = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    IsPin = table.Column<bool>(type: "bit", nullable: false),
+                    PostDate = table.Column<DateTime>(type: "datetime2", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Blogs", x => x.Id);
+                });
+
+            migrationBuilder.CreateTable(
                 name: "Configs",
                 columns: table => new
                 {
@@ -66,6 +83,23 @@ namespace Alrazi.Migrations
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_Configs", x => x.Id);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "ContactMessages",
+                columns: table => new
+                {
+                    Id = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    FullName = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    PhoneNumber = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    Message = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    SendDate = table.Column<DateTime>(type: "datetime2", nullable: false),
+                    IsRead = table.Column<bool>(type: "bit", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_ContactMessages", x => x.Id);
                 });
 
             migrationBuilder.CreateTable(
@@ -115,6 +149,27 @@ namespace Alrazi.Migrations
                 });
 
             migrationBuilder.CreateTable(
+                name: "BlogFiles",
+                columns: table => new
+                {
+                    Id = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    BlogId = table.Column<int>(type: "int", nullable: false),
+                    Url = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    IsIamge = table.Column<bool>(type: "bit", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_BlogFiles", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_BlogFiles_Blogs_BlogId",
+                        column: x => x.BlogId,
+                        principalTable: "Blogs",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Restrict);
+                });
+
+            migrationBuilder.CreateTable(
                 name: "Students",
                 columns: table => new
                 {
@@ -126,7 +181,6 @@ namespace Alrazi.Migrations
                     StateNumber = table.Column<int>(type: "int", nullable: false),
                     BirthPlace = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     BirthDate = table.Column<DateTime>(type: "datetime2", nullable: false),
-                    AgeTimeDate = table.Column<DateTime>(type: "datetime2", nullable: false),
                     StudyStateDate = table.Column<DateTime>(type: "datetime2", nullable: false),
                     IsMale = table.Column<bool>(type: "bit", nullable: false),
                     PhoneNumber = table.Column<string>(type: "nvarchar(max)", nullable: false),
@@ -189,7 +243,6 @@ namespace Alrazi.Migrations
                 {
                     Id = table.Column<int>(type: "int", nullable: false),
                     Focus = table.Column<int>(type: "int", nullable: false),
-                    IsQualified = table.Column<bool>(type: "bit", nullable: false),
                     RehabilitationSystem = table.Column<int>(type: "int", nullable: false),
                     ContinuousTraining = table.Column<bool>(type: "bit", nullable: false),
                     ReasonContinuousTraining = table.Column<string>(type: "nvarchar(max)", nullable: false),
@@ -337,7 +390,6 @@ namespace Alrazi.Migrations
                     FatherBirthDate = table.Column<DateTime>(type: "datetime2", nullable: false),
                     FatherStudy = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     FatherJob = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    MotherAgeAtBirth = table.Column<DateTime>(type: "datetime2", nullable: false),
                     FatherAndMotherDegree = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     FatherAndMotherDiseases = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     DisabilityOfRelative = table.Column<string>(type: "nvarchar(max)", nullable: false),
@@ -345,7 +397,7 @@ namespace Alrazi.Migrations
                     BrotherAndSisterCount = table.Column<int>(type: "int", nullable: false),
                     ChildOrder = table.Column<int>(type: "int", nullable: false),
                     SeparatedParents = table.Column<bool>(type: "bit", nullable: true),
-                    ChildResidence = table.Column<int>(type: "int", nullable: true)
+                    ChildResidence = table.Column<string>(type: "nvarchar(max)", nullable: true)
                 },
                 constraints: table =>
                 {
@@ -414,7 +466,10 @@ namespace Alrazi.Migrations
                     HeadInjury = table.Column<bool>(type: "bit", nullable: false),
                     SevereInfections = table.Column<bool>(type: "bit", nullable: false),
                     VaccineRelatedProblems = table.Column<bool>(type: "bit", nullable: false),
-                    Tests = table.Column<string>(type: "nvarchar(max)", nullable: false)
+                    Tests = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    GotJaundice = table.Column<bool>(type: "bit", nullable: false),
+                    RhesusFactor = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    OtherProplem = table.Column<string>(type: "nvarchar(max)", nullable: true)
                 },
                 constraints: table =>
                 {
@@ -433,14 +488,14 @@ namespace Alrazi.Migrations
                 {
                     Id = table.Column<int>(type: "int", nullable: false),
                     AudiogramType = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    AudiogramTypeResult = table.Column<int>(type: "int", nullable: false),
+                    AudiogramTypeResult = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     EyeExamination = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    EyeExaminationResult = table.Column<int>(type: "int", nullable: false),
+                    EyeExaminationResult = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     BrainScan = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    BrainScanResult = table.Column<int>(type: "int", nullable: false),
-                    LaboratoryTests = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    BrainScanResult = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     PreviousMedications = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     CurrentMedications = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    LaboratoryTests = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     DoctorDiagnosis = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     DiagnosisResult = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     DoctorAddress = table.Column<string>(type: "nvarchar(max)", nullable: true),
@@ -463,6 +518,8 @@ namespace Alrazi.Migrations
                 {
                     Id = table.Column<int>(type: "int", nullable: false),
                     CompareColleagues = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    AlotCompareColleagues = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    AFewCompareColleagues = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     BehavioralDescription = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     SchoolDealing = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     UnderstandingWellBehaved = table.Column<string>(type: "nvarchar(max)", nullable: false),
@@ -486,17 +543,19 @@ namespace Alrazi.Migrations
                 columns: table => new
                 {
                     Id = table.Column<int>(type: "int", nullable: false),
-                    ComplicationsDuringPregnancy = table.Column<bool>(type: "bit", nullable: false),
+                    ComplicationsDuringPregnancy = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    MotherAgeAtBirth = table.Column<DateTime>(type: "datetime2", nullable: false),
                     MonthMotherExposedRadiation = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     TookMedicationWhilePregnant = table.Column<bool>(type: "bit", nullable: false),
                     PsychologicalState = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     PregnancyDuration = table.Column<int>(type: "int", nullable: false),
-                    IsNatural = table.Column<bool>(type: "bit", nullable: false),
+                    BirthType = table.Column<int>(type: "int", nullable: false),
                     PlaceBirth = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     BirthSupervisor = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     NurseryLong = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     NurseryReason = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     GrowthComplete = table.Column<bool>(type: "bit", nullable: false),
+                    IsBlue = table.Column<bool>(type: "bit", nullable: false),
                     GotJaundice = table.Column<bool>(type: "bit", nullable: false),
                     RhesusFactor = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     OtherProblem = table.Column<string>(type: "nvarchar(max)", nullable: false)
@@ -522,6 +581,7 @@ namespace Alrazi.Migrations
                     DescribeProblemAsSeenParents = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     SpeakingWay = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     FamilyProblemsWithChild = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    SkillsFamilyRequiredChild = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     SkillsRequiredChild = table.Column<string>(type: "nvarchar(max)", nullable: true)
                 },
                 constraints: table =>
@@ -566,8 +626,8 @@ namespace Alrazi.Migrations
                     SleepProblems = table.Column<bool>(type: "bit", nullable: false),
                     HyperActivity = table.Column<bool>(type: "bit", nullable: false),
                     Seizures = table.Column<bool>(type: "bit", nullable: false),
-                    LanguageProblems = table.Column<bool>(type: "bit", nullable: false),
                     OtherProblems = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    LanguageProblems = table.Column<bool>(type: "bit", nullable: false),
                     EatProblems = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     Allergy = table.Column<string>(type: "nvarchar(max)", nullable: true)
                 },
@@ -593,7 +653,8 @@ namespace Alrazi.Migrations
                     FullName = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     IsMale = table.Column<bool>(type: "bit", nullable: false),
                     BirthDate = table.Column<DateTime>(type: "datetime2", nullable: false),
-                    StudyLevel = table.Column<string>(type: "nvarchar(max)", nullable: false)
+                    StudyLevel = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    HealthStatus = table.Column<string>(type: "nvarchar(max)", nullable: true)
                 },
                 constraints: table =>
                 {
@@ -655,6 +716,81 @@ namespace Alrazi.Migrations
                 });
 
             migrationBuilder.CreateTable(
+                name: "TestPortages",
+                columns: table => new
+                {
+                    Id = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    StudentId = table.Column<int>(type: "int", nullable: false),
+                    SerialNumber = table.Column<int>(type: "int", nullable: false),
+                    Examiner = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    Attendant = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    TestDate = table.Column<DateTime>(type: "datetime2", nullable: false),
+                    LastTestDateSkill = table.Column<DateTime>(type: "datetime2", nullable: false),
+                    Summary = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    Recommendations = table.Column<string>(type: "nvarchar(max)", nullable: true)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_TestPortages", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_TestPortages_Students_StudentId",
+                        column: x => x.StudentId,
+                        principalTable: "Students",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Restrict);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "TestRavens",
+                columns: table => new
+                {
+                    Id = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    StudentId = table.Column<int>(type: "int", nullable: false),
+                    SerialNumber = table.Column<int>(type: "int", nullable: false),
+                    Examiner = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    Mark = table.Column<int>(type: "int", nullable: false),
+                    TestDate = table.Column<DateTime>(type: "datetime2", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_TestRavens", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_TestRavens_Students_StudentId",
+                        column: x => x.StudentId,
+                        principalTable: "Students",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Restrict);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "TestStanfordBinets",
+                columns: table => new
+                {
+                    Id = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    StudentId = table.Column<int>(type: "int", nullable: false),
+                    SerialNumber = table.Column<int>(type: "int", nullable: false),
+                    Examiner = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    TestDate = table.Column<DateTime>(type: "datetime2", nullable: false),
+                    School = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    Class = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    Summary = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    Recommendations = table.Column<string>(type: "nvarchar(max)", nullable: true)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_TestStanfordBinets", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_TestStanfordBinets_Students_StudentId",
+                        column: x => x.StudentId,
+                        principalTable: "Students",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Restrict);
+                });
+
+            migrationBuilder.CreateTable(
                 name: "StudentPsychologyDevelopmentBehavioralProblems",
                 columns: table => new
                 {
@@ -679,6 +815,99 @@ namespace Alrazi.Migrations
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Restrict);
                 });
+
+            migrationBuilder.CreateTable(
+                name: "TestPortageDetails",
+                columns: table => new
+                {
+                    Id = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    TestPortageId = table.Column<int>(type: "int", nullable: false),
+                    TestPortageSubject = table.Column<int>(type: "int", nullable: false),
+                    AgeTheBase = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    AgeAddonal = table.Column<int>(type: "int", nullable: false),
+                    Mark = table.Column<int>(type: "int", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_TestPortageDetails", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_TestPortageDetails_TestPortages_TestPortageId",
+                        column: x => x.TestPortageId,
+                        principalTable: "TestPortages",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Restrict);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "TestPortageSkills",
+                columns: table => new
+                {
+                    Id = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    TestPortageId = table.Column<int>(type: "int", nullable: false),
+                    SerialNumber = table.Column<int>(type: "int", nullable: false),
+                    TestDateSkill = table.Column<DateTime>(type: "datetime2", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_TestPortageSkills", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_TestPortageSkills_TestPortages_TestPortageId",
+                        column: x => x.TestPortageId,
+                        principalTable: "TestPortages",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Restrict);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "TestStanfordBinetDetails",
+                columns: table => new
+                {
+                    Id = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    TestStanfordBinetId = table.Column<int>(type: "int", nullable: false),
+                    TestStanfordBinetSubject = table.Column<int>(type: "int", nullable: false),
+                    Mark = table.Column<int>(type: "int", nullable: false),
+                    PercentileRank = table.Column<int>(type: "int", nullable: false),
+                    ConfidenceLimits = table.Column<string>(type: "nvarchar(max)", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_TestStanfordBinetDetails", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_TestStanfordBinetDetails_TestStanfordBinets_TestStanfordBinetId",
+                        column: x => x.TestStanfordBinetId,
+                        principalTable: "TestStanfordBinets",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Restrict);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "TestPortageSkillDetalis",
+                columns: table => new
+                {
+                    Id = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    TestPortageSkillId = table.Column<int>(type: "int", nullable: false),
+                    TestPortage_Skill = table.Column<int>(type: "int", nullable: false),
+                    Mark = table.Column<double>(type: "float", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_TestPortageSkillDetalis", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_TestPortageSkillDetalis_TestPortageSkills_TestPortageSkillId",
+                        column: x => x.TestPortageSkillId,
+                        principalTable: "TestPortageSkills",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Restrict);
+                });
+
+            migrationBuilder.CreateIndex(
+                name: "IX_BlogFiles_BlogId",
+                table: "BlogFiles",
+                column: "BlogId");
 
             migrationBuilder.CreateIndex(
                 name: "IX_EmployeePermissions_EmployeeId",
@@ -734,13 +963,54 @@ namespace Alrazi.Migrations
                 name: "IX_StudentVisitCenters_StudentId",
                 table: "StudentVisitCenters",
                 column: "StudentId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_TestPortageDetails_TestPortageId",
+                table: "TestPortageDetails",
+                column: "TestPortageId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_TestPortages_StudentId",
+                table: "TestPortages",
+                column: "StudentId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_TestPortageSkillDetalis_TestPortageSkillId",
+                table: "TestPortageSkillDetalis",
+                column: "TestPortageSkillId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_TestPortageSkills_TestPortageId",
+                table: "TestPortageSkills",
+                column: "TestPortageId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_TestRavens_StudentId",
+                table: "TestRavens",
+                column: "StudentId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_TestStanfordBinetDetails_TestStanfordBinetId",
+                table: "TestStanfordBinetDetails",
+                column: "TestStanfordBinetId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_TestStanfordBinets_StudentId",
+                table: "TestStanfordBinets",
+                column: "StudentId");
         }
 
         /// <inheritdoc />
         protected override void Down(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.DropTable(
+                name: "BlogFiles");
+
+            migrationBuilder.DropTable(
                 name: "Configs");
+
+            migrationBuilder.DropTable(
+                name: "ContactMessages");
 
             migrationBuilder.DropTable(
                 name: "EmployeePermissions");
@@ -803,6 +1073,21 @@ namespace Alrazi.Migrations
                 name: "StudentVisitCenters");
 
             migrationBuilder.DropTable(
+                name: "TestPortageDetails");
+
+            migrationBuilder.DropTable(
+                name: "TestPortageSkillDetalis");
+
+            migrationBuilder.DropTable(
+                name: "TestRavens");
+
+            migrationBuilder.DropTable(
+                name: "TestStanfordBinetDetails");
+
+            migrationBuilder.DropTable(
+                name: "Blogs");
+
+            migrationBuilder.DropTable(
                 name: "Employees");
 
             migrationBuilder.DropTable(
@@ -812,7 +1097,16 @@ namespace Alrazi.Migrations
                 name: "StudentPsychologyDevelopments");
 
             migrationBuilder.DropTable(
+                name: "TestPortageSkills");
+
+            migrationBuilder.DropTable(
+                name: "TestStanfordBinets");
+
+            migrationBuilder.DropTable(
                 name: "Accounts");
+
+            migrationBuilder.DropTable(
+                name: "TestPortages");
 
             migrationBuilder.DropTable(
                 name: "Students");
