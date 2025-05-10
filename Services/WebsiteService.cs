@@ -73,7 +73,7 @@ namespace Alrazi.Services
 
         public async Task<List<ContactMessage>> GetContacts(bool isRead)
         {
-            return await context.ContactMessages.Where(x => x.IsRead == isRead).ToListAsync();
+            return await context.ContactMessages.Where(x => x.IsRead == isRead).OrderByDescending(x=>x.SendDate).ToListAsync();
         }
 
         public async Task<int> AddBlog(string title , string details , List<IFormFile> files , string video)

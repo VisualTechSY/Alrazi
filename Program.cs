@@ -1,6 +1,4 @@
 using Alrazi;
-using Alrazi.Enums;
-using Alrazi.Models;
 using Alrazi.Services;
 using Alrazi.Tools;
 using Microsoft.EntityFrameworkCore;
@@ -35,34 +33,8 @@ await context.Database.MigrateAsync();
 
 if (!context.Accounts.Any())
 {
-    await context.Accounts.AddAsync(new Account
-    {
-        UserName = "admin",
-        Password = "admin",
-        Picture = "https://cdn-icons-png.flaticon.com/512/219/219983.png",
-        Employee = new Employee
-        {
-            FullName = "Alaa Alkhawam",
-            EmployeePermissions = Enum.GetValues<Permission>().Select(x=> new Alrazi.Models.EmployeePermission
-            {
-                Permission = x
-            }).ToList()
-        }
-    });
-    await context.SaveChangesAsync();
-}
-
-foreach (var item in Enum.GetValues<ConfigKey>())
-{
-    if (!context.Configs.Any(x=> x.ConfigKey == item))
-    {
-        await context.Configs.AddAsync(new Config
-        {
-            ConfigKey = item,
-            Value = "0"
-        });
-    }
-    await context.SaveChangesAsync();
+    SeedDB seedDB = new(context);
+    await seedDB.FirstBuildDB();
 }
 
 // Configure the HTTP request pipeline.
