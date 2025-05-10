@@ -92,7 +92,7 @@ namespace Alrazi.Controllers
         public IActionResult Logout()
         {
             HttpContext.Session.Clear();
-            return Redirect("~/Login");
+            return RedirectToAction("Index");
         }
 
         [HttpGet("Add-Blog")]
