@@ -19,6 +19,9 @@
 
     <!-- Icons css -->
     <link href="~/assets/css/icons.min.css" rel="stylesheet" type="text/css" />
+
+    <link href="~/assets/css/dateArabic.css" rel="stylesheet" type="text/css" />
+
     <style>
         .header-title{
             color:red
@@ -246,6 +249,19 @@
 
     <!-- App js -->
     <script src="~/assets/js/app.min.js"></script>
+
+
+    <script src="~/assets/js/dateFormat.js"></script>
+    <script src="~/assets/js/dateArabic.js"></script>
+
+    <script>
+        document.addEventListener("DOMContentLoaded", function() {
+          flatpickr("input[type='date']", {
+            dateFormat: "Y-m-d",
+            locale: "ar",
+          });
+        });
+    </script>
 
 </body>
 
