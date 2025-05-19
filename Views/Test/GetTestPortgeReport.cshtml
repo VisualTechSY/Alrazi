@@ -9,9 +9,9 @@
 <body>
     <style>
         @@media print {
-            .no-print-section * {
-                display: none;
-            }
+        .no-print-section * {
+        display: none;
+        }
         }
     </style>
 </body>
@@ -77,6 +77,26 @@
                 var markResult = mark + "%\t" + TestManager.GetTestPortageResault(mark);
                 <input type="text" class="form-control" value="@markResult" readonly>
             }
+        </div>
+    </div>
+
+    <div class="col-4">
+        <div class="mb-3">
+            <label for="name" class="form-label">تأخر عن اقرانهم</label>
+            @{
+                int sumDiffAge = 0;
+                foreach (var item in Model.TestPortageDetails)
+                {          
+                    //الفرق بين الزمني والنمائي
+                    var temp = Birthday.CalcAgeMinusMonth((new Birthday(Model.Student.BirthDate, Model.TestDate).GetDecimalAge), item.AgeGrowth);
+                    //اضافة المجموع
+                    sumDiffAge += Birthday.ConvertFromDecimalToMonth(temp);
+                }
+                sumDiffAge /= Model.TestPortageDetails.Count;
+
+                <input type="text" class="form-control" value="@((sumDiffAge / 12) + "." + (sumDiffAge % 12))" readonly>
+            }
+
         </div>
     </div>
 
