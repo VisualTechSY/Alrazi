@@ -199,12 +199,20 @@
                             </div>
 
 
-                            <div class="row ">
+                            <div class="row">
                                 <div class="col-11">
                                     <label class="col-md-6 col-form-label" for="FamilyBio">ملخص المشكلة الحالة (نوعها وأعراضها) كما يرويها ولي الأمر</label>
                                     <textarea class="form-control" required id="FamilyBio" name="FamilyBio">@Model.FamilyBio</textarea>
                                 </div>
                             </div>
+
+                            <div class="row">
+                                <div class="col-11">
+                                    <label class="col-md-6 col-form-label" for="MedicalExamination">الفحص الطبي</label>
+                                    <textarea class="form-control" required id="MedicalExamination" name="MedicalExamination">@Model.MedicalExamination</textarea>
+                                </div>
+                            </div>
+
                             <div style="padding-top:20px">
                                 <button type="submit" id="btnNext" class="btn btn-primary">حفظ</button>
                             </div>

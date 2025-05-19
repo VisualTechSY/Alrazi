@@ -28,6 +28,8 @@ namespace Alrazi.Models
         public string DiagnosisNumber { get; set; }
         public string FamilyBio { get; set; }
 
+        public string MedicalExamination { get; set; }
+
         //LD
         public string? SchoolName { get; set; }
         public string? Class { get; set; }
