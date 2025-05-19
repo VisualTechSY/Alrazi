@@ -340,7 +340,7 @@ namespace Alrazi.Controllers
             if (studentStatus == 0)
                 studentStatus = StudentStatus.Early;
             if (year == 0)
-                year = startingYear;
+                year = DateTime.Now.Year;
 
             ViewBag.StartingYear = startingYear;
 

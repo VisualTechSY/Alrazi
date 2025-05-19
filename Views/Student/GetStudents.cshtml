@@ -29,7 +29,7 @@
                 <form method="get" class="row">
                     <div class="col-md-3">
                         <select required class="form-control" id="year" name="year">
-                            @for (int year = ViewBag.StartingYear; year <= DateTime.Now.Year; year++)
+                            @for (int year = DateTime.Now.Year; year >= ViewBag.StartingYear; year--)
                             {
                                 @if (year == ViewBag.Year)
                                 {
