@@ -255,13 +255,16 @@
     <script src="~/assets/js/dateArabic.js"></script>
 
     <script>
-        document.addEventListener("DOMContentLoaded", function() {
-          flatpickr("input[type='date']", {
-            dateFormat: "Y-m-d",
-            locale: "ar",
-          });
+        document.addEventListener("DOMContentLoaded", function () {
+            flatpickr("input[type='date']", {
+                dateFormat: "Y-m-d",   // هذا هو التنسيق الفعلي للقيمة المرسلة للسيرفر
+                altFormat: "d-m-Y",    // الشكل الظاهري للمستخدم فقط
+                locale: "ar",
+                allowInput: true
+            });
         });
     </script>
+
 
 </body>
 
