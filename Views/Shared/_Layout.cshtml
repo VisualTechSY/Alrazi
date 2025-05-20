@@ -256,14 +256,28 @@
 
     <script>
         document.addEventListener("DOMContentLoaded", function () {
-            flatpickr("input[type='date']", {
-                dateFormat: "Y-m-d",   // هذا هو التنسيق الفعلي للقيمة المرسلة للسيرفر
-                altFormat: "d-m-Y",    // الشكل الظاهري للمستخدم فقط
-                locale: "ar",
-                allowInput: true
+            document.querySelectorAll("input[type='date']").forEach(function (input) {
+                const isReadOnly = input.hasAttribute("readonly");
+
+                flatpickr(input, {
+                    dateFormat: "Y-m-d",
+                    altInput: true,
+                    altFormat: "Y-m-d",
+                    locale: "ar",
+                    allowInput: true,
+                    clickOpens: !isReadOnly,
+                    onReady: function (selectedDates, dateStr, instance) {
+                        if (isReadOnly) {
+                            // اجعل الحقل البديل أيضاً readonly
+                            instance.altInput.setAttribute("readonly", true);
+                        }
+                    }
+                });
             });
         });
     </script>
+
+
 
 
 </body>

@@ -81,6 +81,24 @@ namespace Alrazi.Controllers
             return RedirectToAction("GetTestPortgeReport", new { testId = testId });
         }
 
+        public async Task<IActionResult> EditTestPortage(int testid)
+        {
+            if (!HttpContext.HasSession())
+                return RedirectToAction("Index", "Home");
+
+            TestPortage getTest = await testService.GetTestPortageById(testid);
+            return View(getTest);
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> EditTestPortage(TestPortage testPortage)
+        {
+            if (!HttpContext.HasSession())
+                return RedirectToAction("Index", "Home");
+            await testService.EditTestPortage(testPortage);
+            return RedirectToAction("EditTestPortage", new { testId = testPortage.Id});
+        }
+
         public async Task<IActionResult> AddTestPortageSkill(int studentId)
         {
             if (!HttpContext.HasSession())

@@ -1,0 +1,230 @@
+﻿@using Alrazi.Enums.Test
+@using Alrazi.Models.Test
+@using Alrazi.Tools
+@using Alrazi.ViewModel
+
+@model TestPortage
+@{
+    ViewData["Title"] = "تعديل اختبار بورتج  الصورة الجانبية";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<!-- start page title -->
+<div class="row">
+    <div class="col-12">
+        <div class="page-title-box">
+            <div class="page-title-right">
+                <ol class="breadcrumb m-0">
+                    <li class="breadcrumb-item"><a href="~/Panel">الرئيسية</a></li>
+                    <li class="breadcrumb-item active">تعديل اختبار بورتج الصورة الجانبية</li>
+                </ol>
+            </div>
+            <h4 class="page-title">إضافة اختبار بورتج الصورة الجانبية</h4>
+        </div>
+    </div>
+</div>
+<!-- end page title -->
+
+<form method="post" class="card-body">
+
+                                <input type="hidden" class="form-control" name="Id" value="@Model.Id" />
+    <div class="row">
+        <div class="col-4">
+            <div class="mb-3">
+                <label for="name" class="form-label">اسم الطفل</label>
+                <input type="text" class="form-control" value="@Model.Student.FullName" readonly>
+            </div>
+        </div>
+        <div class="col-4">
+            <div class="mb-3">
+                <label for="name" class="form-label">الفاحص</label>
+                <input type="text" required name="Examiner" value="@Model.Examiner" class="form-control" placeholder="الفاحص">
+            </div>
+        </div>
+        <div class="col-4">
+            <div class="mb-3">
+                <label for="name" class="form-label">مرفق بالاختبار</label>
+                <input type="text" required name="Attendant" value="@Model.Attendant" class="form-control" placeholder="مرفق بالاختبار">
+            </div>
+        </div>
+        <div class="col-4">
+            <div class="mb-3">
+                <label for="name" class="form-label">تاريخ الميلاد</label>
+                <input type="date" id="BirthDate" class="form-control" value="@Model.Student.BirthDate.ToString("yyyy-MM-dd")" readonly>
+            </div>
+        </div>
+        <div class="col-4">
+            <div class="mb-3">
+                <label for="name" class="form-label">تاريخ المقابلة</label>
+                <input type="date" id="StudyStateDate" required name="TestDate" value="@Model.TestDate.ToString("yyyy-MM-dd")" class="form-control" onchange="getAgeDateTime()" value="@DateTime.Now.ToString("yyyy-MM-dd")">
+            </div>
+        </div>
+        <div class="col-4">
+            <div class="mb-3">
+                <label for="name" class="form-label">العمر الزمني</label>
+                <input type="text" id="AgeTimeDate" class="form-control" readonly>
+            </div>
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="col-12">
+            <div class="card">
+
+                <table class="table table-centered mb-0">
+                    <thead class="table-dark">
+                        <tr>
+                            <th>المجالات</th>
+                            <th>القاعدي</th>
+                            <th>الاضافي</th>
+                            <th>النمائي</th>
+                            <th>نسبة الأداء</th>
+                            <th>مستوى الأداء</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @{
+                            int index = 0;
+                            <input type="hidden" name="StudentId" value="@Model.Id" />
+
+                            foreach (var item in Model.TestPortageDetails)
+                            {
+                                <input type="hidden" class="form-control" name="TestPortageDetails[@index].TestPortageSubject" value="@item.TestPortageSubject" />
+                                <input type="hidden" class="form-control" name="TestPortageDetails[@index].Id" value="@item.Id" />
+                                <tr>
+                                    <td>
+                                        @TestManager.GetTestPortageSubjectArabic(item.TestPortageSubject)
+                                    </td>
+                                    <td>
+                                        <input type="text" class="form-control" id="@("AgeTheBase"+index)" name="TestPortageDetails[@index].AgeTheBase" value="@item.AgeTheBase" onchange="fillAgeGrowth(@index)" required />
+                                    </td>
+                                    <td>
+                                        <input type="number" class="form-control" id="@("AgeAddonal"+index)" name="TestPortageDetails[@index].AgeAddonal" value="@item.AgeAddonal" onchange="fillAgeGrowth(@index)" required />
+                                    </td>
+                                    <td>
+                                        <input type="text" class="form-control" id="@("AgeGrowth"+index)" disabled readonly />
+                                    </td>
+                                    <td>
+                                        <input type="number" class="form-control" id="@("Mark"+index)" name="TestPortageDetails[@index].Mark" value="@item.Mark" onchange="fillResult(@index)" required />
+                                    </td>
+                                    <td>
+                                        <input type="text" class="form-control" id="@("Result"+index)" disabled readonly />
+                                    </td>
+                                </tr>
+                                index++;
+                            }
+                        }
+                    </tbody>
+                </table>
+            </div>
+            <div style="padding-top:20px">
+                <button type="submit" class="btn btn-primary">حفظ التعديلات</button>
+            </div>
+
+        </div>
+    </div>
+</form>
+
+
+
+<script>
+
+    window.onload = function () {
+        getAgeDateTime();
+
+        const total = @Model.TestPortageDetails.Count;
+
+        for (let i = 0; i < total; i++) {
+            fillAgeGrowth(i);
+            fillResult(i);
+        }
+    };
+
+    function fillAgeGrowth(index) {
+
+        var ba = document.getElementById('AgeTheBase' + index).value;
+        var add=  parseInt(document.getElementById('AgeAddonal' + index).value||0);
+
+        if(ba ==null || add ==null)
+        return;
+
+        var gro= calcAgeGrowth(ba, add);
+
+        document.getElementById('AgeGrowth' + index).value = gro;
+    }
+
+
+        function convertFromDecimalToMonth(decimalAge) {
+        const age = decimalAge.split('.');
+
+        var year = 0, month = 0;
+
+        year = parseInt(age[0]) || 0;
+
+        if (age.length > 1) {
+            month = parseInt(age[1]) || 0;
+        }
+
+        return year * 12 + month;
+    }
+
+    function calcAgeGrowth(ageTheBase, ageAdditional) {
+        var totalMonth = convertFromDecimalToMonth(ageTheBase);
+
+        if (totalMonth === 0) return "";
+
+        totalMonth =totalMonth+ ageAdditional;
+
+        return `${Math.floor(totalMonth / 12)},${totalMonth % 12}`;
+    }
+
+
+
+
+
+    function fillResult(index) {
+
+        var mark = document.getElementById('Mark' + index).value;
+
+        var res;
+        if (mark <= 25) res = "شديد جداً";
+        else if (mark <= 39) res = "شديد";
+        else if (mark <= 54) res = "متوسط";
+        else if (mark <= 69) res = "بسيط";
+        else if (mark <= 84) res = "بسيط جداً";
+        else res = "طبيعي";
+
+        document.getElementById('Result' + index).value = res;
+    }
+
+
+    function getAgeDateTime() {
+        var birthDate = $("#BirthDate").val();
+        var studyStateDate = $("#StudyStateDate").val();
+        if (birthDate == '' || studyStateDate == '')
+        {
+            $("#AgeTimeDate").val('');
+            return;
+        }
+
+        const birthdate = new Date(birthDate);
+        const currentDate = new Date(studyStateDate);
+
+        let ageYears = currentDate.getFullYear() - birthdate.getFullYear();
+        let ageMonths = currentDate.getMonth() - birthdate.getMonth();
+        let ageDays = currentDate.getDate() - birthdate.getDate();
+
+        if (ageDays < 0) {
+            ageMonths--;
+            ageDays += new Date(currentDate.getFullYear(), currentDate.getMonth(), 0).getDate();
+        }
+
+        if (ageMonths < 0) {
+            ageYears--;
+            ageMonths += 12;
+        }
+
+        var str = `السنة : ${ageYears} - الشهر : ${ageMonths} - اليوم ${ageDays}`;
+        $("#AgeTimeDate").val(str);
+    }
+</script>

@@ -13,6 +13,7 @@ namespace Alrazi.Services
                                         .Include(x => x.Student)
                                         .FirstAsync(x => x.Id == testId);
         }
+
         public async Task<TestPortage> UpdateSummaryTestPortage(TestPortage testPortage)
         {
             TestPortage getTestPortage = await context.TestPortages.FindAsync(testPortage.Id);
@@ -62,6 +63,27 @@ namespace Alrazi.Services
             context.TestPortages.Add(testPortage);
             await context.SaveChangesAsync();
             return testPortage.Id;
+        }
+        public async Task EditTestPortage(TestPortage testPortage)
+        {
+            var getTestPortage = context.TestPortages
+                .Include(x => x.TestPortageDetails)
+                .First(x => x.Id == testPortage.Id);
+
+     //       getTestPortage.SerialNumber = testPortage.SerialNumber;
+            getTestPortage.Examiner = testPortage.Examiner;
+            getTestPortage.Attendant = testPortage.Attendant;
+            getTestPortage.TestDate = testPortage.TestDate;
+
+            foreach (var item in getTestPortage.TestPortageDetails)
+            {
+                var temp = testPortage.TestPortageDetails.First(x => x.Id == item.Id);
+
+                item.AgeTheBase = temp.AgeTheBase;
+                item.AgeAddonal = temp.AgeAddonal;
+                item.Mark = temp.Mark;
+            }
+            await context.SaveChangesAsync();
         }
         //قائمة شطب
         public async Task<int> AddTestPortageSkill(TestPortage testPortage)
