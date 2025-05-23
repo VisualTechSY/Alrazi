@@ -83,7 +83,7 @@
                                         <tr class="expand-header" data-group="@serialNum">
 
                                             <td>@item.TestPortage.SerialNumber</td>
-                                            <td>@item.TestPortage.TestDate.ToShortDateString()</td>
+                                            <td>@item.TestPortage.TestDate.ToString("d/M/yyyy")</td>
                                             <td colspan="6"></td>
                                             @{
                                                 double sumMark = item.TestPortage.TestPortageDetails.Average(x => x.Mark);

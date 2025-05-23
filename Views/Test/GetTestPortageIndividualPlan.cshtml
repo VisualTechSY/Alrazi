@@ -15,9 +15,11 @@
             table thead {
                 display: table-header-group; /* يجعل thead يتكرر في كل صفحة */
             }
+
             table {
                 page-break-inside: avoid; /* يمنع تقسيم الجدول بين الصفحات */
             }
+
             .print-header {
                 display: block;
                 page-break-before: always; /* يضيف فاصل صفحة قبل كل جدول */
@@ -33,18 +35,20 @@
                 <table class="data-table table-centered mb-0" style="width: 100%; border-collapse: collapse;">
                     <tbody>
                         <tr style="padding: 15px 0;">
-                            <!-- تباعد بين الأسطر -->
                             <th style="padding: 10px; text-align: right;">الاسم:</th>
                             <th colspan="4" style="padding: 10px; text-align: right;">@ViewBag.FullName</th>
                             <th style="padding: 10px; text-align: right;">الميلاد:</th>
                             <th colspan="4" style="padding: 10px; text-align: right;">@ViewBag.BirthDate</th>
                         </tr>
                         <tr style="padding: 15px 0;">
-                            <!-- تباعد بين الأسطر -->
                             <th style="padding: 10px; text-align: right;">تاريخ الاختبار:</th>
-                            <th colspan="4" style="padding: 10px; text-align: right;">.......................</th>
+                            <th colspan="4" style="padding: 10px; text-align: right;">
+                                <input type="date" class="form-control dateLabel" />
+                            </th>
                             <th style="padding: 10px; text-align: right;">تاريخ تنفيذ الخطة:</th>
-                            <th colspan="4" style="padding: 10px; text-align: right;">.......................</th>
+                            <th colspan="4" style="padding: 10px; text-align: right;">
+                                <input type="date" class="form-control dateLabel" />
+                            </th>
                         </tr>
                     </tbody>
                 </table>
@@ -56,12 +60,9 @@
                 @foreach (var item in Model)
                 {
                     string elementId = "table" + ++index;
-
-                    <table class="table table-centered mb-0" id=@elementId>
+                    <table class="table table-centered mb-0" id="@elementId">
                         <thead class="table-dark">
-                            <tr>
-                                <th colspan="5" style="text-align:center">@item.TitleGroup</th>
-                            </tr>
+                            <tr><th colspan="5" style="text-align:center">@item.TitleGroup</th></tr>
                             <tr>
                                 <th>اختيار</th>
                                 <th>م</th>
@@ -77,7 +78,7 @@
                             @foreach (var Quastion in item.Quastions)
                             {
                                 <tr>
-                                    <td><input type="checkbox" class="row-checkbox" data-table=@elementId></td>
+                                    <td><input type="checkbox" class="row-checkbox" data-table="@elementId" /></td>
                                     <td>@(++serial)</td>
                                     <td>@Quastion</td>
                                     <td></td>
@@ -97,48 +98,70 @@
             const selectedRows = document.querySelectorAll('.row-checkbox:checked');
             const groupedTables = {};
 
-            // تجميع البيانات حسب الجداول
+            // 1) اجمع صفوف الجداول المحددة
             selectedRows.forEach(row => {
                 const tableId = row.getAttribute('data-table');
                 const table = document.getElementById(tableId);
                 const header = table.querySelector('thead').outerHTML;
 
-                // استخراج الصف بدون العمود الأول
                 const rowCells = Array.from(row.closest('tr').cells).slice(1);
-                const rowData = `<tr>${rowCells.map(cell => cell.outerHTML).join('')}</tr>`;
+                const rowData = `<tr>${rowCells.map(c => c.outerHTML).join('')}</tr>`;
 
-                if (!groupedTables[tableId]) {
-                    groupedTables[tableId] = {
-                        header: header,
-                        rows: []
-                    };
-                }
-
+                if (!groupedTables[tableId]) groupedTables[tableId] = { header, rows: [] };
                 groupedTables[tableId].rows.push(rowData);
             });
 
-            // إنشاء المحتوى للطباعة
-            let printContent = '';
-            const firstTable = document.querySelector('.data-table').outerHTML; // الجدول الأول
+            // 2) انسخ جدول البيانات الأول
+            const originalTable = document.querySelector('.data-table');
+            const clonedTable   = originalTable.cloneNode(true);
 
+        // 3) اختر فقط الحقول التي نوعها date ولها الصنف labelDate
+        const originalInputs = originalTable.querySelectorAll('.dateLabel:not([type="hidden"])');
+        const clonedInputs = clonedTable.querySelectorAll('.dateLabel:not([type="hidden"])');
+
+
+            // 4) لكل Index، استبدل الحقل المنسوخ بقيمة الحقل الأصلي
+        originalInputs.forEach((orig, idx) => {
+            const val = orig.value || '';
+            const span = document.createElement('span');
+            span.innerText = val;
+            span.style.display = 'inline-block';
+            span.style.padding = '2px 4px';
+
+            const toReplace = clonedInputs[idx];
+
+            //  تستبدل فقط عنصر input حقيقي ومقروء
+            if (toReplace && toReplace.tagName.toLowerCase() === 'input') {
+                toReplace.parentNode.replaceChild(span, toReplace);
+            }
+        });
+
+
+            // 5) احصل على HTML الجدول الأول بعد الاستبدال
+            const firstTableHtml = clonedTable.outerHTML;
+
+            // 6) إبني محتوى الطباعة
+            let printContent = '';
             for (const tableId in groupedTables) {
-                const tableData = groupedTables[tableId];
-                // إزالة العمود الأول من الترويسة
-                const headerWithoutFirstColumn = tableData.header.replace(/<th>.*?<\/th>/, '');
-                printContent += `<div class="print-header">${firstTable}</div>`; // إضافة الجدول الأول في كل صفحة
-                printContent += `<table border="1" cellpadding="5" cellspacing="0" style="width:100%; text-align:center;">`;
-                printContent += headerWithoutFirstColumn;
-                printContent += '<tbody>';
-                tableData.rows.forEach(row => {
-                    printContent += row;
-                });
-                printContent += '</tbody></table>';
+                const { header, rows } = groupedTables[tableId];
+                const headerWoFirstCol  = header.replace(/<th>.*?<\/th>/, '');
+                printContent += `<div class="print-header">${firstTableHtml}</div>`;
+                printContent += `<table border="1" cellpadding="5" cellspacing="0" style="width:100%;text-align:center;">`;
+                printContent += headerWoFirstCol;
+                printContent += '<tbody>' + rows.join('') + '</tbody></table>';
             }
 
-            // فتح نافذة الطباعة
+            // 7) افتح نافذة الطباعة
             const printWindow = window.open('', '', 'height=600,width=800');
             printWindow.document.write('<html dir="rtl"><head><title>طباعة</title>');
-            printWindow.document.write('<style>@@media print { table thead { display: table-header-group; } table { page-break-inside: avoid; } .print-header { display: block; page-break-before: always; } }</style>');
+            printWindow.document.write(`
+                <style>
+        @@media print {
+                        table thead { display: table-header-group; }
+                        table { page-break-inside: avoid; }
+                        .print-header { display: block; page-break-before: always; }
+                    }
+                </style>`);
             printWindow.document.write('</head><body>');
             printWindow.document.write(printContent);
             printWindow.document.write('</body></html>');
