@@ -13,7 +13,7 @@ namespace Alrazi.Controllers
         private readonly ConfigService configService;
         private readonly StudentService studentService;
 
-        public StudentController(AccountService accountService, ConfigService configService , StudentService studentService)
+        public StudentController(AccountService accountService, ConfigService configService, StudentService studentService)
         {
             this.accountService = accountService;
             this.configService = configService;
@@ -328,7 +328,7 @@ namespace Alrazi.Controllers
         }
 
         [HttpGet("Get-Students")]
-        public async Task<IActionResult> GetStudents(int year , StudentStatus studentStatus)
+        public async Task<IActionResult> GetStudents(string name, int accessYear, StudentStatus studentStatus)
         {
             if (!HttpContext.HasSession())
                 return RedirectToAction("Index");
@@ -339,15 +339,15 @@ namespace Alrazi.Controllers
 
             if (studentStatus == 0)
                 studentStatus = StudentStatus.Early;
-            if (year == 0)
-                year = DateTime.Now.Year;
+            if (accessYear == 0)
+                accessYear = DateTime.Now.Year;
 
             ViewBag.StartingYear = startingYear;
 
 
             ViewBag.StudentStatus = studentStatus;
-            ViewBag.Year = year;
-            return View(await studentService.GetStudentsInfo(year , studentStatus));
+            ViewBag.accessYear = accessYear;
+            return View(await studentService.GetStudentsInfo(name, accessYear, studentStatus));
         }
     }
 }

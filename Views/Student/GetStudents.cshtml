@@ -27,11 +27,17 @@
         <div class="card">
             <div class="card-body">
                 <form method="get" class="row">
-                    <div class="col-md-3">
-                        <select required class="form-control" id="year" name="year">
+                    <div class="col-md-4">
+                        <label>الاسم</label>
+                        <input type="text" id="name" name="name" class="form-control" placeholder="بحث حسب الاسم">
+                        <small class="form-text text-muted">* إذا تم إدخال الاسم، سيتم تجاهل السنة والحالة</small>
+                    </div>
+                    <div class="col-md-2">
+                        <label>تاريخ التحويل: </label>
+                        <select required class="form-control" id="accessYear" name="accessYear">
                             @for (int year = DateTime.Now.Year; year >= ViewBag.StartingYear; year--)
                             {
-                                @if (year == ViewBag.Year)
+                                @if (year == ViewBag.accessYear)
                                 {
                                     <option selected value="@year">@year</option>
                                 }
@@ -43,6 +49,7 @@
                         </select>
                     </div>
                     <div class="col-md-3">
+                        <label>الحالة: </label>
                         <select required class="form-control" id="studentStatus" name="studentStatus">
                             @if (ViewBag.StudentStatus == StudentStatus.Early)
                             {
@@ -56,7 +63,7 @@
                             }
                         </select>
                     </div>
-                    <div class="col-md-3">
+                    <div class="col-md-3 mt-3">
                         <button type="submit" class="btn btn-primary">بحث</button>
                     </div>
                 </form>

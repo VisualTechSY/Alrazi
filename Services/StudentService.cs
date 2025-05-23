@@ -72,21 +72,44 @@ namespace Alrazi.Services
         {
             return await context.Students.FirstAsync(x => x.Id == studentId);
         }
-        public async Task<List<StudentInfo>> GetStudentsInfo(int year, StudentStatus studentStatus)
+        public async Task<List<StudentInfo>> GetStudentsInfo(string name, int accessYear, StudentStatus studentStatus)
         {
-            return await context.Students.Where(x => x.AccessDate.Date.Year == year
-            && x.StudentStatus == studentStatus)
-                .Include(x => x.StudentFamilyInfo)
-                .Select(x => new StudentInfo
+            IQueryable<Student> query;
+
+            if (string.IsNullOrWhiteSpace(name))
+            {
+                // فلترة بالسنة والحالة فقط
+                query = context.Students.Where(x => x.AccessDate.Year == accessYear && x.StudentStatus == studentStatus);
+            }
+            else
+            {
+                // فلترة بالاسم فقط — تجاهل السنة والحالة
+                name = name.Trim();
+                query = context.Students.Where(x => x.FirstName + " " + x.LastName == name);
+
+                if (!await query.AnyAsync())
                 {
-                    Id = x.Id,
-                    FullName = x.FullName,
-                    MotherName = string.IsNullOrWhiteSpace(x.StudentFamilyInfo.MotherName)
-                    ? "" : x.StudentFamilyInfo.MotherName,
-                    PhoneNumber = x.PhoneNumber,
-                    StudentStatus = x.StudentStatus
-                })
-            .ToListAsync();
+                    var words = name.ToLower().Split(' ', StringSplitOptions.RemoveEmptyEntries);
+
+                    query = context.Students
+                        .Where(x =>
+                            words.Any(w =>
+                                x.FirstName.ToLower().Contains(w) ||
+                                x.LastName.ToLower().Contains(w)));
+                }
+            }
+
+            List<Student> students = await query.Include(x => x.StudentFamilyInfo).ToListAsync();
+
+            return students.Select(x => new StudentInfo
+            {
+                Id = x.Id,
+                FullName = x.FullName,
+                MotherName = string.IsNullOrWhiteSpace(x.StudentFamilyInfo.MotherName)
+                         ? "" : x.StudentFamilyInfo.MotherName,
+                PhoneNumber = x.PhoneNumber,
+                StudentStatus = x.StudentStatus
+            }).ToList();
         }
 
         public async Task<Student> EditEarlyStudent(int id)
