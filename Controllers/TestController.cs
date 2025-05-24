@@ -96,8 +96,25 @@ namespace Alrazi.Controllers
             if (!HttpContext.HasSession())
                 return RedirectToAction("Index", "Home");
             await testService.EditTestPortage(testPortage);
-            return RedirectToAction("EditTestPortage", new { testId = testPortage.Id});
+            return RedirectToAction("EditTestPortage", new { testId = testPortage.Id });
         }
+
+        public async Task<IActionResult> DeleteTestPortage(int id, int stdId)
+        {
+            if (!HttpContext.HasSession())
+                return RedirectToAction("Index", "Home");
+
+            string msg = await testService.DeleteTestPortage(id);
+
+            if (!string.IsNullOrEmpty(msg))
+            {
+                TempData["ErrorMessage"] = msg;
+                return Redirect("~/Test/EditTestPortage?testId=" + id);
+            }
+            return Redirect("~/Test/GetTestPortage?studentId=" + stdId);
+        }
+
+
 
         public async Task<IActionResult> AddTestPortageSkill(int studentId)
         {
@@ -162,8 +179,8 @@ namespace Alrazi.Controllers
             ViewBag.FullName = getStudent.FullName;
             ViewBag.BirthDate = getStudent.BirthDate.ToShortDateString();
             return View(testPortageIndividualPlanVMs);
-        }  
-        
+        }
+
         #endregion
 
         #region StanfordBinet

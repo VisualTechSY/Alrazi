@@ -70,7 +70,7 @@ namespace Alrazi.Services
                 .Include(x => x.TestPortageDetails)
                 .First(x => x.Id == testPortage.Id);
 
-     //       getTestPortage.SerialNumber = testPortage.SerialNumber;
+            //       getTestPortage.SerialNumber = testPortage.SerialNumber;
             getTestPortage.Examiner = testPortage.Examiner;
             getTestPortage.Attendant = testPortage.Attendant;
             getTestPortage.TestDate = testPortage.TestDate;
@@ -85,6 +85,24 @@ namespace Alrazi.Services
             }
             await context.SaveChangesAsync();
         }
+        public async Task<string> DeleteTestPortage(int id)
+        {
+            var getTest = await context.TestPortages
+                .Include(x => x.TestPortageDetails)
+                .Include(x => x.TestPortageSkills)
+                .FirstAsync(x => x.Id == id);
+
+            if (getTest.TestPortageSkills.Count != 0)
+                return "لا يمكن حذف الاختبار لانه مرتبط بقائمة شطب";
+
+            context.TestPortageDetails.RemoveRange(getTest.TestPortageDetails);
+            context.TestPortages.Remove(getTest);
+            await context.SaveChangesAsync();
+
+            return string.Empty;
+        }
+
+
         //قائمة شطب
         public async Task<int> AddTestPortageSkill(TestPortage testPortage)
         {
