@@ -102,6 +102,15 @@ namespace Alrazi.Services
             return string.Empty;
         }
 
+        public async Task<List<TestPortage>> GetTestPortageReport(DateTime startDate, DateTime endDate)
+        {
+            return await context.TestPortages
+                                            .Include(x => x.Student)
+                                            .Include(x => x.TestPortageDetails)
+                                            .Where(x => x.TestDate >= startDate && x.TestDate <= endDate)
+                                            .OrderBy(x => x.SerialNumber)
+                                            .ToListAsync();
+        }
 
         //قائمة شطب
         public async Task<int> AddTestPortageSkill(TestPortage testPortage)

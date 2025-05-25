@@ -114,6 +114,16 @@ namespace Alrazi.Controllers
             return Redirect("~/Test/GetTestPortage?studentId=" + stdId);
         }
 
+        public async Task<IActionResult> GetTestPortageReport(DateTime startDate, DateTime endDate)
+        {
+            if (!HttpContext.HasSession())
+                return RedirectToAction("Index", "Home");
+
+            if (startDate == default && endDate == default)
+                return View();
+            return View(await testService.GetTestPortageReport(startDate, endDate););
+        }
+
 
 
         public async Task<IActionResult> AddTestPortageSkill(int studentId)
