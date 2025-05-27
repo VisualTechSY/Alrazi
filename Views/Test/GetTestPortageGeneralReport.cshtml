@@ -1,0 +1,120 @@
+﻿@using Alrazi.Models.Test
+@using Alrazi.Tools
+@using Alrazi.ViewModel
+@model List<TestPortage>
+@{
+    ViewData["Title"] = "الإحصاء العام ( البورتج )";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+
+<!-- start page title -->
+<div class="row">
+    <div class="col-12">
+        <div class="page-title-box">
+            <div class="page-title-right">
+                <ol class="breadcrumb m-0">
+                    <li class="breadcrumb-item"><a href="~/Panel">الرئيسية</a></li>
+                    <li class="breadcrumb-item active">الإحصاء العام ( البورتج )</li>
+                </ol>
+            </div>
+            <h4 class="page-title">الإحصاء العام ( البورتج )</h4>
+        </div>
+    </div>
+</div>
+<!-- end page title -->
+
+<div class="row">
+    <div class="col-12">
+        <div class="card">
+            <div class="card-body">
+                <form method="get" class="row">
+                    <div class="col-md-2">
+                        <label>بحث من تاريخ</label>
+                        <input type="date" id="fromDate" name="fromDate" class="form-control">
+                    </div>
+                    <div class="col-md-3">
+                        <label>إلى تاربخ</label>
+                        <input type="date" id="toDate" name="toDate" class="form-control">
+                    </div>
+                    <div class="col-md-3 mt-3">
+                        <button type="submit" class="btn btn-primary">بحث</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
+@if(Model is not null)
+{
+    <div class="row">
+        <div class="col-12">
+            <div class="card">
+                <div class="card-body">
+                    <table class="table table-centered mb-0">
+                        <thead class="table-dark">
+                            <tr>
+                                <th>رقم التقييم</th>
+                                <th>الاسم</th>
+                                <th>تاريخ التقييم</th>
+                                <th>العمر الزمني</th>
+                                <th>العمر النمائي</th>
+                                <th>تأخر</th>
+                                <th>نسبة الأداء</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @foreach (var item in Model)
+                            {
+                                <tr>
+                                    <td>@item.SerialNumber</td>
+                                    <td>@item.Student.FullName</td>
+                                    <td>@item.TestDate</td>
+                                    <td>@(new Birthday(item.Student.BirthDate,item.TestDate).ToString())</td>
+                                    <td>
+                                        @{
+                                            int sum = 0;
+                                            foreach (var item2 in item.TestPortageDetails)
+                                            {
+                                                sum += int.Parse(item2.AgeGrowthYear) * 12;
+                                                sum += int.Parse(item2.AgeGrowthMonth);
+                                            }
+                                            sum /= item.TestPortageDetails.Count;
+                                            @((sum / 12) + "." + (sum % 12))
+                                        }
+                                    
+
+                                </td>
+                                <td>
+                                    @{
+                                        int sumDiffAge = 0;
+                                        foreach (var item2 in item.TestPortageDetails)
+                                        {
+                                            //الفرق بين الزمني والنمائي
+                                            var temp = Birthday.CalcAgeMinusMonth((new Birthday(item.Student.BirthDate, item.TestDate).GetDecimalAge), item2.AgeGrowth);
+                                            //اضافة المجموع
+                                            sumDiffAge += Birthday.ConvertFromDecimalToMonth(temp);
+                                        }
+                                        sumDiffAge /= item.TestPortageDetails.Count;
+
+                                        @((sumDiffAge / 12) + "." + (sumDiffAge % 12))
+                                    }
+
+                                </td>
+                                <td>
+                                    @{
+                                        var mark = item.TestPortageDetails.Average(x => x.Mark);
+                                        var markResult = mark + "%\t" + TestManager.GetTestPortageResault(mark);
+                                      @markResult
+                                    }
+                                </td>
+                            </tr>
+                        }
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>
+}

@@ -70,7 +70,7 @@ namespace Alrazi.Services
                 .Include(x => x.TestPortageDetails)
                 .First(x => x.Id == testPortage.Id);
 
-            //       getTestPortage.SerialNumber = testPortage.SerialNumber;
+            getTestPortage.SerialNumber = testPortage.SerialNumber;
             getTestPortage.Examiner = testPortage.Examiner;
             getTestPortage.Attendant = testPortage.Attendant;
             getTestPortage.TestDate = testPortage.TestDate;
@@ -102,12 +102,12 @@ namespace Alrazi.Services
             return string.Empty;
         }
 
-        public async Task<List<TestPortage>> GetTestPortageReport(DateTime startDate, DateTime endDate)
+        public async Task<List<TestPortage>> GetTestPortageGeneralReport(DateTime fromDate, DateTime toDate)
         {
             return await context.TestPortages
                                             .Include(x => x.Student)
                                             .Include(x => x.TestPortageDetails)
-                                            .Where(x => x.TestDate >= startDate && x.TestDate <= endDate)
+                                            .Where(x => x.TestDate >= fromDate && x.TestDate <= toDate)
                                             .OrderBy(x => x.SerialNumber)
                                             .ToListAsync();
         }
