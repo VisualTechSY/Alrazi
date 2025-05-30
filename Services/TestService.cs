@@ -1,4 +1,6 @@
-﻿using Alrazi.Models;
+﻿using Alrazi.DTO;
+using Alrazi.Enums.Test;
+using Alrazi.Models;
 using Alrazi.Models.Test;
 using Microsoft.EntityFrameworkCore;
 
@@ -6,6 +8,61 @@ namespace Alrazi.Services
 {
     public class TestService(Context context)
     {
+        public async Task<List<StudentNeedTest>> GetStudentNeedTest()
+        {
+            var studentWithLastTest = await context.Students
+                .Select(s => new
+                {
+                    s.FullName,
+                    LastTest = s.TestPortages
+                        .OrderByDescending(tp => tp.TestDate)
+                        .Select(tp => new
+                        {
+                            tp.TestDate,
+                            tp.LastTestDateSkill
+                        })
+                        .FirstOrDefault()
+                })
+                .ToListAsync();
+
+            List<StudentNeedTest> studentNeedTest = new();
+
+            foreach (var item in studentWithLastTest)
+            {
+                if (item.LastTest == null)
+                    continue; // الطالب ما عنده اختبارات
+
+                StudentNeedTest temp = new() { StudentName = item.FullName };
+
+                if (item.LastTest.TestDate < DateTime.Now.AddMonths(-6))
+                {
+                    temp.LastDate = item.LastTest.TestDate;
+                    temp.TestType = TestType.Portage;
+                    temp.Note = "مضى 6 أشهر على آخر اختبار بورتج للطالب";
+
+                }
+                else if (item.LastTest.LastTestDateSkill == default && item.LastTest.TestDate < DateTime.Now.AddMonths(-2))
+                {
+                    temp.LastDate = item.LastTest.TestDate;
+                    temp.TestType = TestType.PortageSkill;
+                    temp.Note = "مضى شهرين على آخر اختبار بورتج ولم يتم إجراء صورة جانبية";
+                }
+                else if (item.LastTest.LastTestDateSkill != default && item.LastTest.LastTestDateSkill < DateTime.Now.AddMonths(-2))
+                {
+                    temp.LastDate = item.LastTest.LastTestDateSkill;
+                    temp.TestType = TestType.PortageSkill;
+                    temp.Note = "مضى شهرين على آخر صورة جانبية";
+                }
+                else
+                    continue;
+
+                studentNeedTest.Add(temp);
+            }
+
+            return studentNeedTest.OrderBy(x => x.LastDate).ToList();
+        }
+
+
         public async Task<TestPortage> GetTestPortageById(int testId)
         {
             return await context.TestPortages
@@ -13,7 +70,6 @@ namespace Alrazi.Services
                                         .Include(x => x.Student)
                                         .FirstAsync(x => x.Id == testId);
         }
-
         public async Task<TestPortage> UpdateSummaryTestPortage(TestPortage testPortage)
         {
             TestPortage getTestPortage = await context.TestPortages.FindAsync(testPortage.Id);

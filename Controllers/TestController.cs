@@ -1,4 +1,5 @@
-﻿using Alrazi.Enums.Test;
+﻿using Alrazi.DTO;
+using Alrazi.Enums.Test;
 using Alrazi.Models;
 using Alrazi.Models.Test;
 using Alrazi.Services;
@@ -61,6 +62,16 @@ namespace Alrazi.Controllers
 
 
         #region Portage
+
+        public async Task<IActionResult> GetStudentNeedTest()
+        {
+            if (!HttpContext.HasSession())
+                return RedirectToAction("Index", "Home");
+
+            List<StudentNeedTest> stdNeedTest = await testService.GetStudentNeedTest();
+
+            return View(stdNeedTest);
+        }  
 
         public async Task<IActionResult> AddTestPortage(int studentId)
         {

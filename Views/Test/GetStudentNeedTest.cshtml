@@ -1,0 +1,57 @@
+﻿@using Alrazi.DTO
+@using Alrazi.Models.Test
+@using Alrazi.Tools
+@model List<StudentNeedTest>
+@{
+    ViewData["Title"] = "الطلاب الذين بحاجة اختبار";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+
+<!-- start page title -->
+<div class="row">
+    <div class="col-12">
+        <div class="page-title-box">
+            <div class="page-title-right">
+                <ol class="breadcrumb m-0">
+                    <li class="breadcrumb-item"><a href="~/Panel">الرئيسية</a></li>
+                    <li class="breadcrumb-item active">الطلاب الذين بحاجة إجراء اختبار</li>
+                </ol>
+            </div>
+            <h4 class="page-title">الطلاب الذين بحاجة إجراء اختبار</h4>
+        </div>
+    </div>
+</div>
+<!-- end page title -->
+@if (Model is not null)
+{
+    <div class="row">
+        <div class="col-12">
+            <div class="card">
+                <div class="card-body">
+                    <table class="table table-centered mb-0">
+                        <thead class="table-dark">
+                            <tr>
+                                <th>اسم الطالب</th>
+                                <th>نوع الإختبار</th>
+                                <th>تاريخ آخر تقييم</th>
+                                <th>ملاحظات</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @foreach (var item in Model)
+                            {
+                                <tr>
+                                    <td>@item.StudentName</td>
+                                    <td>@TestManager.GetTestTypeArabic(item.TestType)</td>
+                                    <td>@item.LastDate.ToString("d / M / yyyy")</td>
+                                    <td>@item.Note</td>
+                                </tr>
+                            }
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+}

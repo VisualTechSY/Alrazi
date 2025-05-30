@@ -12,6 +12,7 @@ namespace Alrazi.Tools
                 TestType.Portage => "بورتج",
                 TestType.StanfordBinet => "ستانفورد بينيه للذكاء",
                 TestType.Raven => "رافن",
+                TestType.PortageSkill => "صورة جانبية",
                 _ => "",
             };
         }
