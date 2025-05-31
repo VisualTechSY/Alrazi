@@ -71,7 +71,7 @@ namespace Alrazi.Controllers
             List<StudentNeedTest> stdNeedTest = await testService.GetStudentNeedTest();
 
             return View(stdNeedTest);
-        }  
+        }
 
         public async Task<IActionResult> AddTestPortage(int studentId)
         {
@@ -131,7 +131,14 @@ namespace Alrazi.Controllers
                 return RedirectToAction("Index", "Home");
 
             if (fromDate == default && toDate == default)
-                return View();
+            {
+                fromDate = DateTime.Now.AddYears(-1);
+                toDate = DateTime.Now;
+            }
+
+            ViewBag.fromDate = fromDate.ToString("yyyy/MM/dd");
+            ViewBag.toDate = toDate.ToString("yyyy/MM/dd");
+
             return View(await testService.GetTestPortageGeneralReport(fromDate, toDate));
         }
 
